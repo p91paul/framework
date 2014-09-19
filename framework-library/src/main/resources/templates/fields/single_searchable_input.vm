@@ -1,0 +1,21 @@
+<div class="form-group" data-component="field" data-property="$field.property">
+    <label class="control-label col-md-2">$localization.m($field.description)</label>
+    <div class="controls col-md-10">
+
+        <div
+                class="inline"
+                data-component="searchable_input_single"
+                data-serviceUrl="$serviceUrl"
+                data-property="$field.property">
+
+            #if($value && $label)
+                <input type="hidden" name="$field.property" data-label="$label" value="$value"/>
+            #end
+        </div>
+    </div>
+     <span
+             class="help-block hidden"
+             data-component="error"
+             data-error-property="$field.property" />
+</div>
+

@@ -1,0 +1,20 @@
+#parse("shared/framework.vm")
+#parse("shared/header.vm")
+
+<div class="page-header framework-page-header">
+    <div class="pull-right btn-toolbar" id="page-right-bar">
+
+    </div>
+    <h1 id="page-title">Applica Framework</h1>
+    <ol class="breadcrumb framework-breadcrumb" id="breadcrumbs">
+        <li><a href="${wwwBase}">Home</a></li>
+    </ol>
+</div>
+
+<ul class="nav nav-pills framework-toolbar" id="toolbar">
+
+</ul>
+
+<div id="spa-container"></div>
+
+#parse("shared/footer.vm")

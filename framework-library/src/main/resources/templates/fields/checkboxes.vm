@@ -1,0 +1,27 @@
+<div class="form-group" data-component="check" data-property="$field.property">
+    <label class="control-label col-md-2">$localization.m($field.description)</label>
+
+    #foreach($item in $items)
+        <div class="checkbox col-md-10">
+            <label>
+                <input
+                        class="form-control"
+                        type="checkbox"
+                        name="$field.property"
+                        value="$item.value"
+                    #if($item.selected)
+                        checked="checked"
+                    #end
+                        data-component="checkboxes_checkbox"
+                        />
+                $item.label
+            </label>
+        </div>
+
+    #end
+
+    <span
+        class="help-block hidden"
+        data-component="error"
+        data-error-property="$field.property" />
+</div>

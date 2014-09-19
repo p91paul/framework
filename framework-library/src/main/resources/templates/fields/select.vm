@@ -1,0 +1,31 @@
+<div class="form-group" data-component="field" data-property="$field.property">
+    <label class="control-label col-md-2">$localization.m($field.description)</label>
+    <div class="col-md-10">
+        <select
+                class="form-control"
+                name="$field.property"
+                data-component="select"
+                data-property="$field.property">
+
+            #if ($showAll)
+                <option value="">(${localization.m("label.all")})</option>
+            #end
+
+            #foreach($item in $items)
+                #if ($value == $item.value)
+                    #set ($selected = "selected='selected'")
+                #else
+                    #set ($selected = "")
+                #end
+
+                <option value="$item.value" $selected>$item.label</option>
+            #end
+
+        </select>
+
+        <span
+                class="help-block hidden"
+                data-component="error"
+                data-error-property="$field.property" />
+    </div>
+</div>

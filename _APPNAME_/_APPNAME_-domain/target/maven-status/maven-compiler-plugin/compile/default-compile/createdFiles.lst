@@ -1,0 +1,11 @@
+applica/_APPNAME_/domain/model/Role.class
+applica/_APPNAME_/domain/data/mongo/RolesMongoRepository.class
+applica/_APPNAME_/domain/validation/UserValidator.class
+applica/_APPNAME_/domain/validation/RoleValidator.class
+applica/_APPNAME_/domain/data/RolesRepository.class
+applica/_APPNAME_/domain/model/Filters.class
+applica/_APPNAME_/domain/model/User.class
+applica/_APPNAME_/domain/data/mongo/UserDetailsMongoRepository.class
+applica/_APPNAME_/domain/data/UsersRepository.class
+applica/_APPNAME_/domain/model/UsersDetails.class
+applica/_APPNAME_/domain/data/mongo/UsersMongoRepository.class

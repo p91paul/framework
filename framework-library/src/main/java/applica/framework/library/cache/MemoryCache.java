@@ -1,0 +1,24 @@
+package applica.framework.library.cache;
+
+import java.util.concurrent.ConcurrentHashMap;
+
+/**
+ * Applica (www.applicamobile.com)
+ * User: bimbobruno
+ * Date: 2/22/13
+ * Time: 12:11 PM
+ */
+public class MemoryCache implements Cache {
+
+    static ConcurrentHashMap<String, Object> cache = new ConcurrentHashMap<>();
+
+    @Override
+    public Object get(String key) {
+        return cache.get(key);
+    }
+
+    @Override
+    public void put(String key, Object value) {
+        cache.put(key, value);
+    }
+}

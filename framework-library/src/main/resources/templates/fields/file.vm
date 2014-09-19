@@ -1,0 +1,33 @@
+<div class="form-group" data-component="field" data-property="$field.property">
+    <label class="control-label col-md-2">$localization.m($field.description)</label>
+    <div    class="col-md-10"
+            data-component="file"
+            data-path="$path"
+            data-action="$action">
+
+        <div class="input-group">
+            <input type="text" data-component="file_name_input" disabled="disabled" class="form-control"/>
+
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default file-upload-button" data-component="upload_button">
+                    <i class="glyphicon glyphicon-upload"></i>
+                </button>
+
+                <button type="button" class="btn btn-default" data-component="download_button">
+                    <i class="glyphicon glyphicon-download"></i>
+                </button>
+            </span>
+        </div>
+
+        <div class="progress progress-striped file-upload-progress" data-component="progress" style="width: 100%">
+            <div class="progress-bar" data-component="progress_bar" style="width: 40%;"></div>
+        </div>
+
+        <span
+            class="help-block hidden"
+            data-component="error"
+            data-error-property="$field.property" />
+
+        <input type="hidden" name="$field.property" value="$value" data-component="upload_value"/>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+<script type="text/javascript" src="${wwwBase}framework-dynamic-resources/messages.js"></script>
+
+<script type="text/javascript" src="${wwwBase}framework-resources/scripts/lib/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="${wwwBase}framework-resources/jqueryui/js/jquery-ui-1.10.1.custom.min.js"></script>
+<script type="text/javascript" src="${wwwBase}framework-resources/scripts/lib/ajaxupload.js"></script>
+<script type="text/javascript" src="${wwwBase}framework-resources/scripts/lib/farbtastic.js"></script>
+<script type="text/javascript" src="${wwwBase}framework-resources/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="${wwwBase}framework-resources/scripts/lib/require.js" data-main="${wwwBase}static/scripts/main.js"></script>
+<script type="text/javascript" src="${wwwBase}framework-resources/scripts/lib/noty/jquery.noty.js"></script>
+<script type="text/javascript" src="${wwwBase}framework-resources/scripts/lib/noty/layouts/top.js"></script>
+<script type="text/javascript" src="${wwwBase}framework-resources/scripts/lib/noty/themes/default.js"></script>

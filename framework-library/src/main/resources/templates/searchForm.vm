@@ -1,0 +1,18 @@
+<div class="searchform-box">
+    <div class="">
+        <h4>$localization.m("msg.search")</h4>
+    </div>
+
+    <form action="javascript:;" method="POST" data-component="search_form" class="form-horizontal">
+        <input type="hidden" data-component="criterias" value='$criterias' />
+
+        #foreach ($field in $fields)
+            $field.writeToString($data)
+        #end
+
+        <div class="form-actions">
+            <input type="submit" class="btn btn-primary" data-component="search" value="$localization.m('label.search')"/>
+            <input type="button" class="btn btn-default" data-component="cancel_search" value="$localization.m('label.cancel')"/>
+        </div>
+    </form>
+</div>

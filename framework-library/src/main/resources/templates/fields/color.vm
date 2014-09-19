@@ -1,0 +1,22 @@
+<div class="form-group" data-component="field" data-property="$field.property">
+    <label class="control-label col-md-2">$localization.m($field.description)</label>
+    <div
+        class="col-md-10"
+        data-component="color"
+        data-property="$field.property">
+
+        <input
+            type="hidden"
+            data-component="color_input"
+            name="$field.property"
+            value="$colorCode"/>
+
+        <div data-component="color_picker"></div>
+
+    </div>
+
+    <span
+            class="help-block hidden"
+            data-component="error"
+            data-error-property="$field.property" />
+</div>

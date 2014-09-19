@@ -1,0 +1,15 @@
+<div class="form-group" data-component="field" data-property="$field.property">
+    <label class="control-label col-md-2">$localization.m($field.description)</label>
+    <input
+            class="form-control col-md-10"
+            type="datetime"
+            name="$field.property"
+            value="$value"
+            data-component="datetime"
+            data-property="$field.property" />
+
+    <span
+            class="help-block hidden"
+            data-component="error"
+            data-error-property="$field.property" />
+</div>

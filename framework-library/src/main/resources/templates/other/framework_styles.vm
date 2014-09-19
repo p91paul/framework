@@ -1,0 +1,6 @@
+<link rel="stylesheet" href="${wwwBase}framework-resources/bootstrap/css/bootstrap.css" />
+<link rel="stylesheet" href="${wwwBase}framework-resources/bootstrap/css/bootstrap-responsive.css" />
+<link rel="stylesheet" href="${wwwBase}framework-resources/jqueryui/css/redmond/jquery-ui-1.10.1.custom.css" />
+<link rel="stylesheet" href="${wwwBase}framework-resources/styles/farbtastic/farbtastic.css" />
+<link rel="stylesheet" href="${wwwBase}framework-resources/styles/framework.css" />
+<link rel="stylesheet" href="${wwwBase}framework-resources/styles/plugins.css" />

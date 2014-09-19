@@ -1,0 +1,23 @@
+<div class="form-group" data-component="field" data-property="$field.property">
+    <label class="control-label col-md-2">$localization.m($field.description)</label>
+
+    <div class="col-md-10">
+        <div data-component="percentage" data-property-target="$field.property" class="inline percentage"
+             data-value="$value">
+            <div class="slider"></div>
+            <p class="display"></p>
+        </div>
+
+        <input
+            type="hidden"
+            name="$field.property"
+            value="$value"
+            data-component="percentage"
+            data-property="$field.property"/>
+
+        <span
+                class="help-block hidden"
+                data-component="error"
+                data-error-property="$field.property" />
+    </div>
+</div>

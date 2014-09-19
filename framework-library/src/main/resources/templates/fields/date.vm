@@ -1,0 +1,22 @@
+<div class="form-group" data-component="field" data-property="$field.property">
+    <label class="control-label col-md-2">$localization.m($field.description)</label>
+    <div class="input-group col-md-10" data-component="date">
+        <input
+            class="form-control"
+            type="text"
+            name="$field.property"
+            value="#if($value)$localization.formatDate($value)#end"
+            data-component="date_input"
+            data-property="$field.property" />
+
+        <span class="input-group-btn">
+            <button type="button" class="btn btn-default" data-component="date_button"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+    </div>
+
+    <span
+        class="help-block hidden"
+        data-component="error"
+        data-error-property="$field.property" />
+
+</div>

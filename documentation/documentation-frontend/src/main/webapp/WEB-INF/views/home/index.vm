@@ -1,0 +1,15 @@
+#parse("/shared/framework.vm")
+#parse("/shared/header.vm")
+
+<div class="doc-page-header">
+    <div class="container">
+        <h1></h1>
+        <p></p>
+    </div>
+</div>
+
+<div class="container" id="content-container">
+
+</div>
+
+#parse("/shared/footer.vm")

@@ -1,0 +1,33 @@
+<div class="form-group" data-component="field" data-property="$field.property">
+    <label class="control-label col-md-2">$localization.m($field.description)</label>
+    <div    class="col-md-10"
+            data-component="image"
+            data-path="$path"
+            data-action="$action">
+
+        <div class="framework-form-image-container" data-sub-component="image_container">
+            #if($value && $value != "")
+                <a href="$value" target="_blank" data-sub-component="image_link">
+                    <img src="$value?size=150x150" data-sub-component="image_img" class="framework-form-image" />
+                </a>
+            #else
+                <img src="${wwwBase}framework-resources/images/no-image.jpg" data-sub-component="image_img" class="framework-form-image" />
+            #end
+
+            <button
+                    type="button"
+                    data-sub-component="image_button"
+                    id="image_upload_$field.property"
+                    class="btn btn-default framework-form-image-button">
+                $localization.m("label.change")
+            </button>
+        </div>
+
+        <span
+            class="help-block hidden"
+            data-component="error"
+            data-error-property="$field.property" />
+
+        <input type="hidden" name="$field.property" value="$value" data-sub-component="image_input"/>
+    </div>
+</div>

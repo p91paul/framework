@@ -1,0 +1,23 @@
+<div class="form-group" data-component="field" data-property="$field.property">
+    <label class="control-label col-md-2">$localization.m($field.description)</label>
+    <div class="col-md-10">
+        #if($value && $value != "")
+            #set($time = $value)
+        #else
+            #set($time = $defaultDate)
+        #end
+        <input type="text" name="${field.property}_container" value="$localization.formatTime($time)" class="form-control"/>
+        <input
+                type="hidden"
+                name="$field.property"
+                value="$time"
+                data-component="time"
+                data-property="$field.property"
+                data-property-format-date-min-value="$localization.m('format.date.minValue')"/>
+    </div>
+
+    <span
+            class="help-block hidden"
+            data-component="error"
+            data-error-property="$field.property" />
+</div>

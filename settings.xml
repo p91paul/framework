@@ -1,0 +1,9 @@
+<settings>
+    <servers>
+        <server>
+            <id>applicaftp</id>
+            <username>maven</username>
+            <password>maven</password>
+        </server>
+    </servers>
+</settings>

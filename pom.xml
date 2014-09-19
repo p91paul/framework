@@ -1,0 +1,44 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>applica.framework</groupId>
+    <artifactId>framework</artifactId>
+    <version>1.4-RELEASE</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <applica.framework.version>1.4-RELEASE</applica.framework.version>
+        <spring.version>4.0.3.RELEASE</spring.version>
+    </properties>
+
+    <modules>
+        <module>framework-core</module>
+        <module>framework-library</module>
+        <module>framework-security</module>
+        <module>framework-fileserver</module>
+        <module>scripts</module>
+        <module>framework-data-mongodb</module>
+    </modules>
+
+    <name>framework</name>
+
+    <distributionManagement>
+        <repository>
+            <id>applicaftp</id>
+            <name>Applica Maven Repository</name>
+            <url>ftp://maven:maven@raul/repo</url>
+        </repository>
+    </distributionManagement>
+
+    <build>
+        <extensions>
+            <extension>
+                <groupId>org.mod4j.patched</groupId>
+                <artifactId>wagon-ftp</artifactId>
+                <version>1.0-beta-5-PATCHED-v1</version>
+            </extension>
+        </extensions>
+    </build>
+</project>

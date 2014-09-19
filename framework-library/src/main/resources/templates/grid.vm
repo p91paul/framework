@@ -1,0 +1,70 @@
+
+    #if ($searchForm)
+        #if (!$grid.searched)
+            #set ($visible = "style='display: none;'")
+        #else
+            #set ($visible = "")
+        #end
+
+        <div data-component="search_form_container" class="searchFormContainer" $visible>$searchForm</div>
+    #end
+
+    #if ($rows.size() == 0)
+        <div class="alert alert-info">$localization.m("msg.no_records")</div>
+    #else
+
+    <table class="table table-striped table-hover table-condensed">
+        <thead>
+        <tr>
+            <th style="width: 1%;"><!--input type="checkbox" data-component="select_all_checkbox" /--></th>
+            #foreach($column in $descriptor.columns)
+                <th>
+                    #if ($grid.sortable)
+                        <a href="javascript:;" class="grid-sort-button" data-property="$column.property" data-component="sort_button" data-sort-descending="true">
+                            #if($grid.sortBy)
+                                #if($grid.sortBy.property == $column.property)
+                                    #if($grid.sortBy.descending)
+                                        <i class="glyphicon glyphicon-arrow-down" />
+                                    #else
+                                        <i class="glyphicon glyphicon-arrow-up" />
+                                    #end
+                                #end
+                            #end
+                            $localization.m($column.header)
+                        </a>
+                    #else
+                        $localization.m($column.header)
+                    #end
+                </th>
+            #end
+        </tr>
+        </thead>
+
+        <tbody>
+            #foreach($row in $rows)
+            <tr data-component="row" data-entity-id="$row.get('id')">
+                <td class="check"><input type="checkbox" class="grid-checkbox" data-component="select_checkbox" data-entity-id="$row.get('id')"/></td>
+                #foreach($column in $descriptor.columns)
+                    <td class="dbClickSensitive">$column.writeToString($row.get($column.property))</td>
+                #end
+            </tr>
+            #end
+        </tbody>
+    </table>
+
+    #if ($grid.pages > 1)
+    <div style="text-align: center;">
+        <ul class="pagination">
+            <li
+                #if($grid.currentPage == 1)
+                        class="disabled"
+                #end><a href="javascript:;" data-component="prev_button">«</a></li>
+            <li><a href="javascript:;" data_component="current_page">$grid.currentPage</a></li>
+            <li  #if($grid.pages <= $grid.currentPage)
+                    class="disabled"
+            #end><a href="javascript:;" data-component="next_button">»</a></li>
+        </ul>
+    </div>
+    #end
+
+    #end

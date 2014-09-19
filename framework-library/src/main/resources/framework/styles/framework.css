@@ -1,0 +1,194 @@
+@import url("plugins.css");
+
+.framework-page-header {
+    margin-top: 0px;
+    margin-bottom: 5px;
+    padding-bottom: 0px;
+}
+
+.framework-page-header > h1 {
+    font-size: 22px;
+    display: inline-block;
+    margin-top: 0px;
+    margin-bottom: 3px;
+}
+
+.framework-breadcrumb {
+    display: inline-block;
+    border-radius: 0px;
+    background-color: inherit;
+    margin: 0px;
+}
+
+.navbar-inverse .brand:hover,
+.navbar-inverse .nav > li > a:hover {
+    background-color: #333333;
+}
+
+.important {
+    color: #8b0000;
+}
+
+.file-upload-progress {
+    width: 248px;
+    margin-top: 5px;
+}
+
+.file-upload-button {
+    position: relative;
+    overflow: hidden;
+}
+
+.file-upload-button input[type=file] {
+    cursor: pointer;
+    direction: ltr;
+    font-size: 23px;
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+}
+
+.inline {
+    display: inline-block;
+}
+
+.ui-datepicker{ z-index: 1500 !important; }
+
+.grid-checkbox {
+    vertical-align: top;
+}
+
+.grid-sort-button {
+    color: #333333;
+}
+
+.crud .control-group:hover {
+    background-color: #F5F5F5;
+}
+
+.searchform-box {
+    background-color: #F5F5F5;
+    border-radius: 6px 6px 6px 6px;
+    color: inherit;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.framework-toolbar {
+    min-height: 20px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #EEEEEE;
+    padding-bottom: 5px;
+}
+
+.framework-toolbar a:link, .framework-toolbar a:hover, .framework-toolbar a:visited {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.table > thead > tr > td.selected, .table > tbody > tr > td.selected, .table > tfoot > tr > td.selected, .table > thead > tr > th.selected, .table > tbody > tr > th.selected, .table > tfoot > tr > th.selected, .table > thead > tr.selected > td, .table > tbody > tr.selected > td, .table > tfoot > tr.selected > td, .table > thead > tr.selected > th, .table > tbody > tr.selected > th, .table > tfoot > tr.selected > th {
+    background-color: #428bca;
+    color: white;
+    transition: color 0.5s, background-color 0.5s;
+}
+
+.table > thead > tr > td.selected a,
+.table > tbody > tr > td.selected a,
+.table > tfoot > tr > td.selected a,
+.table > thead > tr > th.selected a,
+.table > tbody > tr > th.selected a,
+.table > tfoot > tr > th.selected a,
+.table > thead > tr.selected > td a,
+.table > tbody > tr.selected > td a,
+.table > tfoot > tr.selected > td a,
+.table > thead > tr.selected > th a,
+.table > tbody > tr.selected > th a,
+.table > tfoot > tr.selected > th a {
+    color: white;
+}
+
+.onoffswitch {
+    position: relative; width: 80px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+
+.onoffswitch-checkbox {
+    display: none;
+}
+
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #666666; border-radius: 5px;
+}
+
+.onoffswitch-inner {
+    width: 200%; margin-left: -100%;
+    -moz-transition: margin 0.3s ease-in 0s; -webkit-transition: margin 0.3s ease-in 0s;
+    -o-transition: margin 0.3s ease-in 0s; transition: margin 0.3s ease-in 0s;
+}
+
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    float: left; width: 50%; height: 25px; padding: 0; line-height: 25px;
+    font-size: 15px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+
+.onoffswitch-inner:before {
+    content: "ON";
+    padding-left: 10px;
+    background-color: #3FCF13; color: #FFFFFF;
+}
+
+.onoffswitch-inner:after {
+    content: "OFF";
+    padding-right: 10px;
+    background-color: #F8F8F8; color: #666666;
+    text-align: right;
+}
+
+.onoffswitch-switch {
+    width: 30px; margin: 0px;
+    background: #FFFFFF;
+    border: 2px solid #666666; border-radius: 5px;
+    position: absolute; top: 0; bottom: 0; right: 50px;
+    -moz-transition: all 0.3s ease-in 0s; -webkit-transition: all 0.3s ease-in 0s;
+    -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s;
+    background-image: -moz-linear-gradient(center top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 100%);
+    background-image: -webkit-linear-gradient(center top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 100%);
+    background-image: -o-linear-gradient(center top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 100%);
+    background-image: linear-gradient(center top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 100%);
+}
+
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px;
+}
+
+.m-hide {
+    display: none;
+}
+
+.framework-form-image-container {
+    border: solid 1px #bfbfbf;
+    height: 152px;
+    width: 152px;
+    position: relative;
+}
+
+.framework-form-image {
+    height: 150px;
+    width: 150px:
+}
+
+.framework-form-image-button {
+    position: absolute;
+    width: 130px;
+    left: 10px;
+    bottom: 10px;
+}

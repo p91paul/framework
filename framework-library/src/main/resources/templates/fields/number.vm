@@ -1,0 +1,22 @@
+<div class="form-group" data-component="field" data-property="$field.property">
+    <label class="control-label col-md-2">$localization.m($field.description)</label>
+    <div class="input-group col-md-10">
+        <input
+            class="form-control"
+            type="number"
+            name="$field.property"
+            value="$value"
+            data-component="number"
+            data-property="$field.property" />
+
+        <span class="input-group-addon">
+            00
+        </span>
+
+    </div>
+
+    <span
+        class="help-block hidden"
+        data-component="error"
+        data-error-property="$field.property" />
+</div>

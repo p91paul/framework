@@ -1,0 +1,78 @@
+2014-07-25 18:45:01,316 - Log4JLogChute initialized using file 'velocity.log'
+2014-07-25 18:45:01,317 - The version of log4j being used does not support the "trace" level.
+2014-07-25 18:45:01,317 - Initializing Velocity, Calling init()...
+2014-07-25 18:45:01,317 - *******************************************************************
+2014-07-25 18:45:01,317 - Starting Apache Velocity v1.7 (compiled: 2010-11-19 12:14:37)
+2014-07-25 18:45:01,317 - RuntimeInstance initializing.
+2014-07-25 18:45:01,317 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2014-07-25 18:45:01,317 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2014-07-25 18:45:01,317 - Target log system for org.apache.velocity.runtime.log.AvalonLogChute is not available (java.lang.NoClassDefFoundError: org/apache/log/format/Formatter).  Falling back to next log system...
+2014-07-25 18:45:01,317 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2014-07-25 18:45:01,317 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2014-07-25 18:45:01,317 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2014-07-25 18:45:01,317 - ResourceLoader instantiated: applica.framework.library.velocity.WEBINFResourceLoader
+2014-07-25 18:45:01,318 - FileResourceLoader : initialization starting.
+2014-07-25 18:45:01,318 - Do unicode file recognition:  false
+2014-07-25 18:45:01,318 - FileResourceLoader : adding path '/Users/bimbobruno/svn/framework/trunk/_APPNAME_/_APPNAME_-admin/src/main/webapp/WEB-INF'
+2014-07-25 18:45:01,318 - FileResourceLoader : initialization complete.
+2014-07-25 18:45:01,318 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:01,318 - ClasspathResourceLoader : initialization complete.
+2014-07-25 18:45:01,318 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl) with class java.util.Collections$SynchronizedMap cache map.
+2014-07-25 18:45:01,318 - Default ResourceManager initialization complete.
+2014-07-25 18:45:01,318 - Loaded System Directive: org.apache.velocity.runtime.directive.Stop
+2014-07-25 18:45:01,318 - Loaded System Directive: org.apache.velocity.runtime.directive.Define
+2014-07-25 18:45:01,318 - Loaded System Directive: org.apache.velocity.runtime.directive.Break
+2014-07-25 18:45:01,318 - Loaded System Directive: org.apache.velocity.runtime.directive.Evaluate
+2014-07-25 18:45:01,318 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2014-07-25 18:45:01,318 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2014-07-25 18:45:01,318 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2014-07-25 18:45:01,318 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2014-07-25 18:45:01,319 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2014-07-25 18:45:01,319 - Created '20' parsers.
+2014-07-25 18:45:01,319 - Velocimacro : initialization starting.
+2014-07-25 18:45:01,319 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2014-07-25 18:45:01,320 - Could not load resource 'VM_global_library.vm' from ResourceLoader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader: ClasspathResourceLoader Error: cannot find resource VM_global_library.vm
+2014-07-25 18:45:01,321 - Velocimacro : Default library not found.
+2014-07-25 18:45:01,321 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2014-07-25 18:45:01,321 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2014-07-25 18:45:01,321 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2014-07-25 18:45:01,321 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2014-07-25 18:45:01,321 - Velocimacro : Velocimacro : initialization complete.
+2014-07-25 18:45:01,321 - RuntimeInstance successfully initialized.
+2014-07-25 18:45:01,325 - ResourceManager : found /templates/grid.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:01,326 - ResourceManager : found /templates/searchForm.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:01,333 - ResourceManager : found /templates/fields/text.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:01,343 - ResourceManager : found /templates/cells/text.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:01,344 - ResourceManager : found /templates/cells/check.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:01,346 - ResourceManager : found /templates/cells/text.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:01,347 - ResourceManager : found /templates/cells/check.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:01,349 - ResourceManager : found /templates/cells/text.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:01,349 - ResourceManager : found /templates/cells/check.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:01,989 - ResourceManager : found /templates/grid.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:01,990 - ResourceManager : found /templates/searchForm.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:01,992 - ResourceManager : found /templates/fields/text.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:01,993 - ResourceManager : found /templates/cells/text.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:01,994 - ResourceManager : found /templates/cells/text.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:02,995 - ResourceManager : found /templates/grid.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:02,995 - ResourceManager : found /templates/searchForm.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:02,996 - ResourceManager : found /templates/fields/text.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:02,997 - ResourceManager : found /templates/cells/text.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:02,997 - ResourceManager : found /templates/cells/check.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:02,998 - ResourceManager : found /templates/cells/text.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:02,998 - ResourceManager : found /templates/cells/check.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:02,999 - ResourceManager : found /templates/cells/text.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:02,999 - ResourceManager : found /templates/cells/check.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:06,008 - ResourceManager : found /templates/grid.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:06,009 - ResourceManager : found /templates/searchForm.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:06,009 - ResourceManager : found /templates/fields/text.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:06,011 - ResourceManager : found /templates/cells/text.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:06,012 - ResourceManager : found /templates/cells/text.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:06,766 - ResourceManager : found /templates/grid.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:06,767 - ResourceManager : found /templates/searchForm.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:06,767 - ResourceManager : found /templates/fields/text.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:06,769 - ResourceManager : found /templates/cells/text.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:06,769 - ResourceManager : found /templates/cells/check.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:06,770 - ResourceManager : found /templates/cells/text.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:06,770 - ResourceManager : found /templates/cells/check.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:06,771 - ResourceManager : found /templates/cells/text.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2014-07-25 18:45:06,771 - ResourceManager : found /templates/cells/check.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader

@@ -1,0 +1,21 @@
+<div class="form-group" data-component="field" data-property="$field.property">
+    <label class="control-label col-md-2">$localization.m($field.description)</label>
+    <div class="col-md-10">
+
+        <div
+            class="inline"
+            data-component="searchable_input_multi"
+            data-serviceUrl="$serviceUrl"
+            data-property="$field.property">
+
+            #foreach($item in $selectedItems)
+                <input type="hidden" name="$field.property" data-label="$item.label" value="$item.value" data-group="$item.group"/>
+            #end
+        </div>
+    </div>
+
+    <span
+            class="help-block hidden"
+            data-component="error"
+            data-error-property="$field.property" />
+</div>
