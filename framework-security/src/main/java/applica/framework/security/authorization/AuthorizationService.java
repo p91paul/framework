@@ -13,6 +13,6 @@ import java.util.List;
  */
 public interface AuthorizationService {
 
-    void authorize(User user, Class<? extends AuthorizationContext> contextType, String authorization, Object... parameters) throws AuthorizationException;
+    void authorize(User user, String permission, Object... parameters) throws AuthorizationException;
 
 }

@@ -1,9 +1,10 @@
 package applica.documentation.admin.cell.renderers;
 
+import applica.framework.ApplicationContextProvider;
 import applica.framework.GridColumn;
 import applica.framework.data.Entity;
 import applica.framework.data.Repository;
-import applica.framework.library.ApplicationContextProvider;
+import applica.framework.ApplicationContextProvider;
 import applica.framework.library.cells.renderers.BaseCellRenderer;
 import org.springframework.stereotype.Component;
 

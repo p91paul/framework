@@ -1,6 +1,6 @@
 package applica.framework.library.i18n.editors;
 
-import applica.framework.library.ApplicationContextProvider;
+import applica.framework.ApplicationContextProvider;
 import applica.framework.library.i18n.Localization;
 import org.springframework.util.Assert;
 

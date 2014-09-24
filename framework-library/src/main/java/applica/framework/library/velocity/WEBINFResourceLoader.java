@@ -1,6 +1,6 @@
 package applica.framework.library.velocity;
 
-import applica.framework.library.ApplicationContextProvider;
+import applica.framework.ApplicationContextProvider;
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

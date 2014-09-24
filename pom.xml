@@ -18,27 +18,10 @@
         <module>framework-library</module>
         <module>framework-security</module>
         <module>framework-fileserver</module>
-        <module>scripts</module>
         <module>framework-data-mongodb</module>
+        <module>scripts</module>
     </modules>
 
     <name>framework</name>
 
-    <distributionManagement>
-        <repository>
-            <id>applicaftp</id>
-            <name>Applica Maven Repository</name>
-            <url>ftp://maven:maven@raul/repo</url>
-        </repository>
-    </distributionManagement>
-
-    <build>
-        <extensions>
-            <extension>
-                <groupId>org.mod4j.patched</groupId>
-                <artifactId>wagon-ftp</artifactId>
-                <version>1.0-beta-5-PATCHED-v1</version>
-            </extension>
-        </extensions>
-    </build>
 </project>

@@ -1,6 +1,6 @@
 package applica.framework.library.ui;
 
-import applica.framework.library.ApplicationContextProvider;
+import applica.framework.ApplicationContextProvider;
 import applica.framework.library.options.OptionsManager;
 import applica.framework.library.utils.FileWalker;
 import applica.framework.library.utils.FileWalkerListener;

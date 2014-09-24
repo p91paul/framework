@@ -3,8 +3,11 @@ package applica.documentation.domain.data.mongo;
 import applica.documentation.domain.data.ArticlesRepository;
 import applica.documentation.domain.model.Article;
 import applica.framework.data.Entity;
+import applica.framework.data.LoadRequest;
+import applica.framework.data.LoadResponse;
 import applica.framework.data.Sort;
 import applica.framework.data.mongodb.MongoRepository;
+import applica.framework.data.mongodb.Query;
 import org.springframework.stereotype.Repository;
 
 /**

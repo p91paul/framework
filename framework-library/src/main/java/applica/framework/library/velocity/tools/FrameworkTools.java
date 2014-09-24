@@ -1,6 +1,6 @@
 package applica.framework.library.velocity.tools;
 
-import applica.framework.library.ApplicationContextProvider;
+import applica.framework.ApplicationContextProvider;
 import applica.framework.library.cache.Cache;
 import applica.framework.library.i18n.Localization;
 import applica.framework.library.options.OptionsManager;

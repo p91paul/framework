@@ -15,7 +15,7 @@ import java.util.Collection;
 public abstract class UserDetailsImpl implements org.springframework.security.core.userdetails.UserDetails, Entity {
 
     private User user;
-    private Collection<RoleGrantedAuthority> authorities;
+    private Collection<PermissionGrantedAuthority> authorities;
 
     public UserDetailsImpl(User user) {
         this.user = user;
@@ -23,11 +23,15 @@ public abstract class UserDetailsImpl implements org.springframework.security.co
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(user.getRoles() != null) {
-            if(authorities == null) {
+        if (user.getRoles() != null) {
+            if (authorities == null) {
                 authorities = new ArrayList<>();
-                for(Role role : user.getRoles()) {
-                    authorities.add(new RoleGrantedAuthority(role));
+                if (user.getRoles() != null) {
+                    user.getRoles().forEach((r) -> {
+                        if (r.getPermissions() != null) {
+                            r.getPermissions().forEach((p) -> authorities.add(new PermissionGrantedAuthority(p)));
+                        }
+                    });
                 }
             }
         }

@@ -1,5 +1,7 @@
 package applica.framework;
 
+import applica.framework.security.authorization.HasPermissionAuthorization;
+import applica.framework.security.authorization.Permissions;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -18,6 +20,9 @@ public class AppTest
     public AppTest( String testName )
     {
         super( testName );
+
+        Permissions.instance().register("groups:create", new HasPermissionAuthorization());
+        Permissions.instance().register("groups:remove", (u, p, o) -> {  });
     }
 
     /**

@@ -1,6 +1,6 @@
 package applica.framework.library.i18n;
 
-import applica.framework.library.ApplicationContextProvider;
+import applica.framework.ApplicationContextProvider;
 
 /**
  * Applica (www.applicamobile.com)

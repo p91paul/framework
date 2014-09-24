@@ -3,7 +3,7 @@ package applica._APPNAME_.admin.acl;
 import applica.framework.library.crud.acl.CrudAuthorizationException;
 import applica.framework.library.crud.acl.CrudGuard;
 import applica.framework.library.crud.acl.CrudSecurityConfigurer;
-import applica.framework.security.SecurityHelper;
+import applica.framework.security.Security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.Expression;
@@ -24,7 +24,7 @@ import org.springframework.util.StringUtils;
 public class ExpressionsCrudGuard implements CrudGuard {
 
     @Autowired
-    private SecurityHelper security;
+    private Security security;
 
     @Override
     public void check(String crudPermission, String entity) throws CrudAuthorizationException {
