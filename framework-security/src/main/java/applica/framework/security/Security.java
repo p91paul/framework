@@ -3,17 +3,12 @@ package applica.framework.security;
 import applica.framework.ApplicationContextProvider;
 import applica.framework.security.authorization.AuthorizationException;
 import applica.framework.security.authorization.AuthorizationService;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.Predicate;
-import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Applica (www.applicamobile.com)
@@ -21,9 +16,33 @@ import java.util.List;
  * Date: 31/10/13
  * Time: 10:27
  */
+
+/**
+ * Manage security for users. Use with() static method to specify user, otherwhise security is for currently logged user
+ * Don't use autowire with this class, because is needed also in non DI contexts (example: velocity)
+ */
 public class Security {
 
     private AuthorizationService authorizationService;
+    private SecurityInstance securityInstance;
+
+    private static Map<Object, Security> instances = new HashMap<>();
+
+    /**
+     * Gets security instance for specified user. If with is not used, security instance is for loggedUser
+     * @param user
+     * @return
+     */
+    public static Security with(User user) {
+        return instances.putIfAbsent(user.getUsername(), new Security(new SecurityInstance(user, null)));
+    }
+
+    private Security(SecurityInstance instance) {
+        this.securityInstance = instance;
+        this.securityInstance.setAuthorizationService(getAuthorizationService());
+    }
+
+    public Security() {}
 
     public UserDetailsImpl getLoggedUserDetails() {
         UserDetailsImpl userDetails = null;
@@ -60,50 +79,25 @@ public class Security {
         return null;
     }
 
-    public boolean hasRole(final String role) {
-        UserDetailsImpl userDetails = getLoggedUserDetails();
-        if(userDetails != null) {
-            Collection<? extends GrantedAuthority> roles = userDetails.getAuthorities();
-            if(CollectionUtils.exists(roles, new Predicate() {
-                @Override
-                public boolean evaluate(Object o) {
-                    return ((GrantedAuthority)o).getAuthority().equals(role);
-                }
-            })) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public boolean hasAnyRole(String... roles) {
-        for(String role : roles) {
-            if(hasRole(role)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     public boolean isAuthenticated() {
         UserDetailsImpl impl = getLoggedUserDetails();
         return impl != null;
     }
 
-    public boolean isPermitted(String permission, Object... params) {
-        try {
-            authorize(permission, params);
-        } catch (AuthorizationException e) {
-            return false;
+    private SecurityInstance getInstance() {
+        if (securityInstance == null) {
+            securityInstance = new SecurityInstance(getLoggedUser(), getAuthorizationService());
         }
 
-        return true;
+        return securityInstance;
+    }
+
+    public boolean isPermitted(String permission, Object... params) {
+        return getInstance().isPermitted(permission, params);
     }
 
     public void authorize(String permission, Object... params) throws AuthorizationException {
-        authorizationService.authorize(getLoggedUser(), permission, params);
+        getInstance().authorize(permission, params);
     }
 
 }

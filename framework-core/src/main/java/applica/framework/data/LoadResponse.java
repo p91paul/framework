@@ -2,6 +2,7 @@ package applica.framework.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class LoadResponse {
 
@@ -18,9 +19,18 @@ public class LoadResponse {
     }
 
     @SuppressWarnings("unchecked")
+    @Deprecated
+    /**
+     * Gets first record found in search query
+     * Deprecated: use findFirst
+     */
     public <T extends Entity> T getOne(Class<T> type) {
         if (rows != null && rows.size() > 0) return (T) rows.get(0);
         return null;
+    }
+
+    public <T extends Entity> Optional<T> findFirst() {
+        return Optional.of((rows != null && rows.size() > 0) ? (T) rows.get(0) : null);
     }
 
     public void setRows(List<? extends Entity> rows) {
