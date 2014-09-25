@@ -1,5 +1,6 @@
 package applica._APPNAME_.admin;
 
+import applica._APPNAME_.admin.fields.renderers.PermissionsFieldRenderer;
 import applica._APPNAME_.admin.fields.renderers.RolesFieldRenderer;
 import applica._APPNAME_.admin.fields.renderers.UserImageFieldRenderer;
 import applica._APPNAME_.admin.mapping.RolePropertyMapper;
@@ -23,6 +24,7 @@ import applica.framework.library.fields.renderers.MailFieldRenderer;
 import applica.framework.library.forms.processors.DefaultFormProcessor;
 import applica.framework.library.forms.renderers.NoFrameFormRenderer;
 import applica.framework.library.grids.renderers.DefaultGridRenderer;
+import applica.framework.security.authorization.Permissions;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.commons.logging.Log;
@@ -75,7 +77,29 @@ public class Bootstrapper {
     }
 
     private void configureCrudSecurity() {
-        CrudSecurityConfigurer.instance().configure("user", CrudPermission.NEW, "hasRole('ADMINISTRATOR')");
+        Permissions.instance().registerStatic("users:new");
+        Permissions.instance().registerStatic("users:list");
+        Permissions.instance().registerStatic("users:save");
+        Permissions.instance().registerStatic("users:edit");
+        Permissions.instance().registerStatic("users:delete");
+
+        CrudSecurityConfigurer.instance().configure("user", CrudPermission.NEW, "users:new");
+        CrudSecurityConfigurer.instance().configure("user", CrudPermission.LIST, "users:list");
+        CrudSecurityConfigurer.instance().configure("user", CrudPermission.SAVE, "users:save");
+        CrudSecurityConfigurer.instance().configure("user", CrudPermission.EDIT, "users:edit");
+        CrudSecurityConfigurer.instance().configure("user", CrudPermission.DELETE, "users:delete");
+
+        Permissions.instance().registerStatic("roles:new");
+        Permissions.instance().registerStatic("roles:list");
+        Permissions.instance().registerStatic("roles:save");
+        Permissions.instance().registerStatic("roles:edit");
+        Permissions.instance().registerStatic("roles:delete");
+
+        CrudSecurityConfigurer.instance().configure("role", CrudPermission.NEW, "roles:new");
+        CrudSecurityConfigurer.instance().configure("role", CrudPermission.LIST, "roles:list");
+        CrudSecurityConfigurer.instance().configure("role", CrudPermission.SAVE, "roles:save");
+        CrudSecurityConfigurer.instance().configure("role", CrudPermission.EDIT, "roles:edit");
+        CrudSecurityConfigurer.instance().configure("role", CrudPermission.DELETE, "roles:delete");
     }
 
     private void registerForms() {
@@ -91,7 +115,8 @@ public class Bootstrapper {
 
         FormConfigurator.build(Role.class, "role")
                 .repository(RolesRepository.class)
-                .field("role", "label.name");
+                .field("role", "label.name")
+                .field("permissions", "label.permissions", PermissionsFieldRenderer.class);
     }
 
     private void registerGrids() {

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Applica (www.applicamobile.com)
@@ -71,7 +72,7 @@ public class Permissions {
             logger.info("Scanning type " + type.getName());
 
             Optional
-                .of(type.getAnnotation(applica.framework.security.annotations.AuthorizationContext.class))
+                .ofNullable(type.getAnnotation(applica.framework.security.annotations.AuthorizationContext.class))
                 .ifPresent((authorizationContextAnnotation) -> {
                     logger.info(type.getName() + " has AuthorizationContext annotation");
 
@@ -80,11 +81,11 @@ public class Permissions {
 
                     Arrays.stream(type.getMethods()).forEach((m) -> {
                         Optional
-                                .of(m.getDeclaredAnnotation(applica.framework.security.annotations.Permission.class))
+                                .ofNullable(m.getDeclaredAnnotation(applica.framework.security.annotations.Permission.class))
                                 .ifPresent((permissionAnnotation) -> {
                                     String permission = String.format("%s:%s", contextPath, permissionAnnotation.value());
 
-                                    if (!permissions.stream().anyMatch((p) -> p.path.equals(permission))) {
+                                    if (!permissions.stream().anyMatch(p -> p.path.equals(permission))) {
                                         PermissionInfo pinfo = new PermissionInfo();
                                         pinfo.path = permission;
                                         pinfo.method = m;
@@ -116,7 +117,7 @@ public class Permissions {
     }
 
     public void registerStatic(String permission) {
-        if (!permissions.stream().anyMatch((p) -> p.path.equals(permission))) {
+        if (!permissions.stream().anyMatch(p -> p.path.equals(permission))) {
             PermissionInfo pinfo = new PermissionInfo();
             pinfo.path = permission;
             pinfo.method = null;
@@ -126,17 +127,28 @@ public class Permissions {
     }
 
     public boolean isStatic(String permission) {
-        Optional<PermissionInfo> permissionInfoOptional = permissions.stream().filter((p) -> p.path.equals(permission)).findFirst();
+        Optional<PermissionInfo> permissionInfoOptional = permissions.stream().filter(p -> p.path.equals(permission)).findFirst();
         return false;
     }
 
     public Optional<Method> getMethod(String permission) {
-        Optional<PermissionInfo> permissionInfoOptional = permissions.stream().filter((p) -> p.path.equals(permission)).findFirst();
+        Optional<PermissionInfo> permissionInfoOptional = permissions.stream().filter(p -> p.path.equals(permission)).findFirst();
         if (permissionInfoOptional.isPresent()) {
-            return Optional.of(permissionInfoOptional.get().method);
+            return Optional.ofNullable(permissionInfoOptional.get().method);
         } else {
             return Optional.empty();
         }
+    }
+
+    public List<String> allPermissions() {
+        return permissions.stream().map(p -> p.path).sorted().collect(Collectors.toList());
+    }
+
+    public void check(String permission) {
+        permissions.stream()
+                .filter(p -> p.path.equals(permission))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException(String.format("Permission %s not registered", permission)));
     }
 
     private class ContextInfo {

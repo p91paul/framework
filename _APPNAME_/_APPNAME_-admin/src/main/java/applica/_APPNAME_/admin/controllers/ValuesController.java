@@ -5,6 +5,7 @@ import applica._APPNAME_.domain.model.Role;
 import applica.framework.builders.LoadRequestBuilder;
 import applica.framework.library.SimpleItem;
 import applica.framework.library.responses.ValueResponse;
+import applica.framework.security.authorization.Permissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +34,13 @@ public class ValuesController {
         ).getRows(Role.class);
 
         return new ValueResponse(SimpleItem.createList(roles, "role", "role"));
+    }
+
+    @RequestMapping("/permissions")
+    public @ResponseBody ValueResponse permissions(String keyword) {
+        return new ValueResponse(
+            SimpleItem.createList(Permissions.instance().allPermissions(), (p) -> (String) p, (p) -> (String) p)
+        );
     }
 
 }

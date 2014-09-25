@@ -25,6 +25,6 @@ public class CrudAuthorizationContext {
 
     @Permission("delete")
     public void delete() throws AuthorizationException {
-
+        throw new AuthorizationException("test error");
     }
 }

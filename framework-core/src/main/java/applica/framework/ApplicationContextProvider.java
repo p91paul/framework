@@ -2,15 +2,13 @@ package applica.framework;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Component;
 
-@Component
 public class ApplicationContextProvider {
 
     private static ApplicationContext applicationContext;
 
     @Autowired
-    protected void setApplicationContext(ApplicationContext applicationContext) {
+    public void setApplicationContext(ApplicationContext applicationContext) {
         ApplicationContextProvider.applicationContext = applicationContext;
     }
 

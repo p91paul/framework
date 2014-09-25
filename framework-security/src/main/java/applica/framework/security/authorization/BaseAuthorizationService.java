@@ -25,24 +25,36 @@ public class BaseAuthorizationService implements AuthorizationService {
         Assert.notNull(user, "BaseAuthorizationService: user must be specified");
         Assert.isTrue(StringUtils.hasLength(permission), "BaseAuthorizationService: permission must be specified");
 
+        Permissions.instance().check(permission);
+
+        //first of all, check if user has permission
+        if (!(user.getRoles() != null && user.getRoles().stream().anyMatch((r) -> {
+            if (r.getPermissions() != null) {
+                return r.getPermissions().stream().anyMatch((p) -> p.equals(permission));
+            } else {
+                return false;
+            }
+        }))) {
+            throw new AuthorizationException();
+        }
+
         String[] elements = permission.split(":");
         Assert.isTrue(elements.length >= 2, "Bad permission format: " + permission);
-
         String context = elements[0];
 
-        //if there is an implementation of the method in some context, call the method, otherwhise just check if user has permissions
+        //if there is an implementation of the method in some context, call the method
         Optional<Method> method = Permissions.instance().getMethod(permission);
         if (method.isPresent()) {
             Object authorizationContext = applicationContext.getBean("authorization-context-" + context);
             try {
                 method.get().invoke(authorizationContext, parameters);
             } catch (Exception e) {
-                e.printStackTrace();
-                throw new AuthorizationException("Error invoking method for " + permission);
-            }
-        } else {
-            if (!user.getRoles().stream().anyMatch((r) -> r.getPermissions().stream().anyMatch((p) -> p.equals(permission)))) {
-                throw new AuthorizationException();
+                if (!(e.getCause() instanceof AuthorizationException)) {
+                    e.printStackTrace();
+                    throw new RuntimeException(e);
+                } else {
+                    throw (AuthorizationException) e.getCause();
+                }
             }
         }
 

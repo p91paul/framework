@@ -34,7 +34,8 @@ public class Security {
      * @return
      */
     public static Security with(User user) {
-        return instances.putIfAbsent(user.getUsername(), new Security(new SecurityInstance(user, null)));
+        instances.putIfAbsent(user.getUsername(), new Security(new SecurityInstance(user, null)));
+        return instances.get(user.getUsername());
     }
 
     private Security(SecurityInstance instance) {
@@ -61,7 +62,7 @@ public class Security {
         return userDetails;
     }
 
-    private AuthorizationService getAuthorizationService() {
+    protected AuthorizationService getAuthorizationService() {
         if (authorizationService == null) {
             authorizationService = ApplicationContextProvider.provide().getBean(AuthorizationService.class);
         }

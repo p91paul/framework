@@ -30,7 +30,7 @@ public class LoadResponse {
     }
 
     public <T extends Entity> Optional<T> findFirst() {
-        return Optional.of((rows != null && rows.size() > 0) ? (T) rows.get(0) : null);
+        return Optional.ofNullable((rows != null && rows.size() > 0) ? (T) rows.get(0) : null);
     }
 
     public void setRows(List<? extends Entity> rows) {

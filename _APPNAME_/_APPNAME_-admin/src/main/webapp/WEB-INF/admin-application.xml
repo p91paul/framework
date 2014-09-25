@@ -37,5 +37,7 @@
     <bean class="applica.framework.library.velocity.BaseVelocityBuilder" />
     <bean class="applica.framework.library.cache.MemoryCache" />
     <bean class="applica.framework.library.options.PropertiesOptionManager" />
+    <bean class="applica.framework.data.mongodb.MongoHelper" />
+    <bean class="applica.framework.ApplicationContextProvider" />
 	
 </beans>
