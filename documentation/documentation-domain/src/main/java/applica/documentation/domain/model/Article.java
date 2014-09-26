@@ -1,6 +1,8 @@
 package applica.documentation.domain.model;
 
 import applica.framework.data.Key;
+import org.pegdown.PegDownProcessor;
+import org.springframework.util.StringUtils;
 
 /**
  * Applica (www.applicamobile.com)
@@ -36,5 +38,14 @@ public class Article extends CmsObject {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getHtml() {
+        if (StringUtils.hasLength(content)) {
+            PegDownProcessor processor = new PegDownProcessor();
+            return processor.markdownToHtml(getContent());
+        } else {
+            return "";
+        }
     }
 }

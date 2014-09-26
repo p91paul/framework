@@ -37,6 +37,12 @@
             <artifactId>framework-data-mongodb</artifactId>
             <version>${applica.framework.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.pegdown</groupId>
+            <artifactId>pegdown</artifactId>
+            <version>1.4.2</version>
+        </dependency>
     </dependencies>
 
     <build>
