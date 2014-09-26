@@ -5,7 +5,9 @@ import applica.framework.library.SimpleItem;
 import applica.framework.library.fields.renderers.MultiSearchableInputFieldRenderer;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Applica (www.applicamobile.com)
@@ -23,6 +25,6 @@ public class PermissionsFieldRenderer extends MultiSearchableInputFieldRenderer 
 
     @Override
     public List<SimpleItem> getSelectedItems(FormField formField, Object o) {
-        return null;
+        return SimpleItem.createList(Optional.ofNullable((List<String>) o).orElse(new ArrayList<String>()), p -> p, p -> p);
     }
 }
