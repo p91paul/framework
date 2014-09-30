@@ -1,7 +1,0 @@
-<ul class="nav nav-pills nav-stacked main-nav">
-    <li class="nav-header">$framework.localization.m("nav.security")</li>
-    <li><a href="#/crud?e=user">$framework.localization.m("nav.security.users")</a></li>
-    <li><a href="#/crud?e=role">$framework.localization.m("nav.security.roles")</a></li>
-    <li class="nav-header">Framework</li>
-    <li><a href="#/librarydemo/form">Library Test</a></li>
-</ul>
