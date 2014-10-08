@@ -42,8 +42,10 @@ public class HibernateModule implements Module {
     @Action(value = "generate-mappings", description = "Generate mappings for all entities in project")
     public void scan(Properties properties) {
         try {
-            Modules.instance().call("project:clean", new Properties());
-            Modules.instance().call("project:build", new Properties());
+            if (properties.containsKey("no-rebuild")) {
+                Modules.instance().call("project:clean", new Properties());
+                Modules.instance().call("project:build", new Properties());
+            }
 
             List<String> targetDirs = new ArrayList<>();
             List<String> jars = new ArrayList<>();

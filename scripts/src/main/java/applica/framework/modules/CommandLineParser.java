@@ -16,20 +16,20 @@ public class CommandLineParser {
     private Properties properties;
 
     public void parse(String[] args) throws ParseException {
-        if (args.length < 2) {
+        if (args.length < 1) {
             throw new ParseException("bad applica call", 0);
         }
 
         properties = new Properties();
-        command = args[1];
+        command = args[0];
 
         Arrays.asList(args)
                 .stream()
-                .skip(2)
+                .skip(1)
                 .filter(p -> p.startsWith("-D") && p.contains("="))
                 .forEach(p -> {
-                    String pair = p.substring(3);
-                    String[] split = p.split("=");
+                    String pair = p.substring(2);
+                    String[] split = pair.split("=");
                     properties.putIfAbsent(split[0].toLowerCase(), split[1]);
                 });
     }

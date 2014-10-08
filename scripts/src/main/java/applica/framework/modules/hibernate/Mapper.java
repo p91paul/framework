@@ -55,22 +55,29 @@ public class Mapper {
                     attr("name", type.getName()),
                     attr("table", Strings.pluralize(StringUtils.uncapitalize(type.getSimpleName())))
             ); endl();
-                open("property", attr("name", "id")); endl();
-                    openClose("generator", attr("class", "native"));
-                close("property"); endl();
+                open("id", attr("name", "id")); endl();
+                    openClose("generator", attr("class", "native")); endl();
+                close("id"); endl();
 
                 TypeUtils.getAllFields(type)
                         .stream()
                         .filter(t -> !Modifier.isTransient(t.getModifiers()))
                         .filter(t -> !Modifier.isStatic(t.getModifiers()))
                         .filter(t -> !t.getName().equals("id"))
-                        .filter(t -> isAllowed(t.getType()))
-                        .filter(t -> TypeUtils.isList(t.getType()))
-                        .filter(t -> TypeUtils.isEntity(t.getType()))
-                        .filter(t -> Key.class.equals(t.getType()))
+                        .filter(t ->
+                                isAllowed(t.getType()) ||
+                                TypeUtils.isList(t.getType()) ||
+                                TypeUtils.isEntity(t.getType()) ||
+                                Key.class.equals(t.getType())
+                        )
                         .forEach(t -> {
                             if (TypeUtils.isEntity(t.getType())) {
-                                //one to many
+                                String foreignKeyName = String.format("%sId", StringUtils.uncapitalize(t.getType().getSimpleName()));
+                                openClose("many-to-one",
+                                        attr("name", t.getName()),
+                                        attr("class", t.getType().getName()),
+                                        attr("column", foreignKeyName)
+                                ); endl();
                             } else if (TypeUtils.isList(t.getType())) {
                                 ParameterizedType listType = (ParameterizedType) t.getGenericType();
                                 Type[] arguments = listType.getActualTypeArguments();

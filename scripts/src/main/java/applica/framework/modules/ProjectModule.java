@@ -64,7 +64,7 @@ public class ProjectModule implements Module {
         root.mkdirs();
 
         String[] appPaths = {
-                "_APPNAME_"
+                SystemUtils.multiplatformPath(String.format("archetypes/%s/_APPNAME_", archetype))
         };
 
         for (String appPath : appPaths) {
@@ -72,14 +72,20 @@ public class ProjectModule implements Module {
             fileWalker.walk(String.format("%s/%s", Applica.frameworkHome, appPath), new FileWalkerListener() {
                 @Override
                 public void onFile(File directory, File file) {
-                    String newDirPath = removeFirstSlash(directory.getAbsolutePath().replace(Applica.frameworkHome, "").replace(APPNAME_PH, appName));
+                    String newDirPath = removeFirstSlash(directory.getAbsolutePath()
+                            .replace(Applica.frameworkHome, "")
+                            .replace(SystemUtils.multiplatformPath(String.format("archetypes/%s/", archetype)), "")
+                            .replace(APPNAME_PH, appName));
                     File newDirectory = new File(newDirPath);
                     if (!newDirectory.exists()) {
                         newDirectory.mkdirs();
                         //System.out.println(String.format("Created directory %s", newDirPath));
                     }
 
-                    String newPath = removeFirstSlash(file.getAbsolutePath().replace(Applica.frameworkHome, "").replace(APPNAME_PH, appName));
+                    String newPath = removeFirstSlash(file.getAbsolutePath()
+                            .replace(Applica.frameworkHome, "")
+                            .replace(SystemUtils.multiplatformPath(String.format("archetypes/%s/", archetype)), "")
+                            .replace(APPNAME_PH, appName));
                     if (editableExtensions.contains(FilenameUtils.getExtension(newPath))) {
                         FileEditor editor = new FileEditor();
                         editor.setSource(file);
