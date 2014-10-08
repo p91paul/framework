@@ -13,6 +13,7 @@
 	<context:annotation-config />
 
     <context:component-scan base-package="  applica._APPNAME_.domain,
+                                            applica._APPNAME_.data.mongodb,
 	                                        applica._APPNAME_.admin" />
 
 	<mvc:annotation-driven />
@@ -31,7 +32,7 @@
 	    </bean>
 	</mvc:interceptors>
 
-    <bean class="applica._APPNAME_.admin.Bootstrapper" init-method="init" lazy-init="false" />
+    <bean class="applica._APPNAME_.admin.Bootstrapper" init-method="init" />
 
     <!-- framework general beans -->
     <bean class="applica.framework.ApplicationContextProvider" />

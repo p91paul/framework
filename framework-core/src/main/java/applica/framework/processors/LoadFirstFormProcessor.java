@@ -31,7 +31,7 @@ public class LoadFirstFormProcessor extends SimpleFormProcessor {
             try {
                 Repository repository = CrudConfiguration.instance().getFormRepository(type);
                 if(repository != null) {
-                    persistentEntity = repository.get(entity.getId());
+                    persistentEntity = (Entity) repository.get(entity.getId()).orElseGet(() -> null);
                     if(persistentEntity != null) {
                         return persistentEntity;
                     }

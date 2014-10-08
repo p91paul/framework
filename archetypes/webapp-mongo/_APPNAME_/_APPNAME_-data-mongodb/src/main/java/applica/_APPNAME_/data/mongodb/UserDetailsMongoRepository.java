@@ -1,4 +1,4 @@
-package applica._APPNAME_.domain.data.mongo;
+package applica._APPNAME_.data.mongodb;
 
 import applica._APPNAME_.domain.data.UsersRepository;
 import applica._APPNAME_.domain.model.Filters;
@@ -24,11 +24,10 @@ public class UserDetailsMongoRepository implements UserDetailsRepository {
 
     @Override
     public UserDetails getByMail(String mail) {
-        User user = usersRepository.find(LoadRequestBuilder.build().eq(Filters.USER_MAIL, mail)).getOne(User.class);
-        if(user == null) {
-            return null;
-        }
-
-        return new UsersDetails(user);
+        return usersRepository
+                .find(LoadRequestBuilder.build().eq(Filters.USER_MAIL, mail))
+                .findFirst()
+                .map(UsersDetails::new)
+                .orElseGet(null);
     }
 }

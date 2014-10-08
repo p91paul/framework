@@ -1,12 +1,14 @@
 package applica.framework.data;
 
+import java.util.Optional;
+
 /**
  * Allowed filters
  * like: username
  */
 public interface Repository<T extends Entity> {
 
-    T get(Object id);
+    Optional<T> get(Object id);
     LoadResponse<T> find(LoadRequest request);
     void save(T entity);
     void delete(Object id);

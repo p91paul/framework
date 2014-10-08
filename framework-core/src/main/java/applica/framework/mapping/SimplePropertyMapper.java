@@ -88,7 +88,7 @@ public class SimplePropertyMapper implements PropertyMapper {
                     String relatedId = requestValueArray[0];
                     Entity relatedEntity = null;
                     if (StringUtils.hasLength(relatedId)) {
-                        relatedEntity = repository.get(relatedId);
+                        relatedEntity = (Entity) repository.get(relatedId).orElseGet(() -> null);
                     }
 
                     finalValue = relatedEntity;

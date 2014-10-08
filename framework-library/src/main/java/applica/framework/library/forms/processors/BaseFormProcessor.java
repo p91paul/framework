@@ -1,5 +1,6 @@
 package applica.framework.library.forms.processors;
 
+import applica.framework.CrudConfiguration;
 import applica.framework.Form;
 import applica.framework.FormProcessException;
 import applica.framework.data.Entity;
@@ -19,8 +20,10 @@ public class BaseFormProcessor extends ValidateableFormProcessor {
 
     @Override
     public Map<String, Object> toMap(Form form, Entity entity) throws FormProcessException {
+        Class<? extends Entity> entityType = CrudConfiguration.instance().getFormTypeFromIdentifier(form.getIdentifier());
+
         applicationContext.getBeansOfType(Validator.class).values().stream()
-                .filter(r -> r.supports(entity.getClass()))
+                .filter(r -> r.supports(entityType))
                 .findFirst()
                 .ifPresent(v -> setValidator(v));
 

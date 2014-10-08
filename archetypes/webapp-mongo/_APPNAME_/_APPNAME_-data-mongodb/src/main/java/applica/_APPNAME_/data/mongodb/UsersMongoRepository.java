@@ -1,4 +1,4 @@
-package applica._APPNAME_.domain.data.mongo;
+package applica._APPNAME_.data.mongodb;
 
 import applica.framework.data.Entity;
 import applica.framework.data.Sort;

@@ -15,9 +15,6 @@ import org.springframework.stereotype.Component;
  */
 public class DefaultMongoRepository<T extends Entity> extends MongoRepository<T> implements Repository<T>, DefaultRepository<T> {
 
-    public DefaultMongoRepository() {
-    }
-
     private Class<T> entityType;
 
     @Override

@@ -12,6 +12,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public abstract class MongoRepository<T extends Entity> implements Repository<T> {
 	
@@ -43,7 +44,7 @@ public abstract class MongoRepository<T extends Entity> implements Repository<T>
     }
 	
 	@Override
-	public T get(Object id) {
+	public Optional<T> get(Object id) {
         init();
 
 		if(collection == null) { 
@@ -59,7 +60,7 @@ public abstract class MongoRepository<T extends Entity> implements Repository<T>
 			}
 		}
 		
-		return entity;
+		return Optional.ofNullable(entity);
 	}
 
 	@Override
