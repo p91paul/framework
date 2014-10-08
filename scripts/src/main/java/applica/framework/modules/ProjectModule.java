@@ -1,5 +1,6 @@
 package applica.framework.modules;
 
+import applica.framework.AppContext;
 import applica.framework.Applica;
 import applica.framework.annotations.Action;
 import applica.framework.editors.FileEditor;
@@ -8,8 +9,10 @@ import applica.framework.library.utils.FileWalkerListener;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
@@ -35,12 +38,13 @@ public class ProjectModule implements Module {
 
     @Action(value = "test", description = "Create a new app with specified name")
     public void test(Properties properties) {
-        System.out.println("Test");
+        System.out.println(AppContext.current().appPath(""));
+        System.out.println(AppContext.current().getAppName());
     }
 
     @Action(value = "new", description = "Create a new app with specified name")
     public void newProject(Properties properties) {
-        List<String> editableExtensions = Arrays.asList("java", "xml", "vm", "properties");
+        List<String> editableExtensions = Arrays.asList("java", "xml", "vm", "properties", "manifest");
 
         String appName = (String) properties.get("name");
         File root = new File("./" + appName);
@@ -91,5 +95,36 @@ public class ProjectModule implements Module {
         }
     }
 
+    @Action(value = "build", description = "Build the project")
+    public void build(Properties properties) {
+        try {
+            System.out.println(String.format("Building %s...", AppContext.current().getAppName()));
+            Process process = Runtime.getRuntime().exec("mvn package");
+            BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line = null;
+            while ((line = input.readLine()) != null) {
+                System.out.println(line);
+            }
+            input.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Action(value = "clean", description = "Clean the project")
+    public void clean(Properties properties) {
+        try {
+            System.out.println(String.format("Cleaning %s...", AppContext.current().getAppName()));
+            Process process = Runtime.getRuntime().exec("mvn clean");
+            BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line = null;
+            while ((line = input.readLine()) != null) {
+                System.out.println(line);
+            }
+            input.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

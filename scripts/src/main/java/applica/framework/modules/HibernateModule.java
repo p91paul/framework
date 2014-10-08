@@ -1,14 +1,32 @@
 package applica.framework.modules;
 
+import applica.framework.AppContext;
+import applica.framework.ApplicationContextProvider;
 import applica.framework.annotations.Action;
+import applica.framework.library.SimpleItem;
+import applica.framework.library.utils.FileWalker;
+import applica.framework.library.utils.FileWalkerListener;
+import applica.framework.modules.hibernate.Mapper;
 import applica.framework.utils.TypeUtils;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Properties;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.stream.Collectors;
 
 /**
  * Applica (www.applicamobile.com)
@@ -20,38 +38,109 @@ import java.util.jar.JarFile;
 @applica.framework.annotations.Module("hibernate")
 public class HibernateModule implements Module {
 
-    @Action(value = "scan", description = "Scan for class in target directory")
+    @Action(value = "map", description = "Generate mappings for all entities in project")
     public void scan(Properties properties) {
         try {
-            String pathToJar = properties.get("jar").toString();
-            JarFile jarFile = new JarFile(pathToJar);
-            Enumeration e = jarFile.entries();
+            Modules.instance().call("project:clean", new Properties());
+            Modules.instance().call("project:build", new Properties());
 
-            URL[] urls = {
-                new URL("jar:file:" + pathToJar + "!/")
-            };
+            List<String> targetDirs = new ArrayList<>();
+            List<String> jars = new ArrayList<>();
+            FileWalker walker = new FileWalker();
+            walker.walk(AppContext.current().appPath(File.separator), new FileWalkerListener() {
+                @Override
+                public void onFile(File directory, File file) {
+                    if (FilenameUtils.getExtension(file.getAbsolutePath()).equals("jar")) {
+                        jars.add(file.getAbsolutePath());
+                    }
+                }
+
+                @Override
+                public void onDirectory(File file) {
+                    if (file.getAbsolutePath().endsWith(multiplatformPath("target/classes"))) {
+                        if (!file.getAbsolutePath().contains("WEB-INF")) {
+                            targetDirs.add(file.getAbsolutePath());
+                        }
+                    }
+                }
+            });
+
+
+            URL[] urls = new URL[targetDirs.size() + jars.size()];
+            int index = 0;
+            for (String targetDir : targetDirs) {
+                urls[index++] = new URL(String.format("file://%s/", targetDir));
+            }
+
+            for (String jar : jars) {
+                urls[index++] = new URL(String.format("jar:file://%s!/", jar));
+            }
+
             URLClassLoader cl = URLClassLoader.newInstance(urls);
 
-            while (e.hasMoreElements()) {
-                JarEntry je = (JarEntry) e.nextElement();
-                if (je.isDirectory() || !je.getName().endsWith(".class")) {
-                    continue;
-                }
-                // -6 because of .class
-                String className = je.getName().substring(0, je.getName().length() - 6);
-                className = className.replace('/', '.');
+            for (String targetDir : targetDirs) {
+                walker.walk(targetDir, new FileWalkerListener() {
+                    @Override
+                    public void onFile(File directory, File file) {
+                        if (FilenameUtils.getExtension(file.getAbsolutePath()).equals("class")) {
+                            //remove absolute path
+                            String className = file.getAbsolutePath().replace(targetDir, "");
+                            //remove .class extension and first separator
+                            className = className.substring(1, className.length() - 6);
+                            //substitute separator
+                            className = className.replace(File.separator.charAt(0), '.');
 
-                try {
-                    Class c = cl.loadClass(className);
-                    if (TypeUtils.isEntity(c)) {
-                        System.out.println(c.getName());
+                            String resourcesPath = getResourcesPath(targetDir);
+
+                            try {
+                                Class c = cl.loadClass(className);
+                                if (TypeUtils.isEntity(c)) {
+                                    mapEntity(c, resourcesPath);
+                                }
+
+                            } catch(Throwable e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
-                } catch(Throwable ex) {}
 
+                    @Override
+                    public void onDirectory(File file) {
+
+                    }
+                });
             }
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void mapEntity(Class type, String resourcesPath) {
+        System.out.println(String.format("Mapping %s...", type.getName()));
+
+        Package pak = type.getPackage();
+        String path = multiplatformPath(pak.getName().replace(".", "/"));
+        String xmlPath = multiplatformPath(String.format("%s%s/%s.hbm.xml", resourcesPath, path, type.getSimpleName()));
+
+        try {
+            FileUtils.forceMkdir(new File(FilenameUtils.getFullPath(xmlPath)));
+            Mapper mapper = new Mapper(type);
+            FileUtils.writeStringToFile(new File(xmlPath), mapper.getXml(), "UTF-8");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private String multiplatformPath(String path) {
+        return path.replace("/", File.separator);
+    }
+
+    private String getResourcesPath(String targetDir) {
+        String moduleBase = targetDir.replace("target" + File.separator + "classes", "");
+        String resourcesBase = String.format("%s%s", moduleBase, multiplatformPath("src/main/resources/"));
+        return resourcesBase;
     }
 
 }
