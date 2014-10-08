@@ -3,7 +3,7 @@ package applica.documentation.admin.viewmodel;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 3/1/13
  * Time: 1:28 PM

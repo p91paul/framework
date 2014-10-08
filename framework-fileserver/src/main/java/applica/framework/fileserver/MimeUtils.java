@@ -3,7 +3,7 @@ package applica.framework.fileserver;
 import java.util.HashMap;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 4/22/13
  * Time: 12:42 PM

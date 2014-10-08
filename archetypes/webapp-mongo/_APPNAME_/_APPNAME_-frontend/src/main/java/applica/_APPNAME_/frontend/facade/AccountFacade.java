@@ -25,7 +25,7 @@ import java.util.Arrays;
 import java.util.UUID;
 
 /**
- * http://www.applicamobile.com
+ * http://www.applicadoit.com
  * User: Bruno Fortunato
  * Date: 4/19/13
  * Time: 1:20 PM

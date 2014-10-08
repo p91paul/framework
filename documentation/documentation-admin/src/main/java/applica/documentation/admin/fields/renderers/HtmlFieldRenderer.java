@@ -6,7 +6,7 @@ import applica.framework.library.fields.renderers.BaseFieldRenderer;
 import org.springframework.stereotype.Component;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 11/09/14
  * Time: 19:58

@@ -9,7 +9,7 @@
 
     <artifactId>documentation-frontend</artifactId>
     <packaging>war</packaging>
-    <url>http://www.applicamobile.com</url>
+    <url>http://www.applicadoit.com</url>
     <version>1.0-SNAPSHOT</version>
 
     <properties>

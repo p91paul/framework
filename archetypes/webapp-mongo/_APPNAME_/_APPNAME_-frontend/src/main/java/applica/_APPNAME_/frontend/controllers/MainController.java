@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 5/16/13
  * Time: 9:05 AM

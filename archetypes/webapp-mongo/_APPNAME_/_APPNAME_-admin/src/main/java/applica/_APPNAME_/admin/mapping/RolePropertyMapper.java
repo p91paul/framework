@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 06/11/13
  * Time: 15:55

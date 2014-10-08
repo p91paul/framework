@@ -11,7 +11,7 @@ import java.beans.PropertyDescriptor;
 import java.util.Map;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 07/11/13
  * Time: 09:49

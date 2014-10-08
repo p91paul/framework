@@ -17,7 +17,7 @@ import java.io.StringWriter;
 import java.util.UUID;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 2/22/13
  * Time: 9:58 AM

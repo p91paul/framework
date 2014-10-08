@@ -1,7 +1,7 @@
 package applica.framework.library.responses;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 2/28/13
  * Time: 8:16 PM

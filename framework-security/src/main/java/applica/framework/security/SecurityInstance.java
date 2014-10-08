@@ -4,7 +4,7 @@ import applica.framework.security.authorization.AuthorizationException;
 import applica.framework.security.authorization.AuthorizationService;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 25/09/14
  * Time: 11:26

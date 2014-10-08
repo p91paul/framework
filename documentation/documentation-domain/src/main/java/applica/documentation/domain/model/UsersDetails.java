@@ -4,7 +4,7 @@ import applica.framework.data.StringIdEntity;
 import applica.framework.security.UserDetailsImpl;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 31/10/13
  * Time: 13:31

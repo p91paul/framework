@@ -1,7 +1,7 @@
 package applica.framework.library.utils;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 4/30/13
  * Time: 4:07 PM

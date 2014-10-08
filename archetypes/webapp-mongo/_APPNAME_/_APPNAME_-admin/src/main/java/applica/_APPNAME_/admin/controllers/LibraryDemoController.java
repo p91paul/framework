@@ -23,7 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 3/1/13
  * Time: 10:08 AM

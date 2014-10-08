@@ -24,7 +24,7 @@ import java.lang.reflect.Field;
 import java.util.*;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 25/09/14
  * Time: 12:52

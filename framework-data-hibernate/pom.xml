@@ -12,7 +12,7 @@
     <packaging>jar</packaging>
 
     <name>framework-data-hibernate</name>
-    <url>http://www.applicamobile.com</url>
+    <url>http://www.applicadoit.com</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

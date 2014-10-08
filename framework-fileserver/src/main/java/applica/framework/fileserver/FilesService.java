@@ -7,7 +7,7 @@ import org.apache.commons.io.IOUtils;
 import java.io.*;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 4/22/13
  * Time: 12:03 PM

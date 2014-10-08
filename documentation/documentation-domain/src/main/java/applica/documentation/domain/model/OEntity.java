@@ -3,7 +3,7 @@ package applica.documentation.domain.model;
 import applica.framework.data.Entity;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 11/09/14
  * Time: 18:57

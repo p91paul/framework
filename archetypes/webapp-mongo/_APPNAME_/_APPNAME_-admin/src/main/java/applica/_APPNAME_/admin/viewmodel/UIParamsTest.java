@@ -5,7 +5,7 @@ import applica.framework.annotations.*;
 import applica.framework.data.IEntity;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 20/02/14
  * Time: 13:12

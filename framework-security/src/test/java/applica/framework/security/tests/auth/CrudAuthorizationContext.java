@@ -5,7 +5,7 @@ import applica.framework.security.annotations.Permission;
 import applica.framework.security.authorization.AuthorizationException;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 25/09/14
  * Time: 13:03

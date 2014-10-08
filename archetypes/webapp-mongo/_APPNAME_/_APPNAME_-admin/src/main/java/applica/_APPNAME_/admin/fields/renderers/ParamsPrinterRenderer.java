@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 20/02/14
  * Time: 13:14

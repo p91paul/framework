@@ -1,7 +1,7 @@
 package applica.framework.fileserver.facade;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 07/03/14
  * Time: 13:08

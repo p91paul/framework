@@ -1,6 +1,6 @@
 package applica.framework.security.authorization;
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 5/14/13
  * Time: 4:21 PM

@@ -8,7 +8,7 @@ import applica.framework.data.mongodb.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 3/3/13
  * Time: 10:53 PM

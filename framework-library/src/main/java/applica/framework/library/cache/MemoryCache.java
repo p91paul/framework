@@ -3,7 +3,7 @@ package applica.framework.library.cache;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 2/22/13
  * Time: 12:11 PM

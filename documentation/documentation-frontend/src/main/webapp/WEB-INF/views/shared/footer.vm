@@ -1,7 +1,7 @@
 <footer>
     <p>
         <img src="${staticBase}images/logo_white.png" class="footer-logo" />
-        <span>&copy; Applica 2014 <a href="//www.applicamobile.com">www.applicamobile.com</a></span>
+        <span>&copy; Applica 2014 <a href="//www.applicadoit.com">www.applicadoit.com</a></span>
     </p>
 </footer>
 

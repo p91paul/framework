@@ -30,7 +30,7 @@ import java.util.jar.JarFile;
 import java.util.stream.Collectors;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 01/10/14
  * Time: 19:02

@@ -3,7 +3,7 @@ package applica.framework.library.i18n;
 import applica.framework.ApplicationContextProvider;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 5/17/13
  * Time: 10:06 AM

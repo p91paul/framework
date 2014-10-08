@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Properties;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 08/10/14
  * Time: 17:54

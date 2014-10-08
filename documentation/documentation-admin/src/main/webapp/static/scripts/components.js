@@ -1,5 +1,5 @@
 /**
- * Applica (www.applicamobile.com).
+ * Applica (www.applicadoit.com).
  * User: bimbobruno
  * Date: 11/09/14
  * Time: 20:02

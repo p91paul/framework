@@ -8,7 +8,7 @@
     <packaging>pom</packaging>
 
     <name>documentation</name>
-    <url>http://www.applicamobile.com</url>
+    <url>http://www.applicadoit.com</url>
 
     <modules>
         <module>documentation-domain</module>

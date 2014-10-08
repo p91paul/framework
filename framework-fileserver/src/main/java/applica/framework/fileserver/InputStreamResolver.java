@@ -13,7 +13,7 @@ import java.io.InputStream;
 import java.util.List;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 4/22/13
  * Time: 12:27 PM

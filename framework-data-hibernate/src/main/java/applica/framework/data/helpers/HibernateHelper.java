@@ -10,7 +10,7 @@ import java.util.Properties;
 
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 01/10/14
  * Time: 18:55

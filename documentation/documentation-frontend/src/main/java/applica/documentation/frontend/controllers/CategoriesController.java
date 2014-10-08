@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 13/09/14
  * Time: 11:58

@@ -1,7 +1,7 @@
 package applica.documentation.domain.model;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 17/09/14
  * Time: 16:50

@@ -6,7 +6,7 @@ import applica.framework.security.*;
 import org.apache.http.entity.StringEntity;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 31/10/13
  * Time: 13:31

@@ -1,7 +1,7 @@
 package applica.framework.data;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 12/09/14
  * Time: 10:41

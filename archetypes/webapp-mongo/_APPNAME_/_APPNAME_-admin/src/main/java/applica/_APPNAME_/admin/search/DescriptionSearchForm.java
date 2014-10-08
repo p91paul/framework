@@ -7,7 +7,7 @@ import applica.framework.data.Entity;
 import applica.framework.library.forms.renderers.SearchFormRenderer;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 3/4/13
  * Time: 4:18 PM

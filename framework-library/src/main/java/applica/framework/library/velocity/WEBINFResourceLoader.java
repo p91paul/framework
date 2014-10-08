@@ -8,7 +8,7 @@ import org.apache.velocity.runtime.resource.loader.FileResourceLoader;
 import org.springframework.web.context.WebApplicationContext;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 26/10/13
  * Time: 11:13

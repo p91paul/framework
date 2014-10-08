@@ -1,7 +1,7 @@
 package applica._APPNAME_.frontend.facade;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 29/10/13
  * Time: 16:27

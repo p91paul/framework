@@ -6,5 +6,5 @@ build enterprise level web applications.
 
 For more information please visit http://www.applicaframework.com
 
-Applica Framework is developed and maintained from Applica (http://www.applicamobile.com)
+Applica Framework is developed and maintained from Applica (http://www.applicadoit.com)
 

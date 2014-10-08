@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.io.Writer;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 11/09/14
  * Time: 19:34

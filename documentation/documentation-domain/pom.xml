@@ -17,7 +17,7 @@
         <spring.version>4.0.3.RELEASE</spring.version>
     </properties>
 
-    <url>http://www.applicamobile.com</url>
+    <url>http://www.applicadoit.com</url>
 
     <dependencies>
         <dependency>

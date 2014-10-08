@@ -5,7 +5,7 @@ import applica.framework.data.SEntity;
 import applica.framework.library.fields.renderers.PasswordFieldRenderer;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 26/10/13
  * Time: 10:34

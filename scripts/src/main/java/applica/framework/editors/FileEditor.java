@@ -7,7 +7,7 @@ import org.springframework.util.StringUtils;
 import java.io.*;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 25/07/14
  * Time: 17:43

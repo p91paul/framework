@@ -1,7 +1,7 @@
 package applica.framework.library.rest.client;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 7/31/13
  * Time: 11:46 AM

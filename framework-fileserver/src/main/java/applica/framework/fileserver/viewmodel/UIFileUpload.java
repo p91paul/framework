@@ -3,7 +3,7 @@ package applica.framework.fileserver.viewmodel;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 5/11/13
  * Time: 12:16 PM

@@ -3,7 +3,7 @@ package applica.framework.modules;
 import java.util.List;
 
 /**
-* Applica (www.applicamobile.com)
+* Applica (www.applicadoit.com)
 * User: bimbobruno
 * Date: 01/10/14
 * Time: 19:27

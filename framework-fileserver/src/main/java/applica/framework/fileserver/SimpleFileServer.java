@@ -22,7 +22,7 @@ import java.net.URLEncoder;
 import java.util.UUID;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 4/23/13
  * Time: 12:20 PM

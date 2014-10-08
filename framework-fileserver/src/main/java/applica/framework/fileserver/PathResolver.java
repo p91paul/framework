@@ -3,7 +3,7 @@ package applica.framework.fileserver;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 4/22/13
  * Time: 12:12 PM

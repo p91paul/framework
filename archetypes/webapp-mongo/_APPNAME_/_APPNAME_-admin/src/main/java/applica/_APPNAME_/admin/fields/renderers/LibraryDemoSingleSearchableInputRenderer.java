@@ -5,7 +5,7 @@ import applica.framework.library.fields.renderers.SingleSearchableInputFieldRend
 import org.springframework.stereotype.Component;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 3/4/13
  * Time: 11:23 AM

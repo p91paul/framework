@@ -10,7 +10,7 @@ import java.io.File;
 import java.nio.file.Paths;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 07/10/14
  * Time: 17:02

@@ -12,7 +12,7 @@
     <artifactId>_APPNAME_-admin</artifactId>
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
-    <url>http://www.applicamobile.com</url>
+    <url>http://www.applicadoit.com</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
