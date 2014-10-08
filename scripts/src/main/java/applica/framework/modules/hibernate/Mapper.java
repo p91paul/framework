@@ -1,7 +1,19 @@
 package applica.framework.modules.hibernate;
 
 import applica.framework.data.Entity;
+import applica.framework.data.Key;
 import applica.framework.library.SimpleItem;
+import applica.framework.utils.Strings;
+import applica.framework.utils.TypeUtils;
+import org.apache.commons.lang.StringUtils;
+
+import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Applica (www.applicamobile.com)
@@ -15,6 +27,18 @@ public class Mapper {
     private int level = 0;
     private StringBuilder xml = new StringBuilder();
 
+    private static final Class<?>[] ALLOWED_TYPES = new Class<?>[] {
+            String.class,
+            Integer.class,
+            Float.class,
+            Double.class,
+            Boolean.class,
+            Byte.class,
+            Short.class,
+            Long.class,
+            Date.class
+    };
+
     public Mapper(Class<? extends Entity> type) {
         this.type = type;
     }
@@ -27,8 +51,43 @@ public class Mapper {
         raw("<?xml version=\"1.0\" encoding=\"utf-8\"?>"); endl();
         raw("<!DOCTYPE hibernate-mapping PUBLIC \"-//Hibernate/Hibernate Mapping DTD//EN\" \"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd\">"); endl();
         open("hibernate-mapping"); endl();
-            open("class", attr("name", type.getName()), attr("table", pluralize(type.getSimpleName().toLowerCase()))); endl();
-                openClose("property", attr("name", "id")); endl();
+            open("class",
+                    attr("name", type.getName()),
+                    attr("table", Strings.pluralize(StringUtils.uncapitalize(type.getSimpleName())))
+            ); endl();
+                open("property", attr("name", "id")); endl();
+                    openClose("generator", attr("class", "native"));
+                close("property"); endl();
+
+                TypeUtils.getAllFields(type)
+                        .stream()
+                        .filter(t -> !Modifier.isTransient(t.getModifiers()))
+                        .filter(t -> !Modifier.isStatic(t.getModifiers()))
+                        .filter(t -> !t.getName().equals("id"))
+                        .filter(t -> isAllowed(t.getType()))
+                        .filter(t -> TypeUtils.isList(t.getType()))
+                        .filter(t -> TypeUtils.isEntity(t.getType()))
+                        .filter(t -> Key.class.equals(t.getType()))
+                        .forEach(t -> {
+                            if (TypeUtils.isEntity(t.getType())) {
+                                //one to many
+                            } else if (TypeUtils.isList(t.getType())) {
+                                ParameterizedType listType = (ParameterizedType) t.getGenericType();
+                                Type[] arguments = listType.getActualTypeArguments();
+                                Class<?> typeArgument = (Class<?>) arguments[0];
+                                if (TypeUtils.isEntity(typeArgument)) {
+                                    //many to one
+                                } else if (isAllowed(typeArgument)) {
+                                    //list of primitive types
+                                }
+                            } else if (Key.class.equals(t.getType())) {
+                                //key type
+                            } else {
+                                //simple property
+                            }
+                        });
+
+
             close("class"); endl();
         close("hibernate-mapping"); endl();
         return xml.toString();
@@ -87,12 +146,14 @@ public class Mapper {
         xml.append("\n");
     }
 
-    private String pluralize(String singolar) {
-        if (singolar.endsWith("y")) {
-            return String.format("%sies", singolar.substring(0, singolar.length() - 1));
-        } else {
-            return String.format("%ss", singolar);
+    private static boolean isAllowed(Class<?> type) {
+        if (type.isPrimitive()) return true;
+
+        for(Class<?> allowedType : ALLOWED_TYPES) {
+            if (type.equals(allowedType)) return true;
         }
+
+        return false;
     }
 
     class Attr {

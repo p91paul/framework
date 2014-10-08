@@ -20,7 +20,7 @@ public interface CrudFactory {
 
     CellRenderer createCellRenderer(Class<? extends CellRenderer> type, Class<? extends Entity> entityType, String identifier, String property);
 
-    Repository createRepository(Class<? extends Repository> type, Class<? extends Entity> entityType, String identifier);
+    Repository createRepository(Class<? extends Repository> type, Class<? extends Entity> entityType);
 
     PropertyMapper createPropertyMapper(Class<? extends PropertyMapper> type, Class<? extends Entity> entityType, String identifier, String property);
 }

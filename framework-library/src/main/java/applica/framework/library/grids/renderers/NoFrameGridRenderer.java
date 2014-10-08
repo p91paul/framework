@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletContext;
 
-@Component
 public class NoFrameGridRenderer extends BaseGridRenderer {
 
     @Override

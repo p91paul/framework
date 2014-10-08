@@ -1,7 +1,7 @@
 package applica.framework;
 
+import applica.framework.modules.CommandLineParser;
 import applica.framework.modules.Modules;
-import org.apache.commons.cli.*;
 import org.springframework.util.StringUtils;
 
 import java.util.Properties;
@@ -11,6 +11,8 @@ public class Applica {
     public static final String VERSION = "1.4-RELEASE";
 
     public static String frameworkHome = null;
+    public static String javaHome = null;
+    public static String mavenHome = null;
 
     public static void main(String[] args) {
         frameworkHome = System.getenv("APPLICAFRAMEWORK_HOME");
@@ -20,35 +22,40 @@ public class Applica {
             return;
         }
 
+        javaHome = System.getenv("JAVA_HOME");
+        if (!StringUtils.hasLength(frameworkHome)) {
+            System.err.println("Please set JAVA_HOME environment variable");
+            System.exit(1);
+            return;
+        }
+
+        mavenHome = System.getenv("M2_HOME");
+        if (!StringUtils.hasLength(mavenHome)) {
+            System.err.println("Please set M2_HOME environment variable");
+            System.exit(1);
+            return;
+        }
+
         Modules.instance().scan();
 
-        Options options = new Options();
-        options.addOption("h", "help", false, "This help");
-        options.addOption("v", "version", false, "Displays framework version");
-        options.addOption("c", "command", true, "The command to execute");
-        options.addOption(OptionBuilder
-                .withArgName("parameter=value")
-                .hasArgs(2)
-                .withValueSeparator()
-                .withDescription("Specify a parameter value")
-                .create("D"));
-
-        CommandLineParser parser = new BasicParser();
+        CommandLineParser parser = new CommandLineParser();
         try {
-            CommandLine commandLine = parser.parse(options, args);
+            parser.parse(args);
 
-            if (commandLine.hasOption("version")) {
+            if (parser.getCommand().equals("version")) {
                 System.out.println("Applica Framework version " + VERSION);
-            } else if (commandLine.hasOption("help")) {
-                HelpFormatter helpFormatter = new HelpFormatter();
-                helpFormatter.printHelp("applica --command module:action -Dparameter=value. Use applica --command modules:show to display all modules", options);
+            } else if (parser.getCommand().equals("help")) {
+                printUsage();
             } else {
-                Properties properties = commandLine.getOptionProperties("D");
-                Modules.instance().call(commandLine.getOptionValue("c"), properties);
+                Modules.instance().call(parser.getCommand(), parser.getProperties());
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void printUsage() {
+        System.out.println("usage");
     }
 
 }

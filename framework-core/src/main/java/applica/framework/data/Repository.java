@@ -4,11 +4,12 @@ package applica.framework.data;
  * Allowed filters
  * like: username
  */
-public interface Repository {
+public interface Repository<T extends Entity> {
 
-    Entity get(Object id);
-    LoadResponse find(LoadRequest request);
-    void save(Entity entity);
+    T get(Object id);
+    LoadResponse<T> find(LoadRequest request);
+    void save(T entity);
     void delete(Object id);
+    Class<T> getEntityType();
 
 }

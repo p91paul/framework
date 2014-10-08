@@ -8,6 +8,10 @@ import java.util.concurrent.ConcurrentHashMap;
  * Date: 2/22/13
  * Time: 12:11 PM
  */
+
+/**
+ * Simple in-memory cache implementation
+ */
 public class MemoryCache implements Cache {
 
     static ConcurrentHashMap<String, Object> cache = new ConcurrentHashMap<>();

@@ -37,7 +37,8 @@ public class PropertiesOptionManager implements OptionsManager {
 
     @Override
     public String get(String key) {
-        return properties.getProperty(key);
+        String environment = properties.getProperty("environment", "");
+        return properties.getProperty(String.format("%s.%s", environment, key), properties.getProperty(key));
     }
 
     public String getPath() {

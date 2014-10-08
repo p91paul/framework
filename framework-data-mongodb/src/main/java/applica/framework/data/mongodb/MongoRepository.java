@@ -1,7 +1,9 @@
 package applica.framework.data.mongodb;
 
 import applica.framework.data.*;
+import applica.framework.utils.Strings;
 import com.mongodb.*;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,7 @@ import javax.annotation.PreDestroy;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class MongoRepository implements Repository {
+public abstract class MongoRepository<T extends Entity> implements Repository<T> {
 	
 	@Autowired
 	private MongoHelper mongoHelper;
@@ -20,14 +22,15 @@ public abstract class MongoRepository implements Repository {
 	
 	protected DBCollection collection;
 	
-	@PostConstruct
 	protected void init() {
-		DB db = mongoHelper.getDB();
-		if(db != null) {
-			collection = db.getCollection(getCollectionName());
-		} else {
-			logger.warn("Mongo DB is null");
-		}
+        if (collection == null) {
+            DB db = mongoHelper.getDB();
+            if (db != null) {
+                collection = db.getCollection(getCollectionName());
+            } else {
+                logger.warn("Mongo DB is null");
+            }
+        }
 	}
 	
 	@PreDestroy
@@ -35,21 +38,24 @@ public abstract class MongoRepository implements Repository {
 		mongoHelper.close();
 	}
 	
-	protected abstract String getCollectionName();
-	protected abstract Class<? extends Entity> getType();
+	protected String getCollectionName() {
+        return Strings.pluralize(StringUtils.uncapitalize(getEntityType().getSimpleName()));
+    }
 	
 	@Override
-	public Entity get(Object id) {
+	public T get(Object id) {
+        init();
+
 		if(collection == null) { 
 			logger.warn("Mongo collection is null");
 			return null;
 		}
-		Entity entity = null;
+		T entity = null;
 		
 		if(id != null) {
 			BasicDBObject document = (BasicDBObject)collection.findOne(Query.mk().id(String.valueOf(id)));
 			if(document != null) {
-				entity = (Entity)MongoUtils.loadObject(document, getType());
+				entity = (T)MongoUtils.loadObject(document, getEntityType());
 			}
 		}
 		
@@ -58,6 +64,8 @@ public abstract class MongoRepository implements Repository {
 
 	@Override
 	public LoadResponse find(LoadRequest loadRequest) {
+        init();
+
 		if(collection == null) { 
 			logger.warn("Mongo collection is null");
 			return null;
@@ -86,7 +94,7 @@ public abstract class MongoRepository implements Repository {
 		
 		while(cur.hasNext()) {
 			BasicDBObject document = (BasicDBObject)cur.next();
-			Entity entity = (Entity)MongoUtils.loadObject(document, getType());
+			Entity entity = (Entity)MongoUtils.loadObject(document, getEntityType());
 			entities.add(entity);		
         }
 		
@@ -143,6 +151,8 @@ public abstract class MongoRepository implements Repository {
 
 	@Override
 	public void delete(Object id) {
+        init();
+
 		if(collection == null) { 
 			logger.warn("Mongo collection is null");
 			return;
@@ -154,7 +164,9 @@ public abstract class MongoRepository implements Repository {
 	}
 
 	@Override
-	public void save(Entity entity) {
+	public void save(T entity) {
+        init();
+
 		if(collection == null) { 
 			logger.warn("Mongo collection is null");
 			return;

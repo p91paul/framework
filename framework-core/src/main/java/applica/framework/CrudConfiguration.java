@@ -210,7 +210,7 @@ public class CrudConfiguration implements CrudConstants {
                     String property = field.getName();
                     String description = relatedFormFieldAnnotation.description();
                     String tooltip = relatedFormFieldAnnotation.tooltip();
-                    Repository repository = crudFactory.createRepository(relatedFormFieldAnnotation.repository(), null, null);
+                    Repository repository = crudFactory.createRepository(relatedFormFieldAnnotation.repository(), null);
 
                     if (!StringUtils.hasLength(description)) description = property;
 
@@ -337,7 +337,11 @@ public class CrudConfiguration implements CrudConstants {
             }
         });
 
-        return alias.identifier;
+        if (alias != null) {
+            return alias.identifier;
+        }
+
+        return null;
     }
 
     public void registerForm(Class<? extends Entity> type, String identifier) {
@@ -945,7 +949,7 @@ public class CrudConfiguration implements CrudConstants {
             }
         });
 
-        Repository repository = crudFactory.createRepository(info != null ? info.repository : null, type, getGridIdentifierFromType(type));
+        Repository repository = crudFactory.createRepository(info != null ? info.repository : null, type);
         if (repository == null) throw new CrudConfigurationException("Repository not found for type " + type.getName());
         return repository;
     }
@@ -960,7 +964,7 @@ public class CrudConfiguration implements CrudConstants {
             }
         });
 
-        Repository repository = crudFactory.createRepository(info != null ? info.repository : null, type, getFormIdentifierFromType(type));
+        Repository repository = crudFactory.createRepository(info != null ? info.repository : null, type);
         if (repository == null) throw new CrudConfigurationException("Repository not found for type " + type.getName());
         return repository;
     }

@@ -11,7 +11,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
 
-@Component
 public abstract class OptionalSelectFieldRenderer extends SelectFieldRenderer {
     private Log logger = LogFactory.getLog(getClass());
 

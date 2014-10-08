@@ -2,6 +2,7 @@ package applica.framework.library;
 
 import applica.framework.CrudFactory;
 import applica.framework.data.Entity;
+import applica.framework.data.DefaultRepositoriesFactory;
 import applica.framework.data.Repository;
 import applica.framework.mapping.PropertyMapper;
 import applica.framework.processors.FormProcessor;
@@ -13,11 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-@Component
 public class DefaultCrudFactory implements CrudFactory {
 
     @Autowired
     private ApplicationContext applicationContext;
+
+    @Autowired
+    private DefaultRepositoriesFactory repositoriesFactory;
 
     @Override
     public FormFieldRenderer createFormFieldRenderer(
@@ -55,11 +58,16 @@ public class DefaultCrudFactory implements CrudFactory {
 
     @Override
     public Repository createRepository(Class<? extends Repository> type,
-                                       Class<? extends Entity> entityType, String identifier) {
-        if (type != null)
-            return applicationContext.getBean(type);
-        else
-            return (Repository) applicationContext.getBean(String.format("repository-%s", identifier));
+                                       Class<? extends Entity> entityType) {
+        Repository repository = null;
+
+        if (type != null) {
+            repository = repositoriesFactory.create(type);
+        } else {
+            repository = repositoriesFactory.createForEntity(entityType);
+        }
+
+        return repository;
     }
 
     @Override

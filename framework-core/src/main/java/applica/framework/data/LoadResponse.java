@@ -4,17 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class LoadResponse {
+public class LoadResponse<T extends Entity> {
 
-    private List<? extends Entity> rows = new ArrayList<>();
+    private List<T> rows = new ArrayList<>();
     private long totalRows;
 
     @SuppressWarnings("unchecked")
+    @Deprecated
     public <T extends Entity> List<T> getRows(Class<T> type) {
         return (List<T>) rows;
     }
 
-    public <T extends Entity> List<? extends Entity> getRows() {
+    public List<T> getRows() {
         return rows;
     }
 
@@ -29,11 +30,11 @@ public class LoadResponse {
         return null;
     }
 
-    public <T extends Entity> Optional<T> findFirst() {
+    public Optional<T> findFirst() {
         return Optional.ofNullable((rows != null && rows.size() > 0) ? (T) rows.get(0) : null);
     }
 
-    public void setRows(List<? extends Entity> rows) {
+    public void setRows(List<T> rows) {
         this.rows = rows;
     }
 

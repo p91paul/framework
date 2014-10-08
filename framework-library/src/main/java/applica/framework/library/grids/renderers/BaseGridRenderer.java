@@ -14,7 +14,6 @@ import java.io.Writer;
 import java.util.List;
 import java.util.Map;
 
-@Component
 public class BaseGridRenderer extends VelocityGridRenderer {
     private Log logger = LogFactory.getLog(getClass());
 

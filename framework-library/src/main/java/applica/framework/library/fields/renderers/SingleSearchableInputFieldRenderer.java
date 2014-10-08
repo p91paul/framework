@@ -10,7 +10,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.io.Writer;
 
-@Component
 public abstract class SingleSearchableInputFieldRenderer extends VelocityFormFieldRenderer {
 
     public abstract String getLabel(FormField field, Object value);

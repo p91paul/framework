@@ -3,13 +3,18 @@
 FRAMEWORK_VERSION="1.4-RELEASE"
 
 if [ -z "$JAVA_HOME" ]; then
-    echo "Please insert JDK 8 home directory: "
-    read APPLICAFRAMEWORK_HOME
+    echo "Please set JAVA_HOME"
+    exit
+fi
+
+if [ -z "$M2_HOME" ]; then
+    echo "Please set M2_HOME"
+    exit
 fi
 
 if [ -z "$APPLICAFRAMEWORK_HOME" ]; then
-    echo "Please insert Applica framework home directory: "
-    read APPLICAFRAMEWORK_HOME
+    echo "Please set APPLICAFRAMEWORK_HOME"
+    exit
 fi
 
 JAVA="$JAVA_HOME/bin/java"

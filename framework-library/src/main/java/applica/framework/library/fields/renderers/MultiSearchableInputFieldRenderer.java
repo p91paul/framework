@@ -12,7 +12,6 @@ import org.springframework.web.context.WebApplicationContext;
 import java.io.Writer;
 import java.util.List;
 
-@Component
 public abstract class MultiSearchableInputFieldRenderer extends VelocityFormFieldRenderer {
 
     public abstract String getServiceUrl();

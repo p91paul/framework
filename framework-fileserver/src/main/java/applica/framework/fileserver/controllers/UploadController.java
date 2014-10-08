@@ -19,7 +19,6 @@ import java.io.IOException;
  * Date: 07/03/14
  * Time: 15:01
  */
-@Controller
 @RequestMapping("/upload")
 public class UploadController extends LocalizedController {
 

@@ -27,7 +27,6 @@ import java.util.UUID;
  * Date: 4/23/13
  * Time: 12:20 PM
  */
-@Service
 public class SimpleFileServer implements FileServer {
 
     private Log logger = LogFactory.getLog(getClass());

@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletResponse;
  * Date: 26/10/13
  * Time: 12:48
  */
-@Controller
 @RequestMapping("/forms")
 public class FormsController {
 

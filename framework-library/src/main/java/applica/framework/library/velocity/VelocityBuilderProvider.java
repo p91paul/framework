@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
  * Date: 2/22/13
  * Time: 9:00 AM
  */
-@Component
 public class VelocityBuilderProvider {
 
     private static VelocityBuilder velocityBuilder;

@@ -14,7 +14,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.io.Writer;
 
-@Component
 public class BaseFieldRenderer extends VelocityFormFieldRenderer {
 
     private Log logger = LogFactory.getLog(getClass());

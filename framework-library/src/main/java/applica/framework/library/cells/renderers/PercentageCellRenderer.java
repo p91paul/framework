@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import java.io.Writer;
 import java.text.MessageFormat;
 
-@Component
 public class PercentageCellRenderer extends BaseCellRenderer {
 
     private Log logger = LogFactory.getLog(getClass());

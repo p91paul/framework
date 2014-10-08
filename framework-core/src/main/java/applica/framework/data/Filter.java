@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+/**
+ * Describe a filter
+ */
 public class Filter {
 
     public static final String LIKE = "like";

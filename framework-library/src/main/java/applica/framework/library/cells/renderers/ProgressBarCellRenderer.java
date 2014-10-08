@@ -4,7 +4,6 @@ import applica.framework.Grid;
 import applica.framework.GridColumn;
 import org.springframework.stereotype.Component;
 
-@Component
 public class ProgressBarCellRenderer extends BaseCellRenderer {
 
     @Override

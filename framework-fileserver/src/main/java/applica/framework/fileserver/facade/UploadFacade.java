@@ -16,7 +16,6 @@ import java.io.IOException;
  * Date: 07/03/14
  * Time: 13:06
  */
-@Component
 public class UploadFacade {
 
     @Autowired

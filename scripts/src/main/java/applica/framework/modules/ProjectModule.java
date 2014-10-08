@@ -2,12 +2,14 @@ package applica.framework.modules;
 
 import applica.framework.AppContext;
 import applica.framework.Applica;
+import applica.framework.SystemUtils;
 import applica.framework.annotations.Action;
 import applica.framework.editors.FileEditor;
 import applica.framework.library.utils.FileWalker;
 import applica.framework.library.utils.FileWalkerListener;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.util.Assert;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -42,11 +44,16 @@ public class ProjectModule implements Module {
         System.out.println(AppContext.current().getAppName());
     }
 
-    @Action(value = "new", description = "Create a new app with specified name")
+    @Action(value = "create", description = "Create a new app with specified name")
     public void newProject(Properties properties) {
         List<String> editableExtensions = Arrays.asList("java", "xml", "vm", "properties", "manifest");
 
+        Assert.isTrue(properties.containsKey("name"), "missing name. Specify -Dname=<choise>");
+        Assert.isTrue(properties.containsKey("archetype"), "missing archetype. Specify -Darchetype=<choise>");
+
         String appName = (String) properties.get("name");
+        String archetype = (String) properties.get("archetype");
+
         File root = new File("./" + appName);
         if (root.exists()) {
             System.err.println("Directory " + appName + " already exists");
@@ -99,7 +106,7 @@ public class ProjectModule implements Module {
     public void build(Properties properties) {
         try {
             System.out.println(String.format("Building %s...", AppContext.current().getAppName()));
-            Process process = Runtime.getRuntime().exec("mvn package");
+            Process process = Runtime.getRuntime().exec(getMaven() + " package");
             BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line = null;
             while ((line = input.readLine()) != null) {
@@ -115,7 +122,7 @@ public class ProjectModule implements Module {
     public void clean(Properties properties) {
         try {
             System.out.println(String.format("Cleaning %s...", AppContext.current().getAppName()));
-            Process process = Runtime.getRuntime().exec("mvn clean");
+            Process process = Runtime.getRuntime().exec(getMaven() + " clean");
             BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line = null;
             while ((line = input.readLine()) != null) {
@@ -125,6 +132,10 @@ public class ProjectModule implements Module {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public String getMaven() {
+        return SystemUtils.multiplatformPath(String.format(FilenameUtils.getFullPathNoEndSeparator(Applica.mavenHome) + "/bin/mvn"));
     }
 
 }

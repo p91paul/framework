@@ -15,8 +15,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.PostConstruct;
 
-@Controller
-@Scope("prototype")
 public class LocalizedController {
 
     @Autowired

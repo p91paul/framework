@@ -13,7 +13,6 @@ import org.springframework.web.context.WebApplicationContext;
 import java.io.Writer;
 import java.util.Map;
 
-@Component
 public class BaseFormRenderer extends VelocityFormRenderer {
     private Log logger = LogFactory.getLog(getClass());
 

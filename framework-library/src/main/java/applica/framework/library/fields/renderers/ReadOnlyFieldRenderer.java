@@ -4,7 +4,6 @@ import applica.framework.Form;
 import applica.framework.FormField;
 import org.springframework.stereotype.Component;
 
-@Component
 public class ReadOnlyFieldRenderer extends BaseFieldRenderer {
 
     @Override

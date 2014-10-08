@@ -12,7 +12,6 @@ import org.springframework.web.context.WebApplicationContext;
 import java.io.Writer;
 import java.util.List;
 
-@Component
 public abstract class CheckboxesFieldRenderer extends VelocityFormFieldRenderer {
 
     public abstract List<SelectableItem> getItems(FormField field, Object value);

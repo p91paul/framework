@@ -1,18 +1,16 @@
 package applica.framework.data.mongodb;
 
 import applica.framework.library.options.OptionsManager;
-import com.mongodb.DB;
-import com.mongodb.Mongo;
-import com.mongodb.MongoException;
+import com.mongodb.*;
+import org.apache.commons.lang3.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.net.UnknownHostException;
+import java.util.Arrays;
 
-@Component
 public class MongoHelper {
 
-	private Mongo mongo;
+	private MongoClient mongo;
 	private DB db;
 	
 	@Autowired
@@ -22,17 +20,33 @@ public class MongoHelper {
 		if(db == null) {
 			mongo = getMongo();
 			if(mongo != null) {
-				db = mongo.getDB(options.get("mongodb.db"));
+				db = mongo.getDB(getDbName());
 			}
 		}
 		
 		return db;
 	}
+
+    private String getDbName() {
+        return options.get("applica.framework.data.mongodb.db");
+    }
 	
-	public Mongo getMongo() {
+	public MongoClient getMongo() {
 		if(mongo == null) {
 			try {
-				mongo = new Mongo(options.get("mongodb.host"));
+                String username = options.get("applica.framework.data.mongodb.username");
+                String password = options.get("applica.framework.data.mongodb.password");
+                String db = getDbName();
+                String host = options.get("applica.framework.data.mongodb.host");
+                if (StringUtils.isNotEmpty(username)) {
+                    MongoCredential mongoCredential = MongoCredential.createMongoCRCredential(username, db, password.toCharArray());
+                    mongo = new MongoClient(
+                            new ServerAddress(host),
+                            Arrays.asList(mongoCredential)
+                    );
+                } else {
+                    mongo = new MongoClient(host);
+                }
 			} catch (UnknownHostException e) {
 				e.printStackTrace();
 			} catch (MongoException e) {

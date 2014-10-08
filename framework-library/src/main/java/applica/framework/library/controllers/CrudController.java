@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.StringWriter;
 
-@Controller
 @RequestMapping("/crud")
 public class CrudController extends LocalizedController {
 

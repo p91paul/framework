@@ -2,6 +2,7 @@ package applica.framework.modules;
 
 import applica.framework.AppContext;
 import applica.framework.ApplicationContextProvider;
+import applica.framework.SystemUtils;
 import applica.framework.annotations.Action;
 import applica.framework.library.SimpleItem;
 import applica.framework.library.utils.FileWalker;
@@ -38,7 +39,7 @@ import java.util.stream.Collectors;
 @applica.framework.annotations.Module("hibernate")
 public class HibernateModule implements Module {
 
-    @Action(value = "map", description = "Generate mappings for all entities in project")
+    @Action(value = "generate-mappings", description = "Generate mappings for all entities in project")
     public void scan(Properties properties) {
         try {
             Modules.instance().call("project:clean", new Properties());
@@ -57,7 +58,7 @@ public class HibernateModule implements Module {
 
                 @Override
                 public void onDirectory(File file) {
-                    if (file.getAbsolutePath().endsWith(multiplatformPath("target/classes"))) {
+                    if (file.getAbsolutePath().endsWith(SystemUtils.multiplatformPath("target/classes"))) {
                         if (!file.getAbsolutePath().contains("WEB-INF")) {
                             targetDirs.add(file.getAbsolutePath());
                         }
@@ -121,8 +122,8 @@ public class HibernateModule implements Module {
         System.out.println(String.format("Mapping %s...", type.getName()));
 
         Package pak = type.getPackage();
-        String path = multiplatformPath(pak.getName().replace(".", "/"));
-        String xmlPath = multiplatformPath(String.format("%s%s/%s.hbm.xml", resourcesPath, path, type.getSimpleName()));
+        String path = SystemUtils.multiplatformPath(pak.getName().replace(".", "/"));
+        String xmlPath = SystemUtils.multiplatformPath(String.format("%s%s/%s.hbm.xml", resourcesPath, path, type.getSimpleName()));
 
         try {
             FileUtils.forceMkdir(new File(FilenameUtils.getFullPath(xmlPath)));
@@ -133,13 +134,9 @@ public class HibernateModule implements Module {
         }
     }
 
-    private String multiplatformPath(String path) {
-        return path.replace("/", File.separator);
-    }
-
     private String getResourcesPath(String targetDir) {
         String moduleBase = targetDir.replace("target" + File.separator + "classes", "");
-        String resourcesBase = String.format("%s%s", moduleBase, multiplatformPath("src/main/resources/"));
+        String resourcesBase = String.format("%s%s", moduleBase, SystemUtils.multiplatformPath("src/main/resources/"));
         return resourcesBase;
     }
 

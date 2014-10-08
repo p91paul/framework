@@ -20,7 +20,13 @@ import java.util.Properties;
  * Time: 5:14 PM
  */
 
-@Controller
+/**
+ * Use this controller to inject translations in javascript
+ * Translations are in a msg global variables.
+ * All texts in resources files are injected changing the sintax
+ * Es: label.user_name -> msg.LABEL_USER_NAME
+ * Es: msg.password_changed -> msg.MSG_PASSWORD_CHANGED
+ */
 @RequestMapping("/framework-dynamic-resources")
 public class JsMessagesController {
 

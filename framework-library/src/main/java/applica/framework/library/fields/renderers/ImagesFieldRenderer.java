@@ -10,7 +10,6 @@ import org.springframework.util.StringUtils;
 import java.io.Writer;
 import java.util.List;
 
-@Component
 public abstract class ImagesFieldRenderer extends VelocityFormFieldRenderer {
 
     public static final String DEFAULT_ACTION = "upload/image";

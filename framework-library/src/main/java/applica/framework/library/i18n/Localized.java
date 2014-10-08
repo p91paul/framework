@@ -8,6 +8,10 @@ import applica.framework.ApplicationContextProvider;
  * Date: 5/17/13
  * Time: 10:06 AM
  */
+
+/**
+ * Inerith from this class gives the possibility to use translation system in application
+ */
 public class Localized {
 
     private Localization localization;
