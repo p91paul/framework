@@ -1,9 +1,0 @@
-<ul class="nav nav-pills nav-stacked main-nav">
-    <li class="nav-header">#_("nav.security")</li>
-    <li><a href="#/crud?e=user">#_("nav.security.users")</a></li>
-    <li><a href="#/crud?e=role">#_("nav.security.roles")</a></li>
-    <li class="nav-header">CMS</li>
-    <li><a href="#/crud?e=version">#_("nav.cms.versions")</a></li>
-    <li><a href="#/crud?e=category">#_("nav.cms.categories")</a></li>
-    <li><a href="#/crud?e=article&fs=1">#_("nav.cms.articles")</a></li>
-</ul>
