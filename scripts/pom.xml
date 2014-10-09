@@ -27,6 +27,12 @@
             <artifactId>framework-library</artifactId>
             <version>1.4-RELEASE</version>
         </dependency>
+
+        <dependency>
+            <groupId>applica.framework</groupId>
+            <artifactId>framework-data-hibernate</artifactId>
+            <version>1.4-RELEASE</version>
+        </dependency>
     </dependencies>
 
     <build>

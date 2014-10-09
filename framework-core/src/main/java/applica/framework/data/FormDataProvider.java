@@ -35,7 +35,7 @@ public class FormDataProvider {
 
         Entity entity = null;
         if (entityId != null) {
-            entity = ((Entity) repository.get(entityId).orElseGet(() -> null));
+            entity = ((Entity) repository.get(entityId).orElse(null));
         }
 
         Map<String, Object> data = formProcessor.toMap(form, entity);

@@ -21,11 +21,9 @@ import java.util.List;
  * Date: 08/10/14
  * Time: 13:19
  */
-public class Mapper {
+public class Mapper extends XmlBuilder {
 
     private Class<? extends Entity> type;
-    private int level = 0;
-    private StringBuilder xml = new StringBuilder();
 
     private static final Class<?>[] ALLOWED_TYPES = new Class<?>[] {
             String.class,
@@ -43,116 +41,6 @@ public class Mapper {
         this.type = type;
     }
 
-    private Attr attr(String name, String value) {
-        return new Attr(name, value);
-    }
-
-    public String getXml() {
-        raw("<?xml version=\"1.0\" encoding=\"utf-8\"?>"); endl();
-        raw("<!DOCTYPE hibernate-mapping PUBLIC \"-//Hibernate/Hibernate Mapping DTD//EN\" \"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd\">"); endl();
-        open("hibernate-mapping"); endl();
-            open("class",
-                    attr("name", type.getName()),
-                    attr("table", Strings.pluralize(StringUtils.uncapitalize(type.getSimpleName())))
-            ); endl();
-                open("id", attr("name", "id")); endl();
-                    openClose("generator", attr("class", "native")); endl();
-                close("id"); endl();
-
-                TypeUtils.getAllFields(type)
-                        .stream()
-                        .filter(t -> !Modifier.isTransient(t.getModifiers()))
-                        .filter(t -> !Modifier.isStatic(t.getModifiers()))
-                        .filter(t -> !t.getName().equals("id"))
-                        .filter(t ->
-                                isAllowed(t.getType()) ||
-                                TypeUtils.isList(t.getType()) ||
-                                TypeUtils.isEntity(t.getType()) ||
-                                Key.class.equals(t.getType())
-                        )
-                        .forEach(t -> {
-                            if (TypeUtils.isEntity(t.getType())) {
-                                String foreignKeyName = String.format("%sId", StringUtils.uncapitalize(t.getType().getSimpleName()));
-                                openClose("many-to-one",
-                                        attr("name", t.getName()),
-                                        attr("class", t.getType().getName()),
-                                        attr("column", foreignKeyName)
-                                ); endl();
-                            } else if (TypeUtils.isList(t.getType())) {
-                                ParameterizedType listType = (ParameterizedType) t.getGenericType();
-                                Type[] arguments = listType.getActualTypeArguments();
-                                Class<?> typeArgument = (Class<?>) arguments[0];
-                                if (TypeUtils.isEntity(typeArgument)) {
-                                    //many to one
-                                } else if (isAllowed(typeArgument)) {
-                                    //list of primitive types
-                                }
-                            } else if (Key.class.equals(t.getType())) {
-                                //key type
-                            } else {
-                                //simple property
-                            }
-                        });
-
-
-            close("class"); endl();
-        close("hibernate-mapping"); endl();
-        return xml.toString();
-    }
-
-    private void openClose(String tag, Attr... attributes) {
-        levelize();
-        xml.append(String.format("<%s", tag));
-        writeAttributes(attributes);
-        xml.append(" />");
-    }
-
-    private void open(String tag, Attr... attributes) {
-        levelize();
-        xml.append(String.format("<%s", tag));
-        writeAttributes(attributes);
-        xml.append(">");
-        level++;
-    }
-
-    private void close(String tag) {
-        level--;
-        levelize();
-        xml.append(String.format("</%s>", tag));
-    }
-
-    private void raw(String s) {
-        xml.append(s);
-    }
-
-    private void levelize() {
-        for (int i = 0; i < level; i++) {
-            xml.append("\t");
-        }
-    }
-
-    private void writeAttributes(Attr... attributes) {
-        StringBuilder attrs = new StringBuilder();
-        int index = 0;
-        if (attributes.length > 0) {
-            xml.append(" ");
-
-        }
-        for (Attr attribute : attributes) {
-            index++;
-            attrs.append(attribute.toString());
-            if (index < attributes.length) {
-                attrs.append(" ");
-            }
-        }
-
-        xml.append(attrs.toString());
-    }
-
-    private void endl() {
-        xml.append("\n");
-    }
-
     private static boolean isAllowed(Class<?> type) {
         if (type.isPrimitive()) return true;
 
@@ -163,36 +51,78 @@ public class Mapper {
         return false;
     }
 
-    class Attr {
-        private String name;
-        private String value;
+    public String map() {
+        raw("<?xml version=\"1.0\" encoding=\"utf-8\"?>"); endl();
+        raw("<!DOCTYPE hibernate-mapping PUBLIC \"-//Hibernate/Hibernate Mapping DTD//EN\" \"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd\">"); endl();
+        open("hibernate-mapping"); endl();
+        open("class",
+                attr("name", type.getName()),
+                attr("table", Strings.pluralize(StringUtils.uncapitalize(type.getSimpleName())))
+        ); endl();
+        open("id", attr("name", "id"), attr("type", "long")); endl();
+        openClose("generator", attr("class", "native")); endl();
+        close("id"); endl();
 
-        Attr(String name, String value) {
-            this.name = name;
-            this.value = value;
-        }
+        TypeUtils.getAllFields(type)
+                .stream()
+                .filter(t -> !Modifier.isTransient(t.getModifiers()))
+                .filter(t -> !Modifier.isStatic(t.getModifiers()))
+                .filter(t -> !t.getName().equals("id"))
+                .filter(t ->
+                                Mapper.isAllowed(t.getType()) ||
+                                        TypeUtils.isList(t.getType()) ||
+                                        TypeUtils.isEntity(t.getType()) ||
+                                        Key.class.equals(t.getType())
+                )
+                .forEach(t -> {
+                    if (TypeUtils.isEntity(t.getType())) {
+                        String foreignKeyName = String.format("%sId", StringUtils.uncapitalize(t.getType().getSimpleName()));
+                        openClose("many-to-one",
+                                attr("name", t.getName()),
+                                attr("class", t.getType().getName()),
+                                attr("column", foreignKeyName),
+                                attr("lazy", "false")
+                        ); endl();
+                    } else if (TypeUtils.isList(t.getType())) {
+                        ParameterizedType listType = (ParameterizedType) t.getGenericType();
+                        Type[] arguments = listType.getActualTypeArguments();
+                        Class<?> typeArgument = (Class<?>) arguments[0];
+                        if (TypeUtils.isEntity(typeArgument)) {
+                            open("list",
+                                    attr("name", t.getName()),
+                                    attr("table", Strings.pluralize(StringUtils.uncapitalize(typeArgument.getSimpleName()))),
+                                    attr("lazy", "false")
+                            ); endl();
+                                String foreignKeyName = String.format("%sId", StringUtils.uncapitalize(type.getSimpleName()));
+                                openClose("key", attr("column", foreignKeyName)); endl();
+                                openClose("list-index", attr("column", "id")); endl();
+                                openClose("one-to-many", attr("class", typeArgument.getName())); endl();
+                            close("list"); endl();
+                        } else if (Mapper.isAllowed(typeArgument)) {
+                            open("list",
+                                    attr("name", t.getName()),
+                                    attr("table", StringUtils.uncapitalize(t.getName())),
+                                    attr("lazy", "false")
+                            ); endl();
+                            String foreignKeyName = String.format("%sId", StringUtils.uncapitalize(type.getSimpleName()));
+                                openClose("key", attr("column", foreignKeyName)); endl();
+                                openClose("list-index", attr("column", "id")); endl();
+                                openClose("element", attr("column", "value"), attr("type", typeArgument.getName())); endl();
+                            close("list"); endl();
+                        }
+                    } else if (Key.class.equals(t.getType())) {
+                        open("component", attr("name", t.getName()), attr("class", t.getType().getName())); endl();
+                        openClose("property", attr("name", "value"), attr("type", "long")); endl();
+                        close("component"); endl();
+                    } else {
+                        openClose("property", attr("name", t.getName())); endl();
+                    }
+                });
 
-        public String getName() {
-            return name;
-        }
 
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getValue() {
-            return value;
-        }
-
-        public void setValue(String value) {
-            this.value = value;
-        }
-
-        @Override
-        public String toString() {
-            return String.format("%s=\"%s\"", name, value.replace("\"", "\\\""));
-        }
+        close("class"); endl();
+        close("hibernate-mapping"); endl();
+        return xml.toString();
     }
-
 
 }

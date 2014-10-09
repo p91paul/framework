@@ -22,7 +22,6 @@ public class PropertiesOptionManager implements OptionsManager {
     @PostConstruct
     private void init() throws IOException {
         properties = new Properties();
-
         Assert.notNull(path);
 
         if(path.startsWith("env:")) {
@@ -30,9 +29,15 @@ public class PropertiesOptionManager implements OptionsManager {
         }
 
         Resource res = resourceLoader.getResource(path);
-        InputStream in = res.getInputStream();
-        properties.load(in);
-        in.close();
+        load(res.getInputStream());
+    }
+
+    public void load(InputStream inputStream) throws IOException {
+        if (properties == null) {
+            properties = new Properties();
+        }
+        properties.load(inputStream);
+        inputStream.close();
     }
 
     @Override

@@ -38,12 +38,15 @@ public class RolePropertyMapper implements PropertyMapper {
     public void mapEntityPropertyFromRequestValue(FormDescriptor formDescriptor, FormField formField, Entity entity, Map<String, String[]> requestValues) throws MappingException {
         User user = (User)entity;
         List<Role> roles = new ArrayList<>();
-        for(String roleName : requestValues.get("roles")) {
-            Role role = new Role();
-            role.setRole(roleName);
-            roles.add(role);
+        String[] rolesArray = requestValues.get("roles");
+        if (rolesArray != null) {
+            for (String roleName : rolesArray) {
+                Role role = new Role();
+                role.setRole(roleName);
+                roles.add(role);
+            }
+            user.setRoles(roles);
         }
-        user.setRoles(roles);
     }
     
 }
