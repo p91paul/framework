@@ -1,0 +1,47 @@
+body, html {
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    padding-top: 51px;
+    background-color: #EFEFEF;
+}
+
+.sidebar-left {
+    padding-top: 10px;
+    background-color: #EFEFEF;
+}
+
+.main-container {
+    max-width: 100%;
+}
+
+.main-content {
+    padding-top: 15px;
+    background-color: white;
+    min-height: 350px;
+}
+
+footer.main-footer {
+    background-color: #222222;
+    padding: 10px;
+}
+
+footer.main-footer p {
+    margin-bottom: 0px;
+    color: white;
+}
+
+.main-nav a:link, .main-nav a:visited {
+    color: #333333;
+}
+
+.main-nav a:hover, .main-nav a:focus {
+    background-color: #AFAFAF !important;
+    color: white;
+}
+
+.main-nav .nav-header {
+    font-weight: bold;
+}

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	   		http://www.springframework.org/schema/context
+	   		http://www.springframework.org/schema/context/spring-context-3.2.xsd
+			http://www.springframework.org/schema/mvc 
+			http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+	
+	<context:annotation-config />
+
+    <context:component-scan base-package="  applica._APPNAME_.domain,
+                                            applica._APPNAME_.data.hibernate,
+	                                        applica._APPNAME_.admin" />
+
+	<mvc:annotation-driven />
+
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+	    <property name="basename" value="messages/messages" />
+	</bean>
+	
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+	    <property name="defaultLocale" value="it" />
+	</bean>
+	
+	<mvc:interceptors>
+	    <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+	        <property name="paramName" value="lang" />
+	    </bean>
+	</mvc:interceptors>
+
+    <bean class="applica._APPNAME_.admin.Bootstrapper" init-method="init" />
+
+    <!-- framework general beans -->
+    <bean class="applica.framework.ApplicationContextProvider" />
+    <bean class="applica.framework.library.cache.MemoryCache" />
+    <bean class="applica.framework.library.options.PropertiesOptionManager" />
+    <bean class="applica.framework.data.DefaultRepositoriesFactory" />
+    <bean class="applica.framework.library.DefaultCrudFactory" />
+
+    <!-- hibernate beans -->
+    <bean class="applica.framework.data.hibernate.HibernateHelper" />
+    <bean class="applica.framework.data.hibernate.DefaultHibernateRepository" id="default-repository" />
+
+    <!-- File server beans -->
+    <bean class="applica.framework.fileserver.facade.UploadFacade" />
+    <bean class="applica.framework.fileserver.controllers.UploadController" />
+    <bean class="applica.framework.fileserver.SimpleFileServer" />
+
+    <!-- cells beans -->
+    <bean class="applica.framework.library.cells.renderers.DefaultCellRenderer" />
+    <bean class="applica.framework.library.cells.renderers.ColorCellRenderer" />
+    <bean class="applica.framework.library.cells.renderers.LinkCellRenderer" />
+    <bean class="applica.framework.library.cells.renderers.PercentageCellRenderer" />
+    <bean class="applica.framework.library.cells.renderers.ProgressBarCellRenderer" />
+    <bean class="applica.framework.library.cells.renderers.TimeCellRenderer" />
+    <bean class="applica.framework.library.cells.renderers.UlCellRenderer" />
+
+    <!-- crud controllers -->
+    <bean class="applica.framework.library.controllers.CrudController" />
+    <bean class="applica.framework.library.controllers.FormsController" />
+    <bean class="applica.framework.library.controllers.JsMessagesController" />
+
+    <!-- fields beans -->
+    <bean class="applica.framework.library.fields.renderers.ColorFieldRenderer" />
+    <bean class="applica.framework.library.fields.renderers.DefaultFieldRenderer" />
+    <bean class="applica.framework.library.fields.renderers.HiddenFieldRenderer" />
+    <bean class="applica.framework.library.fields.renderers.MailFieldRenderer" />
+    <bean class="applica.framework.library.fields.renderers.PasswordFieldRenderer" />
+    <bean class="applica.framework.library.fields.renderers.PercentageFieldRenderer" />
+    <bean class="applica.framework.library.fields.renderers.ReadOnlyFieldRenderer" />
+    <bean class="applica.framework.library.fields.renderers.TextAreaFieldRenderer" />
+    <bean class="applica.framework.library.fields.renderers.TimePickerRenderer" />
+
+    <!-- forms beans -->
+    <bean class="applica.framework.library.forms.processors.DefaultFormProcessor" />
+    <bean class="applica.framework.library.forms.renderers.DefaultFormRenderer" />
+    <bean class="applica.framework.library.forms.renderers.NoFrameFormRenderer" />
+    <bean class="applica.framework.library.forms.renderers.SearchFormRenderer" />
+
+    <!-- grid beans -->
+    <bean class="applica.framework.library.grids.renderers.DefaultGridRenderer" />
+    <bean class="applica.framework.library.grids.renderers.NoFrameGridRenderer" />
+
+    <!-- velocity beans -->
+    <bean class="applica.framework.library.velocity.BaseVelocityBuilder" />
+    <bean class="applica.framework.library.velocity.VelocityBuilderProvider" />
+
+
+</beans>
