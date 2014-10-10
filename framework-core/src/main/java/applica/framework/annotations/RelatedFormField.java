@@ -1,5 +1,7 @@
 package applica.framework.annotations;
 
+import applica.framework.data.*;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -12,5 +14,5 @@ public @interface RelatedFormField {
 
     String tooltip() default "";
 
-    Class<? extends applica.framework.data.Repository> repository();
+    Class<? extends applica.framework.data.Repository> repository() default applica.framework.data.Repository.class;
 }

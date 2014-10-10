@@ -95,6 +95,17 @@ public class FormConfigurator {
         return this;
     }
 
+    public FormConfigurator relatedField(String property, String description, String tooltip) {
+        CrudConfiguration.instance().registerRelatedFormField(entityType, property, getDataType(property), description, tooltip, null);
+        return this;
+    }
+
+    public FormConfigurator relatedField(String property, String description, String tooltip, Class<? extends FormFieldRenderer> renderer) {
+        CrudConfiguration.instance().registerRelatedFormField(entityType, property, getDataType(property), description, tooltip, null);
+        CrudConfiguration.instance().registerFormFieldRenderer(entityType, property, renderer);
+        return this;
+    }
+
     public FormConfigurator param(String property, String key, String value) {
         CrudConfiguration.instance().setPropertyParam(entityType, property, key, value);
         return this;

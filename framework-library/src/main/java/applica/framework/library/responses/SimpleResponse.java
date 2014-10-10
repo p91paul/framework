@@ -1,5 +1,8 @@
 package applica.framework.library.responses;
 
+/**
+ * Responses are used in the framework as ajax calls results
+ */
 public class SimpleResponse {
     private boolean error;
     private String message;

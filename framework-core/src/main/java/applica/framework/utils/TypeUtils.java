@@ -134,5 +134,12 @@ public class TypeUtils {
             return (Class<?>) type;
         }
     }
+
+    public static Class<?> getFirstGenericArgumentType(Type type) {
+        ParameterizedType listType = (ParameterizedType) type;
+        Type[] arguments = listType.getActualTypeArguments();
+        Class<?> typeArgument = (Class<?>) arguments[0];
+        return typeArgument;
+    }
 }
 

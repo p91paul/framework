@@ -1,9 +1,11 @@
 package applica.framework.mapping;
 
+import applica.framework.ApplicationContextProvider;
 import applica.framework.FormDescriptor;
 import applica.framework.FormField;
 import applica.framework.RelatedFormField;
 import applica.framework.data.Entity;
+import applica.framework.data.RepositoriesFactory;
 import applica.framework.data.Repository;
 import applica.framework.utils.TypeUtils;
 import org.apache.commons.beanutils.BeanUtils;
@@ -11,13 +13,21 @@ import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class SimplePropertyMapper implements PropertyMapper {
+
+    private RepositoriesFactory repositoriesFactory;
+
+    public SimplePropertyMapper() {
+        repositoriesFactory = ApplicationContextProvider.provide().getBean(RepositoriesFactory.class);
+    }
 
     private Log logger = LogFactory.getLog(getClass());
 
@@ -71,19 +81,38 @@ public class SimplePropertyMapper implements PropertyMapper {
             if (formField instanceof RelatedFormField) {
                 logger.info(String.format("field %s is a related form field", formField.getProperty()));
 
+                //is not mandatory to specify a repository now
                 Repository repository = ((RelatedFormField) formField).getRepository();
+
                 Class<List> listType = List.class;
                 if (listType.isAssignableFrom(TypeUtils.genericCheckedType(formField.getDataType()))) {
+                    Class<?> typeArgument = TypeUtils.getFirstGenericArgumentType(formField.getDataType());
+                    if (repository == null) {
+                        repository = repositoriesFactory.createForEntity((Class<? extends Entity>) typeArgument);
+                    }
+
                     logger.info(String.format("related field %s is list of entity type", formField.getProperty()));
 
-                    List entities = new ArrayList<>();
+                    List entities = null;
+                    try {
+                        entities = ((List) PropertyUtils.getProperty(entity, formField.getProperty()));
+                        if (entities != null) {
+                            entities.clear();
+                        } else {
+                            entities = new ArrayList();
+                        }
+                    } catch (Exception e) {}
                     for (String id : requestValueArray) {
-                        entities.add(repository.get(id));
+                        repository.get(id).ifPresent(entities::add);
                     }
 
                     finalValue = entities;
                 } else {
                     logger.info(String.format("related field %s is single entity type", formField.getProperty()));
+
+                    if (repository == null) {
+                        repository = repositoriesFactory.createForEntity((Class<? extends Entity>) formField.getDataType());
+                    }
 
                     String relatedId = requestValueArray[0];
                     Entity relatedEntity = null;
@@ -123,6 +152,27 @@ public class SimplePropertyMapper implements PropertyMapper {
                 }
 
 
+            }
+        } else {
+            //if value is a list and nothing comes from request, the list must be cleared
+            Object finalValue = null;
+
+            if (List.class.isAssignableFrom(TypeUtils.genericCheckedType(formField.getDataType()))) {
+                List entities = null;
+                try {
+                    entities = ((List) PropertyUtils.getProperty(entity, formField.getProperty()));
+                    if (entities != null) {
+                        entities.clear();
+                    }
+                } catch (Exception e) {}
+
+                finalValue = entities;
+
+                try {
+                    BeanUtils.setProperty(entity, formField.getProperty(), finalValue);
+                } catch (Exception e) {
+                    throw new MappingException(formField.getProperty(), e);
+                }
             }
         }
     }

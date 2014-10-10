@@ -210,7 +210,12 @@ public class CrudConfiguration implements CrudConstants {
                     String property = field.getName();
                     String description = relatedFormFieldAnnotation.description();
                     String tooltip = relatedFormFieldAnnotation.tooltip();
-                    Repository repository = crudFactory.createRepository(relatedFormFieldAnnotation.repository(), null);
+
+                    //repository is not mandatory
+                    Repository repository = null;
+                    if (!relatedFormFieldAnnotation.repository().equals(Repository.class)) {
+                        crudFactory.createRepository(relatedFormFieldAnnotation.repository(), null);
+                    }
 
                     if (!StringUtils.hasLength(description)) description = property;
 
@@ -684,6 +689,25 @@ public class CrudConfiguration implements CrudConstants {
         }
 
         info.descriptor.addField(property, dataType, description, tooltip, null, repository);
+    }
+
+    public void registerRelatedFormField(final Class<? extends Entity> type, String property, Type dataType, String description, String tooltip) {
+        FormDescriptorInfo info = (FormDescriptorInfo) CollectionUtils.find(formDescriptorInfos, new Predicate() {
+            @Override
+            public boolean evaluate(Object item) {
+                return ((FormDescriptorInfo) item).type.equals(type);
+            }
+        });
+
+        if (info == null) {
+            info = new FormDescriptorInfo();
+            info.type = type;
+            info.descriptor = new FormDescriptor(null);
+
+            formDescriptorInfos.add(info);
+        }
+
+        info.descriptor.addField(property, dataType, description, tooltip, null, null);
     }
 
     public void registerFormButton(final Class<? extends Entity> type, String label, String buttonType, String action) {

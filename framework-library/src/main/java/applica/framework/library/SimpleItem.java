@@ -6,6 +6,10 @@ import org.apache.commons.beanutils.PropertyUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Simple item is a util class very useful in framework, for example to describe select options, and something like that
+ * It's a simple label value pojo class
+ */
 public class SimpleItem {
     private String label;
     private String value;

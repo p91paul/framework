@@ -2,6 +2,7 @@ package applica.framework.modules.hibernate;
 
 import applica.framework.data.Entity;
 import applica.framework.data.Key;
+import applica.framework.data.hibernate.annotations.ManyToMany;
 import applica.framework.library.SimpleItem;
 import applica.framework.utils.Strings;
 import applica.framework.utils.TypeUtils;
@@ -74,34 +75,46 @@ public class Mapper extends XmlBuilder {
                                         TypeUtils.isEntity(t.getType()) ||
                                         Key.class.equals(t.getType())
                 )
-                .forEach(t -> {
-                    if (TypeUtils.isEntity(t.getType())) {
-                        String foreignKeyName = String.format("%sId", StringUtils.uncapitalize(t.getType().getSimpleName()));
+                .forEach(field -> {
+                    if (TypeUtils.isEntity(field.getType())) {
+                        String foreignKeyName = String.format("%sId", StringUtils.uncapitalize(field.getType().getSimpleName()));
                         openClose("many-to-one",
-                                attr("name", t.getName()),
-                                attr("class", t.getType().getName()),
+                                attr("name", field.getName()),
+                                attr("class", field.getType().getName()),
                                 attr("column", foreignKeyName),
                                 attr("lazy", "false")
                         ); endl();
-                    } else if (TypeUtils.isList(t.getType())) {
-                        ParameterizedType listType = (ParameterizedType) t.getGenericType();
-                        Type[] arguments = listType.getActualTypeArguments();
-                        Class<?> typeArgument = (Class<?>) arguments[0];
+                    } else if (TypeUtils.isList(field.getType())) {
+                        boolean isManyToMany = field.getAnnotation(ManyToMany.class) != null;
+                        Class<?> typeArgument = TypeUtils.getFirstGenericArgumentType(field.getGenericType());
+
+                        String tableName;
+                        if (isManyToMany) {
+                            tableName = String.format("%s_%s", StringUtils.uncapitalize(Strings.pluralize(type.getSimpleName())), Strings.pluralize(StringUtils.uncapitalize(typeArgument.getSimpleName())));
+                        } else {
+                            tableName = Strings.pluralize(StringUtils.uncapitalize(typeArgument.getSimpleName()));
+                        }
+
                         if (TypeUtils.isEntity(typeArgument)) {
                             open("list",
-                                    attr("name", t.getName()),
-                                    attr("table", Strings.pluralize(StringUtils.uncapitalize(typeArgument.getSimpleName()))),
+                                    attr("name", field.getName()),
+                                    attr("table", tableName),
                                     attr("lazy", "false")
                             ); endl();
                                 String foreignKeyName = String.format("%sId", StringUtils.uncapitalize(type.getSimpleName()));
+                                String foreignKeyName2 = String.format("%sId", StringUtils.uncapitalize(typeArgument.getSimpleName()));
                                 openClose("key", attr("column", foreignKeyName)); endl();
                                 openClose("list-index", attr("column", "id")); endl();
-                                openClose("one-to-many", attr("class", typeArgument.getName())); endl();
+                                if (isManyToMany) {
+                                    openClose("many-to-many", attr("class", typeArgument.getName()), attr("column", foreignKeyName2)); endl();
+                                } else {
+                                    openClose("one-to-many", attr("class", typeArgument.getName())); endl();
+                                }
                             close("list"); endl();
                         } else if (Mapper.isAllowed(typeArgument)) {
                             open("list",
-                                    attr("name", t.getName()),
-                                    attr("table", StringUtils.uncapitalize(t.getName())),
+                                    attr("name", field.getName()),
+                                    attr("table", field.getName()),
                                     attr("lazy", "false")
                             ); endl();
                             String foreignKeyName = String.format("%sId", StringUtils.uncapitalize(type.getSimpleName()));
@@ -110,12 +123,12 @@ public class Mapper extends XmlBuilder {
                                 openClose("element", attr("column", "value"), attr("type", typeArgument.getName())); endl();
                             close("list"); endl();
                         }
-                    } else if (Key.class.equals(t.getType())) {
-                        open("component", attr("name", t.getName()), attr("class", t.getType().getName())); endl();
+                    } else if (Key.class.equals(field.getType())) {
+                        open("component", attr("name", field.getName()), attr("class", field.getType().getName())); endl();
                         openClose("property", attr("name", "value"), attr("type", "long")); endl();
                         close("component"); endl();
                     } else {
-                        openClose("property", attr("name", t.getName())); endl();
+                        openClose("property", attr("name", field.getName())); endl();
                     }
                 });
 

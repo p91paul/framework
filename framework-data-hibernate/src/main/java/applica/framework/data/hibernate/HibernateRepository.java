@@ -118,7 +118,7 @@ public abstract class HibernateRepository<T extends Entity> implements Repositor
             }
             switch (filter.getType()) {
                 case Filter.LIKE:
-                    criteria.add(Restrictions.like(filter.getProperty(), filter.getValue()));
+                    criteria.add(Restrictions.like(filter.getProperty(), String.format("%%%s%%", filter.getValue())));
                     break;
                 case Filter.GT:
                     criteria.add(Restrictions.gt(filter.getProperty(), filter.getValue()));
