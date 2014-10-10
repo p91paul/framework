@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
 
 /**
@@ -43,7 +44,12 @@ public class JsMessagesController {
         if(messages == null) {
             Properties properties = new Properties();
             InputStream in = getClass().getResourceAsStream(String.format("/messages/messages_%s.properties", locale));
-            if(in == null) return "";
+            if(in == null) {
+                in = getClass().getResourceAsStream("/messages/messages.properties");
+            };
+
+            Objects.requireNonNull(in, "Please specify a default resource file for localization");
+
             StringBuffer values = new StringBuffer();
             values.append("var msg = {};\r\n");
             try {

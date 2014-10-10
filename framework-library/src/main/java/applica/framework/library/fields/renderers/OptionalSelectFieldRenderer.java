@@ -26,7 +26,7 @@ public abstract class OptionalSelectFieldRenderer extends SelectFieldRenderer {
 
         // Add empty item before each all.
         List<SimpleItem> items = getItems();
-        items.add(0, new SimpleItem(localization.getMessage("label.search.all"), ""));
+        items.add(0, new SimpleItem(localization.getMessage("label.select"), ""));
         context.put("items", items);
     }
 }
