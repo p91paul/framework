@@ -1,7 +1,7 @@
 package applica._APPNAME_.domain.model;
 
 import applica.framework.data.IEntity;
-import applica.framework.data.hibernate.annotations.ManyToMany;
+import applica.framework.annotations.ManyToMany;
 import applica.framework.security.Role;
 
 import java.util.Date;

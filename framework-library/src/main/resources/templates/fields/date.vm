@@ -5,7 +5,7 @@
             class="form-control"
             type="text"
             name="$field.property"
-            value="#if($value)$localization.formatDate($value)#end"
+            value="#if($value && $value != "")$localization.formatDate($value)#end"
             data-component="date_input"
             data-property="$field.property" />
 

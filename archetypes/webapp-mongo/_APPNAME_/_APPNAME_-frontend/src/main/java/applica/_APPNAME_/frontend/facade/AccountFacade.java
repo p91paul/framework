@@ -85,18 +85,17 @@ public class AccountFacade extends Localized {
     }
 
     public void activate(String activationCode) {
-        User user = usersRepository.find(LoadRequestBuilder.build().eq(Filters.USER_ACTIVATION_CODE, activationCode)).getOne(User.class);
-        if(user != null) {
-            user.setActive(true);
-            usersRepository.save(user);
-        }
+        usersRepository
+                .find(LoadRequestBuilder.build().eq(Filters.USER_ACTIVATION_CODE, activationCode))
+                .findFirst()
+                .ifPresent(u -> {
+                    u.setActive(true);
+                    usersRepository.save(u);
+                });
     }
 
     public void resetPassword(String mail) throws MailNotFoundException {
-        User user = usersRepository.find(LoadRequestBuilder.build().eq(Filters.USER_MAIL, mail)).getOne(User.class);
-        if(user == null) {
-            throw new MailNotFoundException();
-        }
+        User user = usersRepository.find(LoadRequestBuilder.build().eq(Filters.USER_MAIL, mail)).findFirst().orElseThrow(MailNotFoundException::new);
 
         String newPassword = PasswordUtils.generateRandom();
         user.setPassword(newPassword);

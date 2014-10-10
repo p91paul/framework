@@ -2,19 +2,13 @@ package applica.framework.modules.hibernate;
 
 import applica.framework.data.Entity;
 import applica.framework.data.Key;
-import applica.framework.data.hibernate.annotations.ManyToMany;
-import applica.framework.library.SimpleItem;
+import applica.framework.annotations.ManyToMany;
 import applica.framework.utils.Strings;
 import applica.framework.utils.TypeUtils;
 import org.apache.commons.lang.StringUtils;
 
 import java.lang.reflect.Modifier;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Applica (www.applicadoit.com)

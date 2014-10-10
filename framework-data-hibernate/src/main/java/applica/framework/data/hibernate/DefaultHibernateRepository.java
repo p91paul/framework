@@ -4,7 +4,7 @@ import applica.framework.data.DefaultRepository;
 import applica.framework.data.Entity;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 09/10/14
  * Time: 16:19

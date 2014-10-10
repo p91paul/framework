@@ -5,6 +5,7 @@ import applica.framework.library.cache.Cache;
 import applica.framework.library.i18n.Localization;
 import applica.framework.library.options.OptionsManager;
 import applica.framework.library.velocity.VelocityBuilderProvider;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.Template;
@@ -95,7 +96,7 @@ public class FrameworkTools {
     }
 
     public String getWwwBase() {
-        return webApplicationContext.getServletContext().getContextPath();
+        return webApplicationContext.getServletContext().getContextPath() + "/";
     }
 
     public Localization getLocalization() {

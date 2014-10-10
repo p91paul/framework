@@ -8,7 +8,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +17,9 @@ public abstract class MongoRepository<T extends Entity> implements Repository<T>
 	
 	@Autowired
 	private MongoHelper mongoHelper;
+
+    @Autowired
+    private MongoMapper mongoMapper;
 	
 	private Log logger = LogFactory.getLog(getClass());
 	
@@ -56,7 +58,7 @@ public abstract class MongoRepository<T extends Entity> implements Repository<T>
 		if(id != null) {
 			BasicDBObject document = (BasicDBObject)collection.findOne(Query.mk().id(String.valueOf(id)));
 			if(document != null) {
-				entity = (T)MongoUtils.loadObject(document, getEntityType());
+				entity = (T) mongoMapper.loadObject(document, getEntityType());
 			}
 		}
 		
@@ -95,7 +97,7 @@ public abstract class MongoRepository<T extends Entity> implements Repository<T>
 		
 		while(cur.hasNext()) {
 			BasicDBObject document = (BasicDBObject)cur.next();
-			Entity entity = (Entity)MongoUtils.loadObject(document, getEntityType());
+			Entity entity = (Entity) mongoMapper.loadObject(document, getEntityType());
 			entities.add(entity);		
         }
 		
@@ -173,7 +175,7 @@ public abstract class MongoRepository<T extends Entity> implements Repository<T>
 			return;
 		}
 		
-		BasicDBObject document = MongoUtils.loadBasicDBObject(entity);	
+		BasicDBObject document = mongoMapper.loadBasicDBObject(entity);
 		collection.save(document);
 		entity.setId(document.getString("_id"));
 	}

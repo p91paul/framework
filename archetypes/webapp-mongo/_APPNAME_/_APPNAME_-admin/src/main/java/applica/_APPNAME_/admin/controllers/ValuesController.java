@@ -31,9 +31,9 @@ public class ValuesController {
         List<Role> roles = rolesRepository.find(
                 LoadRequestBuilder.build()
                         .like("role", keyword)
-        ).getRows(Role.class);
+        ).getRows();
 
-        return new ValueResponse(SimpleItem.createList(roles, "role", "role"));
+        return new ValueResponse(SimpleItem.createList(roles, "role", "id"));
     }
 
     @RequestMapping("/permissions")

@@ -1,5 +1,6 @@
 package applica._APPNAME_.domain.model;
 
+import applica.framework.annotations.ManyToMany;
 import applica.framework.data.SEntity;
 import applica.framework.security.Role;
 
@@ -21,6 +22,8 @@ public class User extends SEntity implements applica.framework.security.User {
     private Date registrationDate;
     private String activationCode;
     private String image;
+
+    @ManyToMany
     private List<applica._APPNAME_.domain.model.Role> roles;
 
     public String getUsername() {

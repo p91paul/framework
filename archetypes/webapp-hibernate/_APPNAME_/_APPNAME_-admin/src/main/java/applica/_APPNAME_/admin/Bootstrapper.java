@@ -3,7 +3,6 @@ package applica._APPNAME_.admin;
 import applica._APPNAME_.admin.fields.renderers.PermissionsFieldRenderer;
 import applica._APPNAME_.admin.fields.renderers.RolesFieldRenderer;
 import applica._APPNAME_.admin.fields.renderers.UserImageFieldRenderer;
-import applica._APPNAME_.admin.mapping.RolePropertyMapper;
 import applica._APPNAME_.admin.search.RoleSearchForm;
 import applica._APPNAME_.admin.search.UsernameSearchForm;
 import applica._APPNAME_.domain.data.RolesRepository;

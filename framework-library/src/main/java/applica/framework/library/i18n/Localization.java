@@ -57,19 +57,31 @@ public class Localization {
     }
 
     public String formatDate(Date date) {
+        String formatted = null;
         if(date == null) {
-            return "";
+            formatted = "";
+        } else {
+            try {
+                DateFormat format = new SimpleDateFormat(getMessage("format.date"));
+                formatted = format.format(date);
+            } catch (Throwable e) {}
         }
-        DateFormat format = new SimpleDateFormat(getMessage("format.date"));
-        return format.format(date);
+
+        return formatted;
     }
 
     public String formatTime(Date date) {
+        String formatted = null;
         if(date == null) {
-            return "";
+            formatted = "";
+        } else {
+            try {
+                DateFormat format = new SimpleDateFormat(getMessage("format.time"));
+                formatted = format.format(date);
+            } catch (Throwable e) {}
         }
-        DateFormat format = new SimpleDateFormat(getMessage("format.time"));
-        return format.format(date);
+
+        return formatted;
     }
 
     public String m(String key) {

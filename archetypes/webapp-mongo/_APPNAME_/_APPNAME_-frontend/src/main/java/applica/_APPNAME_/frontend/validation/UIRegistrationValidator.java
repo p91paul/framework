@@ -45,10 +45,11 @@ public class UIRegistrationValidator implements Validator {
         if(!StringUtils.hasLength(registration.getPassword()) || registration.getPassword().length() < 6) { errors.rejectValue("password", null, "validation.registration.password"); }
         
         if(StringUtils.hasLength(registration.getMail())) {
-            User other = usersRepository.find(LoadRequestBuilder.build().filter(Filters.USER_MAIL, registration.getMail())).getOne(User.class);
-            if(other != null) {
-                errors.rejectValue("mail", null, "validation.registration.mail.exists");
-            }
+            usersRepository
+                    .find(LoadRequestBuilder.build().filter(Filters.USER_MAIL, registration.getMail()))
+                    .findFirst()
+                    .ifPresent(other -> errors.rejectValue("mail", null, "validation.registration.mail.exists"));
+
         }
     }    
     

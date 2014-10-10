@@ -30,6 +30,6 @@ public class RolesFieldRenderer extends MultiSearchableInputFieldRenderer {
             roles = new ArrayList<>();
         }
 
-        return SimpleItem.createList(roles, "role", "role");
+        return SimpleItem.createList(roles, "role", "id");
     }
 }

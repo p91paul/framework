@@ -31,7 +31,7 @@ public class SetupFacade {
         }
 
         User user = new User();
-        user.setMail("admin@applicamobile.com");
+        user.setMail("admin@applicadoit.com");
         user.setPassword("applica");
         user.setUsername("administrator");
         user.setActive(true);

@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 /**
- * Applica (www.applicamobile.com)
+ * Applica (www.applicadoit.com)
  * User: bimbobruno
  * Date: 09/10/14
  * Time: 11:31

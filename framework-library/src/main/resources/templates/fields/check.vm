@@ -9,7 +9,7 @@
                     value="1"
                     data-sub-component="checkbox"
                     id="${field.property}_checkbox"
-                #if($value)
+                #if($value && $value != "")
                     checked
                 #end>
             <label class="onoffswitch-label" for="${field.property}_checkbox">

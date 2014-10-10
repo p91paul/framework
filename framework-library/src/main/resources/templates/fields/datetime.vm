@@ -4,7 +4,7 @@
             class="form-control col-md-10"
             type="datetime"
             name="$field.property"
-            value="#if($value)$localization.formatDate($value)#end"
+            value="#if($value && $value != "")$localization.formatDate($value)#end"
             data-component="datetime"
             data-property="$field.property" />
 
