@@ -26,6 +26,6 @@ public class UserDetailsHibernateRepository implements UserDetailsRepository {
                 .find(LoadRequestBuilder.build().eq(Filters.USER_MAIL, mail))
                 .findFirst()
                 .map(UserDetails::new)
-                .orElseGet(null);
+                .orElse(null);
     }
 }

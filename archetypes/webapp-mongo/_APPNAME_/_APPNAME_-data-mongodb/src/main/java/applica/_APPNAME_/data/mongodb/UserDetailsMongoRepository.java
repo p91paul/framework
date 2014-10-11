@@ -28,6 +28,6 @@ public class UserDetailsMongoRepository implements UserDetailsRepository {
                 .find(LoadRequestBuilder.build().eq(Filters.USER_MAIL, mail))
                 .findFirst()
                 .map(UsersDetails::new)
-                .orElseGet(null);
+                .orElse(null);
     }
 }
