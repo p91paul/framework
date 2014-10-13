@@ -85,14 +85,18 @@ public abstract class HibernateRepository<T extends Entity> implements Repositor
             if (limit != 0) criteria.setMaxResults(limit);
             if (skip != 0) criteria.setFirstResult(skip);
 
-            Sort sort = loadRequest.getSortBy();
-            if (sort == null) sort = getDefaultSort();
+            List<Sort> sorts = loadRequest.getSorts();
+            if (sorts == null) {
+                sorts = getDefaultSorts();
+            }
 
-            if (sort != null) {
-                if (sort.isDescending()) {
-                    criteria.addOrder(Order.desc(sort.getProperty()));
-                } else {
-                    criteria.addOrder(Order.asc(sort.getProperty()));
+            if (sorts != null) {
+                for (Sort sort : sorts) {
+                    if (sort.isDescending()) {
+                        criteria.addOrder(Order.desc(sort.getProperty()));
+                    } else {
+                        criteria.addOrder(Order.asc(sort.getProperty()));
+                    }
                 }
             }
 
@@ -154,7 +158,7 @@ public abstract class HibernateRepository<T extends Entity> implements Repositor
         return criteria;
     }
 
-    public Sort getDefaultSort() {
+    public List<Sort> getDefaultSorts() {
         return null;
     }
 

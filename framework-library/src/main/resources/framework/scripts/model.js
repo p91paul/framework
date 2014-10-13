@@ -211,7 +211,7 @@ define(["framework/core", "framework/ui"], function(core, ui) {
             this.loadRequest = {
                 filters: [],
                 page: 1,
-                sortBy: null
+                sorts: null
             };
             this.method = "GET";
             this.url = null;
@@ -304,10 +304,10 @@ define(["framework/core", "framework/ui"], function(core, ui) {
         },
 
         setSort: function(property, descending) {
-            this.loadRequest.sortBy = {
+            this.loadRequest.sorts = [{
                 property: property,
                 descending: descending
-            };
+            }];
         },
 
         setFilters: function(filters) {

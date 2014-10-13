@@ -21,8 +21,8 @@ public class UsersHibernateRepository extends HibernateRepository<User> implemen
     }
 
     @Override
-    public Sort getDefaultSort() {
-        return new Sort("mail", false);
+    public List<Sort> getDefaultSorts() {
+        return Arrays.asList(new Sort("mail", false));
     }
 
 }

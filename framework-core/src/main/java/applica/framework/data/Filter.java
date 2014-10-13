@@ -21,6 +21,7 @@ public class Filter {
     public static final String IN = "in";
     public static final String NIN = "nin";
     public static final String ID = "id";
+    public static final String OR = "or";
     public static final String CUSTOM = "custom";
 
     private String property;

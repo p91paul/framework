@@ -94,8 +94,16 @@ public class LoadRequestBuilder extends LoadRequest {
     }
 
     public LoadRequestBuilder sort(String property, boolean descending) {
-        setSortBy(new Sort(property, descending));
+        getSorts().add(new Sort(property, descending));
         return this;
+    }
+
+    /**
+     * Begins to create an OR filter. When is complete, call finish() method to get current loadRequestBuilder
+     * @return
+     */
+    public DisjunctionBuilder disjunction() {
+        return DisjunctionBuilder.begin(this);
     }
 
     public LoadRequestBuilder page(int page) {

@@ -6,6 +6,7 @@ import applica.framework.mapping.GridDataMapper;
 import applica.framework.mapping.SimpleGridDataMapper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -25,8 +26,11 @@ public class GridDataProvider {
         if (repository == null) throw new CrudConfigurationException("Missing repository");
 
         loadRequest.setRowsPerPage(grid.getRowsPerPage());
-        if (loadRequest.getSortBy() == null) {
-            loadRequest.setSortBy(grid.getDefaultSort());
+        if (loadRequest.getSorts() == null) {
+            Sort defaultSort = grid.getDefaultSort();
+            if (defaultSort != null) {
+                loadRequest.setSorts(Arrays.asList(defaultSort));
+            }
         }
 
         List<Map<String, Object>> data = new ArrayList<>();
@@ -39,7 +43,11 @@ public class GridDataProvider {
         grid.setCurrentPage(loadRequest.getPage());
         grid.setSearched(loadRequest.getFilters().size() > 0);
         grid.setPages((int) Math.ceil((double) response.getTotalRows() / grid.getRowsPerPage()));
-        grid.setSortBy(loadRequest.getSortBy());
+
+        //grid now supports only 1 sort
+        if (loadRequest.getSorts() != null && loadRequest.getSorts().size() > 0) {
+            grid.setSortBy(loadRequest.getSorts().get(0));
+        }
 
         if (grid.getSearchForm() != null) {
             grid.getSearchForm().setData(loadRequest.filtersMap());

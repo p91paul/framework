@@ -16,8 +16,8 @@ import org.springframework.stereotype.Repository;
 public class RolesHibernateRepository extends HibernateRepository<Role> implements RolesRepository {
 
     @Override
-    public Sort getDefaultSort() {
-        return new Sort("role", false);
+    public List<Sort> getDefaultSorts() {
+        return Arrays.asList(new Sort("role", false));
     }
 
     @Override

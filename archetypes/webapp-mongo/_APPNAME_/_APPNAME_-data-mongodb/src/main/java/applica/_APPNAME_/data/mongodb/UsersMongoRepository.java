@@ -22,7 +22,7 @@ public class UsersMongoRepository extends MongoRepository<User> implements Users
     }
 
     @Override
-    public Sort getDefaultSort() {
-        return new Sort("description", false);
+    public List<Sort> getDefaultSorts() {
+        return Arrays.asList(new Sort("mail", false));
     }
 }

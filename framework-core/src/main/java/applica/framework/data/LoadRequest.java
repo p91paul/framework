@@ -1,5 +1,6 @@
 package applica.framework.data;
 
+import applica.framework.builders.LoadRequestBuilder;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -10,12 +11,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Contains informations for a repository to load data from a database, filters, paginations and sorts
+ */
 public class LoadRequest {
 
     private int page;
     private int rowsPerPage;
-    private Sort sortBy;
+    private List<Sort> sorts;
     private List<Filter> filters = new ArrayList<>();
+
+    public static LoadRequestBuilder build() {
+        return new LoadRequestBuilder();
+    }
 
     public int getPage() {
         return page;
@@ -33,12 +41,12 @@ public class LoadRequest {
         this.rowsPerPage = rowsPerPage;
     }
 
-    public Sort getSortBy() {
-        return sortBy;
+    public List<Sort> getSorts() {
+        return sorts;
     }
 
-    public void setSortBy(Sort sortBy) {
-        this.sortBy = sortBy;
+    public void setSorts(List<Sort> sorts) {
+        this.sorts = sorts;
     }
 
     public List<Filter> getFilters() {

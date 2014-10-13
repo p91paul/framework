@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PreDestroy;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public abstract class MongoRepository<T extends Entity> implements Repository<T> {
 	
@@ -85,14 +87,20 @@ public abstract class MongoRepository<T extends Entity> implements Repository<T>
 		int skip = loadRequest.getRowsPerPage() * (loadRequest.getPage() - 1);
 		
 		DBCursor cur = collection.find(query);
-		if(limit != 0) cur.limit(limit);
-		if(skip != 0) cur.skip(skip);
+		if (limit != 0) cur.limit(limit);
+		if (skip != 0) cur.skip(skip);
 		
-		Sort sort = loadRequest.getSortBy();
-		if(sort == null) sort = getDefaultSort();
-		
-		if(sort != null) {
-			cur.sort(new BasicDBObject(sort.getProperty(), sort.isDescending() ? -1 : 1));
+		List<Sort> sorts = loadRequest.getSorts();
+        if (sorts == null) {
+            sorts = getDefaultSorts();
+        }
+
+		if (sorts != null) {
+            BasicDBObject sortObject = new BasicDBObject();
+            for (Sort sort : sorts) {
+                sortObject.append(sort.getProperty(), sort.isDescending() ? -1 : 1);
+            }
+            cur.sort(sortObject);
 		} 
 		
 		while(cur.hasNext()) {
@@ -107,48 +115,60 @@ public abstract class MongoRepository<T extends Entity> implements Repository<T>
 		return response;
 	}
 
+    protected void pushFilter(Query query, Filter filter) {
+        switch (filter.getType()) {
+            case Filter.LIKE:
+                query.like(filter.getProperty(), filter.getValue().toString());
+                break;
+            case Filter.GT:
+                query.gt(filter.getProperty(), filter.getValue());
+                break;
+            case Filter.GTE:
+                query.gte(filter.getProperty(), filter.getValue());
+                break;
+            case Filter.LT:
+                query.lt(filter.getProperty(), filter.getValue());
+                break;
+            case Filter.LTE:
+                query.lte(filter.getProperty(), filter.getValue());
+                break;
+            case Filter.EQ:
+                query.eq(filter.getProperty(), filter.getValue());
+                break;
+            case Filter.IN:
+                query.in(filter.getProperty(), (List)filter.getValue());
+                break;
+            case Filter.NIN:
+                query.nin(filter.getProperty(), (List)filter.getValue());
+                break;
+            case Filter.ID:
+                if(filter.getProperty() == null) {
+                    query.id((String)filter.getValue());
+                } else {
+                    query.id(filter.getProperty(), (String)filter.getValue());
+                }
+                break;
+            case Filter.OR:
+                List<Filter> ors = (List<Filter>) filter.getValue();
+                query.or(ors.stream().map((f) -> {
+                    Query q = query();
+                    pushFilter(query, f);
+                    return q;
+                }).collect(Collectors.toList()));
+                break;
+        }
+    }
+
 	protected Query createQuery(LoadRequest loadRequest) {
 		Query query = query();
 
-        for(Filter filter : loadRequest.getFilters()) {
-            if(filter.getValue() == null) {
+        for (Filter filter : loadRequest.getFilters()) {
+            if (filter.getValue() == null) {
                 continue;
             }
-            switch (filter.getType()) {
-                case Filter.LIKE:
-                    query.like(filter.getProperty(), filter.getValue().toString());
-                    break;
-                case Filter.GT:
-                    query.gt(filter.getProperty(), filter.getValue());
-                    break;
-                case Filter.GTE:
-                    query.gte(filter.getProperty(), filter.getValue());
-                    break;
-                case Filter.LT:
-                    query.lt(filter.getProperty(), filter.getValue());
-                    break;
-                case Filter.LTE:
-                    query.lte(filter.getProperty(), filter.getValue());
-                    break;
-                case Filter.EQ:
-                    query.eq(filter.getProperty(), filter.getValue());
-                    break;
-                case Filter.IN:
-                    query.in(filter.getProperty(), (List)filter.getValue());
-                    break;
-                case Filter.NIN:
-                    query.nin(filter.getProperty(), (List)filter.getValue());
-                    break;
-                case Filter.ID:
-                    if(filter.getProperty() == null) {
-                        query.id((String)filter.getValue());
-                    } else {
-                        query.id(filter.getProperty(), (String)filter.getValue());
-                    }
-                    break;
-            }
-        }
 
+            pushFilter(query, filter);
+        }
         return query;
 	}
 
@@ -179,8 +199,8 @@ public abstract class MongoRepository<T extends Entity> implements Repository<T>
 		collection.save(document);
 		entity.setId(document.getString("_id"));
 	}
-	
-	public Sort getDefaultSort() {
+
+    public List<Sort> getDefaultSorts() {
 		return null;
 	}
 
