@@ -18,7 +18,7 @@ public class LoadRequest {
 
     private int page;
     private int rowsPerPage;
-    private List<Sort> sorts;
+    private List<Sort> sorts = new ArrayList<>();
     private List<Filter> filters = new ArrayList<>();
 
     public static LoadRequestBuilder build() {
