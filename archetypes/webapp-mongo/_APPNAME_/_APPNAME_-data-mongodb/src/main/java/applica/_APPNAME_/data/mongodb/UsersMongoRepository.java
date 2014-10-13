@@ -7,6 +7,9 @@ import applica._APPNAME_.domain.data.UsersRepository;
 import applica._APPNAME_.domain.model.User;
 import org.springframework.stereotype.Repository;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Applica (www.applicadoit.com)
  * User: bimbobruno

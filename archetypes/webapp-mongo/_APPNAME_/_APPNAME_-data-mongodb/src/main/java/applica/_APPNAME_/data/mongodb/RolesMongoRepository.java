@@ -7,6 +7,9 @@ import applica._APPNAME_.domain.data.RolesRepository;
 import applica._APPNAME_.domain.model.Role;
 import org.springframework.stereotype.Repository;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Applica (www.applicadoit.com)
  * User: bimbobruno
