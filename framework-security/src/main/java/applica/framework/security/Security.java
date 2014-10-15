@@ -26,10 +26,23 @@ public class Security {
     private AuthorizationService authorizationService;
     private SecurityInstance securityInstance;
 
+    private static Security s_instance = null;
     private static Map<Object, Security> instances = new HashMap<>();
 
     /**
-     * Gets security instance for specified user. If with is not used, security instance is for loggedUser
+     * Gets security instance for logged user.
+     * @return
+     */
+    public static Security withMe() {
+        if (s_instance == null) {
+            s_instance = new Security();
+        }
+
+        return s_instance;
+    }
+
+    /**
+     * Gets security instance for specified user. Methods like isAuthenticated() have not sense.
      * @param user
      * @return
      */
