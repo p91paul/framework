@@ -5,3 +5,8 @@ body {
 .hidden {
     display: none;
 }
+
+
+footer {
+    text-align: center;
+}

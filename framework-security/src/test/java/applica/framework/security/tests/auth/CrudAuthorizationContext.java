@@ -1,5 +1,6 @@
 package applica.framework.security.tests.auth;
 
+import applica.framework.security.Security;
 import applica.framework.security.annotations.AuthorizationContext;
 import applica.framework.security.annotations.Permission;
 import applica.framework.security.authorization.AuthorizationException;
@@ -25,6 +26,6 @@ public class CrudAuthorizationContext {
 
     @Permission("delete")
     public void delete() throws AuthorizationException {
-        throw new AuthorizationException("test error");
+        throw new AuthorizationException("No one can delete");
     }
 }
