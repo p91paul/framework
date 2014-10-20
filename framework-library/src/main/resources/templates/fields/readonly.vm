@@ -11,7 +11,7 @@
                 data-property="$field.property" />
 
         <span
-                class="help-block hidden"
+                class="help-block col-md-offset-2 col-md-10 hidden"
                 data-component="error"
                 data-error-property="$field.property" />
     </div>

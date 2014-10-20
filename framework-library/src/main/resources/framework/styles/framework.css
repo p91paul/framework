@@ -183,7 +183,7 @@
 
 .framework-form-image {
     height: 150px;
-    width: 150px:
+    width: 150px;
 }
 
 .framework-form-image-button {
@@ -191,4 +191,9 @@
     width: 130px;
     left: 10px;
     bottom: 10px;
+}
+
+.form-actions {
+    border-top: solid 1px #EAEAEA;
+    padding-top: 20px;
 }
