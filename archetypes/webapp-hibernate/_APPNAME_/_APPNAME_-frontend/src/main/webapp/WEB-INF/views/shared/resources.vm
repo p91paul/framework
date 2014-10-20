@@ -19,7 +19,7 @@
 <script type="text/javascript" src="${wwwBase}framework-resources/lib/farbtastic/farbtastic.js"></script>
 <script type="text/javascript" src="${wwwBase}framework-resources/lib/plupload/moxie.min.js"></script>
 <script type="text/javascript" src="${wwwBase}framework-resources/lib/plupload/plupload.min.js"></script>
-<script type="text/javascript" src="${wwwBase}framework-resources/lib/require/require.js"></script>
+<script type="text/javascript" src="${wwwBase}framework-resources/lib/require/require.js" data-main="${staticBase}scripts/main.js"></script>
 
 
 <script type="text/javascript">

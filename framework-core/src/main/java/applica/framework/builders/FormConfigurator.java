@@ -26,7 +26,24 @@ public class FormConfigurator {
 
     }
 
+    /**
+     * build() method is deprecated. Use configure instead
+     * @param entityType
+     * @param identifier
+     * @return
+     */
+    @Deprecated
     public static FormConfigurator build(Class<? extends Entity> entityType, String identifier) {
+        FormConfigurator formConfigurator = new FormConfigurator();
+        formConfigurator.entityType = entityType;
+        formConfigurator.identifier = identifier;
+
+        CrudConfiguration.instance().registerForm(entityType, identifier);
+
+        return formConfigurator;
+    }
+
+    public static FormConfigurator configure(Class<? extends Entity> entityType, String identifier) {
         FormConfigurator formConfigurator = new FormConfigurator();
         formConfigurator.entityType = entityType;
         formConfigurator.identifier = identifier;

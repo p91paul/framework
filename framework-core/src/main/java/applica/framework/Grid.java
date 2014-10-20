@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Represents grids base class and contains all informations about a grid:
+ * how to render, which columns have, which data to display, how to display that data, and so on.
+ */
 public class Grid {
 
     public static final String PARAM_ROWS_PER_PAGE = "grid_rows_per_page";

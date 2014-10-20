@@ -1,4 +1,4 @@
-<script type="text/javascript">
+    <script type="text/javascript">
     window.BASE = "$wwwBase";
     window.FILES_BASE = "$filesBase";
     window.STATIC_BASE = "$staticBase";

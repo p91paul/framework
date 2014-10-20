@@ -51,11 +51,43 @@
     <bean class="applica.framework.fileserver.controllers.UploadController" />
     <bean class="applica.framework.fileserver.SimpleFileServer" />
 
+    <!-- crud controllers -->
+    <bean class="applica.framework.library.controllers.CrudController" />
+    <bean class="applica.framework.library.controllers.FormsController" />
+    <bean class="applica.framework.library.controllers.JsMessagesController" />
+
+    <!-- cells beans -->
+    <bean class="applica.framework.library.cells.renderers.DefaultCellRenderer" />
+    <bean class="applica.framework.library.cells.renderers.ColorCellRenderer" />
+    <bean class="applica.framework.library.cells.renderers.LinkCellRenderer" />
+    <bean class="applica.framework.library.cells.renderers.PercentageCellRenderer" />
+    <bean class="applica.framework.library.cells.renderers.ProgressBarCellRenderer" />
+    <bean class="applica.framework.library.cells.renderers.TimeCellRenderer" />
+    <bean class="applica.framework.library.cells.renderers.UlCellRenderer" />
+
+    <!-- fields beans -->
+    <bean class="applica.framework.library.fields.renderers.ColorFieldRenderer" />
+    <bean class="applica.framework.library.fields.renderers.DefaultFieldRenderer" />
+    <bean class="applica.framework.library.fields.renderers.HiddenFieldRenderer" />
+    <bean class="applica.framework.library.fields.renderers.MailFieldRenderer" />
+    <bean class="applica.framework.library.fields.renderers.PasswordFieldRenderer" />
+    <bean class="applica.framework.library.fields.renderers.PercentageFieldRenderer" />
+    <bean class="applica.framework.library.fields.renderers.ReadOnlyFieldRenderer" />
+    <bean class="applica.framework.library.fields.renderers.TextAreaFieldRenderer" />
+    <bean class="applica.framework.library.fields.renderers.TimePickerRenderer" />
+
+    <!-- forms beans -->
+    <bean class="applica.framework.library.forms.processors.DefaultFormProcessor" />
+    <bean class="applica.framework.library.forms.renderers.DefaultFormRenderer" />
+    <bean class="applica.framework.library.forms.renderers.NoFrameFormRenderer" />
+    <bean class="applica.framework.library.forms.renderers.SearchFormRenderer" />
+
+    <!-- grid beans -->
+    <bean class="applica.framework.library.grids.renderers.DefaultGridRenderer" />
+    <bean class="applica.framework.library.grids.renderers.NoFrameGridRenderer" />
+
     <!-- velocity beans -->
     <bean class="applica.framework.library.velocity.BaseVelocityBuilder" />
     <bean class="applica.framework.library.velocity.VelocityBuilderProvider" />
-
-    <!-- general controllers -->
-    <bean class="applica.framework.library.controllers.JsMessagesController" />
 
 </beans>

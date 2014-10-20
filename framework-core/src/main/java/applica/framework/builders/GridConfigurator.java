@@ -24,7 +24,24 @@ public class GridConfigurator {
 
     }
 
+    /**
+     * build() method is deprecated. Use configure instead
+     * @param entityType
+     * @param identifier
+     * @return
+     */
+    @Deprecated
     public static GridConfigurator build(Class<? extends Entity> entityType, String identifier) {
+        GridConfigurator gridConfigurator = new GridConfigurator();
+        gridConfigurator.entityType = entityType;
+        gridConfigurator.identifier = identifier;
+
+        CrudConfiguration.instance().registerGrid(entityType, identifier);
+
+        return gridConfigurator;
+    }
+
+    public static GridConfigurator configure(Class<? extends Entity> entityType, String identifier) {
         GridConfigurator gridConfigurator = new GridConfigurator();
         gridConfigurator.entityType = entityType;
         gridConfigurator.identifier = identifier;

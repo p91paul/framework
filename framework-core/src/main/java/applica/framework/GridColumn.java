@@ -9,6 +9,10 @@ import java.io.Writer;
 import java.lang.reflect.Type;
 import java.util.Map;
 
+/**
+ * Represents a grid column and contains all informations about that.
+ * Also has the capacity to render a cell
+ */
 public class GridColumn {
 
     private CellRenderer renderer;
