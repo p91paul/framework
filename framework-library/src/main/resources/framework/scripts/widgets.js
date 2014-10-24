@@ -419,11 +419,15 @@ define(["framework/core"], function(core) {
             var ids = [];
             $(self.element).find("input[type=checkbox][data-component=select_checkbox]:checked").each(function(i, c) {
                 var id = $(c).attr("data-entity-id");
-                if( id) {
+                if (id) {
                     ids.push($(c).attr("data-entity-id"));
                 }
             });
             return ids;
+        },
+
+        get_selection: function() {
+            return this.getSelection();
         },
 
         getRowProperties: function(id) {

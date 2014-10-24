@@ -736,6 +736,12 @@ define(["framework/core", "framework/widgets", "framework/ui", "framework/plugin
             this.lastTimeSelected = false;
             this.selectionTimer = null;
 
+            gridService.on("load", function() {
+                if (self.get("fullScreenForm")) {
+                    self.lastTimeSelected = false;
+                }
+            });
+
             this.grid = this.get("grid");
             this.gridView = this.get("gridView");
             this.gridView.on({
@@ -752,11 +758,6 @@ define(["framework/core", "framework/widgets", "framework/ui", "framework/plugin
                             } else {
                                 $('#toolbar').toolbar('hideGroups', 'selected');
                             }
-                        }
-                        if(self.grid.getSelection().length == 1) {
-                            $('#toolbar').toolbar('showGroups', 'single-selected');
-                        } else {
-                            $('#toolbar').toolbar('hideGroups', 'single-selected');
                         }
                         self.lastTimeSelected = somethingSelected;
                     }, 100);
