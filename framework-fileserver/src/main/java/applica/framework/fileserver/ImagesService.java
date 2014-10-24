@@ -29,7 +29,7 @@ public class ImagesService {
         this.maxSize = new ImageSize(maxSize);
     }
 
-    public void save(String path, InputStream inputStream) throws IOException, BadImageException {
+    public void save(String path, InputStream inputStream, boolean overwrite) throws IOException, BadImageException {
         //delete old images with the same path
         delete(path);
 
@@ -51,7 +51,7 @@ public class ImagesService {
             ImageIO.write(image, format, out);
             IOUtils.closeQuietly(out);
             ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
-            filesService.save(sizedPath, in);
+            filesService.save(sizedPath, in, overwrite);
             IOUtils.closeQuietly(in);
         } else {
             throw new BadImageException();
@@ -94,7 +94,7 @@ public class ImagesService {
         ImageIO.write(scaledImage, format, out);
         IOUtils.closeQuietly(out);
         ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
-        filesService.save(sizedPath, in);
+        filesService.save(sizedPath, in, true);
         IOUtils.closeQuietly(in);
     }
 

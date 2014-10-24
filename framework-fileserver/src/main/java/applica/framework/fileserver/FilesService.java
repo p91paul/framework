@@ -20,8 +20,14 @@ public class FilesService {
         this.basePath = basePath;
     }
 
-    public void save(String path, InputStream inputStream) throws IOException {
+    public void save(String path, InputStream inputStream, boolean overwrite) throws IOException {
         createFolderIfNotExists(getLocalPath(path));
+
+        if (!overwrite) {
+            if (exists(path)) {
+                throw new IOException("File already exists");
+            }
+        }
         IOUtils.copy(inputStream, new FileOutputStream(getLocalPath(path)));
     }
 

@@ -61,9 +61,13 @@ public class ImagesServlet extends HttpServlet {
 
         String path = pathResolver.resolve(request);
         InputStream inputStream = inputStreamResolver.resolve(request);
+        boolean overwrite = false;
+        try {
+            overwrite = Boolean.parseBoolean(request.getParameter("overwrite"));
+        } catch (Exception ex) {}
 
         try {
-            imagesService.save(path, inputStream);
+            imagesService.save(path, inputStream, overwrite);
         } catch (BadImageException e) {
             response.setHeader("Fileserver-Error", "bad image");
             throw new ServletException(e);

@@ -63,9 +63,13 @@ public class FilesServlet extends HttpServlet {
 
         String path = pathResolver.resolve(request);
         InputStream inputStream = inputStreamResolver.resolve(request);
+        boolean overwrite = false;
+        try {
+            overwrite = Boolean.parseBoolean(request.getParameter("overwrite"));
+        } catch (Exception ex) {}
 
         try {
-            filesService.save(path, inputStream);
+            filesService.save(path, inputStream, overwrite);
         } catch(Exception e) {
             response.setHeader("Fileserver-Error", e.getMessage());
             throw new ServletException(e);
