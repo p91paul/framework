@@ -54,15 +54,13 @@ public class PropertiesOptionManager implements OptionsManager {
         if (StringUtils.isNotEmpty(value)) {
             Pattern pattern = Pattern.compile("\\$\\{\\w+\\}*", Pattern.CASE_INSENSITIVE);
             Matcher matcher = pattern.matcher(value);
-            if (matcher.matches()) {
-                while (matcher.find()) {
-                    String var = matcher.group();
-                    String varOption = var.substring(2, var.length() - 1);
-                    String childValue = get(varOption);
+            while (matcher.find()) {
+                String var = matcher.group();
+                String varOption = var.substring(2, var.length() - 1);
+                String childValue = get(varOption);
 
-                    if (StringUtils.isNotEmpty(childValue)) {
-                        value = value.replaceAll(String.format("\\$\\{%s\\}", varOption), childValue);
-                    }
+                if (StringUtils.isNotEmpty(childValue)) {
+                    value = value.replaceAll(String.format("\\$\\{%s\\}", varOption), childValue);
                 }
             }
         }

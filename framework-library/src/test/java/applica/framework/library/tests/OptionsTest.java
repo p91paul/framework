@@ -19,10 +19,11 @@ public class OptionsTest {
         Properties properties = new Properties();
 
         properties.put("environment", "test");
+
+        properties.put("fullName", "${name} ${surname}");
         properties.put("name", "bruno");
         properties.put("surname", "fortunato");
         properties.put("test.surname", "tested");
-        properties.put("fullName", "${name} ${surname}");
 
         options.load(properties);
 
