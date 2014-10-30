@@ -1,7 +1,6 @@
 package applica.framework;
 
-import applica.framework.annotations.Param;
-import applica.framework.annotations.Params;
+import applica.framework.annotations.*;
 import applica.framework.data.Entity;
 import applica.framework.data.Repository;
 import applica.framework.data.Sort;
@@ -28,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class CrudConfiguration implements CrudConstants {
     private CrudConfiguration() {
@@ -201,35 +201,6 @@ public class CrudConfiguration implements CrudConstants {
                     }
 
                     CrudConfiguration.instance().registerFormField(formAlias.type, property, field.getGenericType(), description, tooltip);
-                }
-
-                applica.framework.annotations.RelatedFormField relatedFormFieldAnnotation = field.getAnnotation(applica.framework.annotations.RelatedFormField.class);
-                if (relatedFormFieldAnnotation != null) {
-                    logger.info(field.getName() + " is a related form field");
-
-                    String property = field.getName();
-                    String description = relatedFormFieldAnnotation.description();
-                    String tooltip = relatedFormFieldAnnotation.tooltip();
-
-                    //repository is not mandatory
-                    Repository repository = null;
-                    if (!relatedFormFieldAnnotation.repository().equals(Repository.class)) {
-                        crudFactory.createRepository(relatedFormFieldAnnotation.repository(), null);
-                    }
-
-                    if (!StringUtils.hasLength(description)) description = property;
-
-                    logger.info(String.format("Field %s as description: %s, tooltip: %s", property, description, tooltip));
-                    logger.info(String.format("Related field repository: %s", relatedFormFieldAnnotation.repository().getName()));
-
-                    applica.framework.annotations.FormFieldRenderer rendererAnnotation = field.getAnnotation(applica.framework.annotations.FormFieldRenderer.class);
-                    if (rendererAnnotation != null) {
-                        CrudConfiguration.instance().registerFormFieldRenderer(formAlias.type, property, rendererAnnotation.value());
-                        logger.info("Registered field renderer class: " + rendererAnnotation.value());
-
-                    }
-
-                    CrudConfiguration.instance().registerRelatedFormField(formAlias.type, property, field.getGenericType(), description, tooltip, repository);
                 }
             }
 
@@ -669,45 +640,11 @@ public class CrudConfiguration implements CrudConstants {
             formDescriptorInfos.add(info);
         }
 
-        info.descriptor.addField(property, dataType, description, tooltip, null);
-    }
-
-    public void registerRelatedFormField(final Class<? extends Entity> type, String property, Type dataType, String description, String tooltip, Repository repository) {
-        FormDescriptorInfo info = (FormDescriptorInfo) CollectionUtils.find(formDescriptorInfos, new Predicate() {
-            @Override
-            public boolean evaluate(Object item) {
-                return ((FormDescriptorInfo) item).type.equals(type);
-            }
-        });
-
-        if (info == null) {
-            info = new FormDescriptorInfo();
-            info.type = type;
-            info.descriptor = new FormDescriptor(null);
-
-            formDescriptorInfos.add(info);
+        if (TypeUtils.isRelatedField(type, property)) {
+            info.descriptor.addRelatedField(property, dataType, description, tooltip, null);
+        } else {
+            info.descriptor.addField(property, dataType, description, tooltip, null);
         }
-
-        info.descriptor.addField(property, dataType, description, tooltip, null, repository);
-    }
-
-    public void registerRelatedFormField(final Class<? extends Entity> type, String property, Type dataType, String description, String tooltip) {
-        FormDescriptorInfo info = (FormDescriptorInfo) CollectionUtils.find(formDescriptorInfos, new Predicate() {
-            @Override
-            public boolean evaluate(Object item) {
-                return ((FormDescriptorInfo) item).type.equals(type);
-            }
-        });
-
-        if (info == null) {
-            info = new FormDescriptorInfo();
-            info.type = type;
-            info.descriptor = new FormDescriptor(null);
-
-            formDescriptorInfos.add(info);
-        }
-
-        info.descriptor.addField(property, dataType, description, tooltip, null, null);
     }
 
     public void registerFormButton(final Class<? extends Entity> type, String label, String buttonType, String action) {

@@ -1,6 +1,9 @@
 package applica.framework.builders;
 
 import applica.framework.CrudConfiguration;
+import applica.framework.annotations.ManyToMany;
+import applica.framework.annotations.ManyToOne;
+import applica.framework.annotations.OneToMany;
 import applica.framework.data.Entity;
 import applica.framework.data.Repository;
 import applica.framework.mapping.PropertyMapper;
@@ -11,6 +14,7 @@ import applica.framework.utils.TypeUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
+import java.util.stream.Stream;
 
 /**
  * Applica (www.applicadoit.com)
@@ -101,35 +105,12 @@ public class FormConfigurator {
         return this;
     }
 
-    public FormConfigurator relatedField(String property, String description, String tooltip, Repository repository) {
-        CrudConfiguration.instance().registerRelatedFormField(entityType, property, getDataType(property), description, tooltip, repository);
-        return this;
-    }
-
-    public FormConfigurator relatedField(String property, String description, String tooltip, Repository repository, Class<? extends FormFieldRenderer> renderer) {
-        CrudConfiguration.instance().registerRelatedFormField(entityType, property, getDataType(property), description, tooltip, repository);
-        CrudConfiguration.instance().registerFormFieldRenderer(entityType, property, renderer);
-        return this;
-    }
-
-    public FormConfigurator relatedField(String property, String description, String tooltip) {
-        CrudConfiguration.instance().registerRelatedFormField(entityType, property, getDataType(property), description, tooltip, null);
-        return this;
-    }
-
-    public FormConfigurator relatedField(String property, String description, String tooltip, Class<? extends FormFieldRenderer> renderer) {
-        CrudConfiguration.instance().registerRelatedFormField(entityType, property, getDataType(property), description, tooltip, null);
-        CrudConfiguration.instance().registerFormFieldRenderer(entityType, property, renderer);
-        return this;
-    }
-
     public FormConfigurator param(String property, String key, String value) {
         CrudConfiguration.instance().setPropertyParam(entityType, property, key, value);
         return this;
     }
 
     //
-
 
     private Type getDataType(String property) {
         if(entityType != null) {

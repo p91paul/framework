@@ -81,8 +81,7 @@ public class SimplePropertyMapper implements PropertyMapper {
             if (formField instanceof RelatedFormField) {
                 logger.info(String.format("field %s is a related form field", formField.getProperty()));
 
-                //is not mandatory to specify a repository now
-                Repository repository = ((RelatedFormField) formField).getRepository();
+                Repository repository = null;
 
                 Class<List> listType = List.class;
                 if (listType.isAssignableFrom(TypeUtils.genericCheckedType(formField.getDataType()))) {

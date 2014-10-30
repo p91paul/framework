@@ -15,10 +15,9 @@ import java.lang.annotation.Target;
 /**
  * This annotation applied to an entity's list property allow framework to understand that is not a manyToMany instead of oneToMany
  * By default, a list is oneToMany.
- * In mongodb driver the list is in the object graph but in the db is stored with a list of ids.
- * In hibernate mappings generator, tread this list as a many to many instead of oneToMany
+ * In mongodb driver the list is in the object graph but in the db is stored with a list of ids
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface ManyToMany {
+public @interface OneToMany {
 }

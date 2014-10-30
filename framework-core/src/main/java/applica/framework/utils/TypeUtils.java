@@ -1,5 +1,8 @@
 package applica.framework.utils;
 
+import applica.framework.annotations.ManyToMany;
+import applica.framework.annotations.ManyToOne;
+import applica.framework.annotations.OneToMany;
 import applica.framework.data.Entity;
 
 import java.lang.annotation.Annotation;
@@ -8,6 +11,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class TypeUtils {
     public static boolean isEntity(Class<?> type) {
@@ -63,6 +67,23 @@ public class TypeUtils {
         if (type.getSuperclass() != null) {
             doGetAllField(type.getSuperclass(), fields);
         }
+    }
+
+    public static boolean isRelatedField(Class<? extends Entity> entityType, String property) {
+        try {
+            Field field = TypeUtils.getField(entityType, property);
+            if (Stream.of(field.getAnnotations())
+                    .filter(OneToMany.class::equals)
+                    .filter(ManyToMany.class::equals)
+                    .filter(ManyToOne.class::equals)
+                    .count() > 0) {
+                return true;
+            }
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e); //programmers error
+        }
+
+        return false;
     }
 
     public static Field getField(Class<?> type, String name) throws NoSuchFieldException {

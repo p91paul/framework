@@ -10,6 +10,14 @@ public class SEntity implements StringIdEntity, Entity {
 
     protected String id;
 
+    public static String checkedId(Object id) {
+        if (id == null) {
+            return null;
+        }
+
+        return id.toString();
+    }
+
     @Override
     public Object getId() {
         return id;
@@ -17,17 +25,17 @@ public class SEntity implements StringIdEntity, Entity {
 
     @Override
     public void setId(Object id) {
-        this.id = (String)id;
+        this.id = checkedId(id);
     }
 
 
     @Override
     public void setSid(String sid) {
-        setId((String)sid);
+        setId(sid);
     }
 
     @Override
     public String getSid() {
-        return (String)getId();
+        return checkedId(id);
     }
 }

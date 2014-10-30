@@ -55,8 +55,8 @@ public class FormDescriptor {
         return newField;
     }
 
-    public RelatedFormField addField(String property, Type dataType, String description, String tooltip, FormFieldRenderer renderer, Repository repository) {
-        RelatedFormField newField = new RelatedFormField(form, property, dataType, description, tooltip, renderer, repository);
+    public RelatedFormField addRelatedField(String property, Type dataType, String description, String tooltip, FormFieldRenderer renderer) {
+        RelatedFormField newField = new RelatedFormField(form, property, dataType, description, tooltip, renderer);
         fields.add(newField);
         return newField;
     }
