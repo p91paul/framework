@@ -22,11 +22,19 @@ public abstract class UniqueConstraint<T extends Entity> implements Constraint<T
     @Autowired
     private RepositoriesFactory repositoriesFactory;
 
+    public RepositoriesFactory getRepositoriesFactory() {
+        return repositoriesFactory;
+    }
+
+    public void setRepositoriesFactory(RepositoriesFactory repositoriesFactory) {
+        this.repositoriesFactory = repositoriesFactory;
+    }
+
     @Override
     public void check(T entity) throws ConstraintException {
         Objects.requireNonNull(entity, "Entity cannot be null");
         Objects.requireNonNull(getProperty(), "Property cannot be null");
-        Repository repository = repositoriesFactory.createForEntity(entity.getClass());
+        Repository<T> repository = repositoriesFactory.createForEntity(entity.getClass());
         Object value = null;
         try {
             value = PropertyUtils.getProperty(entity, getProperty());
@@ -34,9 +42,19 @@ public abstract class UniqueConstraint<T extends Entity> implements Constraint<T
             throw new RuntimeException(e);
         }
         if (value != null) {
-            long count = repository.find(LoadRequest.build().eq(getProperty(), value)).getTotalRows();
-            if (count > 0) {
-                throw new ConstraintException(String.format("%s is not unique", getProperty()));
+            for (Entity checkEntity : repository.find(LoadRequest.build()).getRows()) {
+                if (!checkEntity.getId().equals(entity.getId())) {
+                    Object checkValue = null;
+                    try {
+                        checkValue = PropertyUtils.getProperty(checkEntity, getProperty());
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    if(value.equals(checkValue)) {
+                        throw new ConstraintException(String.format("%s.%s is not unique", getType().getName(), getProperty()));
+                    }
+                }
             }
         }
     }
