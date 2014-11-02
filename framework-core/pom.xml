@@ -70,8 +70,11 @@
             <artifactId>jackson-mapper-asl</artifactId>
             <version>1.9.2</version>
         </dependency>
-
-
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>framework-entity</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

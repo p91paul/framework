@@ -21,6 +21,7 @@
         <module>framework-data-mongodb</module>
         <module>framework-data-hibernate</module>
         <module>scripts</module>
+        <module>framework-entity</module>
     </modules>
 
     <name>framework</name>

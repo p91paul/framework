@@ -1,26 +1,24 @@
 package applica.framework.data;
 
 /**
- * Applica (www.applicadoit.com)
- * User: bimbobruno
- * Date: 3/13/13
- * Time: 2:58 PM
+ * Applica (www.applicadoit.com) User: bimbobruno Date: 3/13/13 Time: 2:58 PM
  */
 public class LEntity implements LongIdEntity, Entity {
+
     private Object id;
 
+    @Override
     public long getLid() {
-        if(id == null) {
-            return 0;
-        }
+        if (id == null)
+            return 0l;
 
-        if(id instanceof Long) {
-            return (long)id;
-        } else {
+        if (id instanceof Long)
+            return (long) id;
+        else
             return Long.parseLong(String.valueOf(id));
-        }
     }
 
+    @Override
     public void setLid(long iid) {
         this.id = iid;
     }
@@ -36,18 +34,16 @@ public class LEntity implements LongIdEntity, Entity {
     }
 
     public static long checkedId(Object id) {
-        if(id == null) {
+        if (id == null)
             return 0;
-        }
 
-        if(id instanceof Long) {
-            return (long)id;
-        } else {
+        if (id instanceof Long)
+            return (Long) id;
+        else
             try {
                 return Long.parseLong(String.valueOf(id));
             } catch (NumberFormatException e) {
                 return 0;
             }
-        }
     }
 }

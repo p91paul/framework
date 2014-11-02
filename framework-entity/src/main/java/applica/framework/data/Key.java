@@ -1,13 +1,7 @@
 package applica.framework.data;
 
-import applica.framework.data.IEntity;
-import org.springframework.util.StringUtils;
-
 /**
- * Applica (www.applicadoit.com)
- * User: bimbobruno
- * Date: 12/09/14
- * Time: 10:35
+ * Applica (www.applicadoit.com) User: bimbobruno Date: 12/09/14 Time: 10:35
  */
 public class Key {
 
@@ -21,9 +15,8 @@ public class Key {
     }
 
     public String getStringValue() {
-        if (value != null) {
+        if (value != null)
             return value.toString();
-        }
 
         return null;
     }
@@ -43,6 +36,5 @@ public class Key {
     public void setValue(Object value) {
         this.value = value;
     }
-
 
 }

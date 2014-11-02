@@ -1,5 +1,7 @@
 package applica.framework.data;
 
+import applica.framework.data.Entity;
+
 /**
  * Applica (www.applicadoit.com)
  * User: bimbobruno

@@ -1,26 +1,24 @@
 package applica.framework.data;
 
 /**
- * Applica (www.applicadoit.com)
- * User: bimbobruno
- * Date: 3/13/13
- * Time: 2:58 PM
+ * Applica (www.applicadoit.com) User: bimbobruno Date: 3/13/13 Time: 2:58 PM
  */
 public class IEntity implements IntIdEntity, Entity {
+
     private Object id;
 
+    @Override
     public int getIid() {
-        if(id == null) {
+        if (id == null)
             return 0;
-        }
 
-        if(id instanceof Integer) {
-            return (int)id;
-        } else {
+        if (id instanceof Integer)
+            return (int) id;
+        else
             return Integer.parseInt(String.valueOf(id));
-        }
     }
 
+    @Override
     public void setIid(int iid) {
         this.id = iid;
     }
@@ -36,19 +34,16 @@ public class IEntity implements IntIdEntity, Entity {
     }
 
     public static int checkedId(Object id) {
-        if(id == null) {
+        if (id == null)
             return 0;
-        }
 
-        if(id instanceof Integer) {
-            return (int)id;
-        } else {
+        if (id instanceof Integer)
+            return (int) id;
+        else
             try {
                 return Integer.parseInt(String.valueOf(id));
             } catch (NumberFormatException e) {
                 return 0;
             }
-
-        }
     }
 }
