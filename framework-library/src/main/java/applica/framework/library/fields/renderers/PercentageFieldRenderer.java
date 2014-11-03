@@ -2,9 +2,8 @@ package applica.framework.library.fields.renderers;
 
 import applica.framework.Form;
 import applica.framework.FormField;
-import org.springframework.stereotype.Component;
 
-public class PercentageFieldRenderer extends BaseFieldRenderer {
+public class PercentageFieldRenderer extends BasicTypesFieldRenderer {
 
     @Override
     protected String createTemplatePath(Form form, FormField formField) {

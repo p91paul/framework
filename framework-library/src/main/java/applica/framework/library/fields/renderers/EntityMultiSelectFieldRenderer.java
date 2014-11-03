@@ -16,20 +16,12 @@ import java.util.stream.Collectors;
  * Date: 03/11/14
  * Time: 12:17
  */
-public class EntityMultiSelectFieldRenderer extends MultiSelectFieldRenderer {
+public abstract class EntityMultiSelectFieldRenderer extends MultiSelectFieldRenderer {
 
     @Autowired
     private RepositoriesFactory repositoriesFactory;
 
-    private Class<? extends Entity> entityType;
-
-    public Class<? extends Entity> getEntityType() {
-        return entityType;
-    }
-
-    public void setEntityType(Class<? extends Entity> entityType) {
-        this.entityType = entityType;
-    }
+    public abstract Class<? extends Entity> getEntityType();
 
     @Override
     public List<SelectableItem> getItems(List<? extends Entity> selectedItems) {

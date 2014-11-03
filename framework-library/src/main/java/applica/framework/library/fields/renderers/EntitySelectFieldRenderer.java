@@ -15,20 +15,12 @@ import java.util.stream.Collectors;
  * Date: 03/11/14
  * Time: 12:11
  */
-public class EntitySelectFieldRenderer extends SelectFieldRenderer {
+public abstract class EntitySelectFieldRenderer extends SelectFieldRenderer {
 
     @Autowired
     private RepositoriesFactory repositoriesFactory;
 
-    private Class<? extends Entity> entityType;
-
-    public Class<? extends Entity> getEntityType() {
-        return entityType;
-    }
-
-    public void setEntityType(Class<? extends Entity> entityType) {
-        this.entityType = entityType;
-    }
+    public abstract Class<? extends Entity> getEntityType();
 
     @Override
     public List<SimpleItem> getItems() {

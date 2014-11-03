@@ -66,8 +66,11 @@
     <bean class="applica.framework.library.cells.renderers.UlCellRenderer" />
 
     <!-- fields beans -->
-    <bean class="applica.framework.library.fields.renderers.ColorFieldRenderer" />
     <bean class="applica.framework.library.fields.renderers.DefaultFieldRenderer" />
+    <bean class="applica.framework.library.fields.renderers.DefaultEntityMultiSelectFieldRenderer" />
+    <bean class="applica.framework.library.fields.renderers.DefaultEntitySelectFieldRenderer" />
+    <bean class="applica.framework.library.fields.renderers.BasicTypesFieldRenderer" />
+    <bean class="applica.framework.library.fields.renderers.ColorFieldRenderer" />
     <bean class="applica.framework.library.fields.renderers.HiddenFieldRenderer" />
     <bean class="applica.framework.library.fields.renderers.MailFieldRenderer" />
     <bean class="applica.framework.library.fields.renderers.PasswordFieldRenderer" />

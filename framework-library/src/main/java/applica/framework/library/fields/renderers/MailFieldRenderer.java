@@ -2,9 +2,8 @@ package applica.framework.library.fields.renderers;
 
 import applica.framework.Form;
 import applica.framework.FormField;
-import org.springframework.stereotype.Component;
 
-public class MailFieldRenderer extends BaseFieldRenderer {
+public class MailFieldRenderer extends BasicTypesFieldRenderer {
 
     @Override
     protected String createTemplatePath(Form form, FormField formField) {

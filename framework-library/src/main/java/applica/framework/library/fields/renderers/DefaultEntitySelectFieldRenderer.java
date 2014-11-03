@@ -1,0 +1,23 @@
+package applica.framework.library.fields.renderers;
+
+import applica.framework.data.Entity;
+
+/**
+ * Applica (www.applicamobile.com)
+ * User: bimbobruno
+ * Date: 03/11/14
+ * Time: 15:40
+ */
+public class DefaultEntitySelectFieldRenderer extends EntitySelectFieldRenderer {
+
+    private Class<? extends Entity> entityType;
+
+    @Override
+    public Class<? extends Entity> getEntityType() {
+        return entityType;
+    }
+
+    public void setEntityType(Class<? extends Entity> entityType) {
+        this.entityType = entityType;
+    }
+}
