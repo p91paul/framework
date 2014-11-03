@@ -9,6 +9,9 @@ import org.springframework.util.Assert;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,6 +19,7 @@ import java.util.regex.Pattern;
 public class PropertiesOptionManager implements OptionsManager {
 
     private Properties properties;
+    private Map<String, String> cache = new HashMap<>();
 
     private String path = "/WEB-INF/options.properties";
 
@@ -50,19 +54,25 @@ public class PropertiesOptionManager implements OptionsManager {
     @Override
     public String get(String key) {
         String environment = properties.getProperty("environment", "");
-        String value = properties.getProperty(String.format("%s.%s", environment, key), properties.getProperty(key));
-        if (StringUtils.isNotEmpty(value)) {
-            Pattern pattern = Pattern.compile("\\$\\{\\w+\\}*", Pattern.CASE_INSENSITIVE);
-            Matcher matcher = pattern.matcher(value);
-            while (matcher.find()) {
-                String var = matcher.group();
-                String varOption = var.substring(2, var.length() - 1);
-                String childValue = get(varOption);
+        String fullKey = String.format("%s.%s", environment, key);
+        String value = getFromCache(fullKey);
+        if (value == null) {
+            value = properties.getProperty(fullKey, properties.getProperty(key));
+            if (StringUtils.isNotEmpty(value)) {
+                Pattern pattern = Pattern.compile("\\$\\{\\S+\\}*", Pattern.CASE_INSENSITIVE);
+                Matcher matcher = pattern.matcher(value);
+                while (matcher.find()) {
+                    String var = matcher.group();
+                    String varOption = var.substring(2, var.length() - 1);
+                    String childValue = get(varOption);
 
-                if (StringUtils.isNotEmpty(childValue)) {
-                    value = value.replaceAll(String.format("\\$\\{%s\\}", varOption), childValue);
+                    if (StringUtils.isNotEmpty(childValue)) {
+                        value = value.replaceAll(String.format("\\$\\{%s\\}", varOption), childValue);
+                    }
                 }
             }
+
+            putInCache(fullKey, value);
         }
 
         return value;
@@ -74,5 +84,19 @@ public class PropertiesOptionManager implements OptionsManager {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public void putInCache(String key, String value) {
+        if (!cache.containsKey(key)) {
+            cache.put(key, value);
+        }
+    }
+
+    public String getFromCache(String key) {
+        if (cache.containsKey(key)) {
+            return cache.get(key);
+        }
+
+        return null;
     }
 }

@@ -7,6 +7,7 @@
             name="$field.property"
             value="#if($value && $value != "")$localization.formatDate($value)#end"
             data-component="date_input"
+            #if ($field.tooltip)placeholder="$field.tooltip"#end
             data-property="$field.property" />
 
         <span class="input-group-btn">

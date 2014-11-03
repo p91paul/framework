@@ -1,5 +1,6 @@
 package applica.framework.data.mongodb.tests.data;
 
+import applica.framework.data.mongodb.tests.model.Brand;
 import applica.framework.data.mongodb.tests.model.Player;
 
 /**
@@ -11,7 +12,8 @@ import applica.framework.data.mongodb.tests.model.Player;
 public class MockPlayersRepository extends MockRepository<Player> {
 
     public MockPlayersRepository() {
-        save(new Player());
+        save(new Player(Player.BRUNO_ID, "bruno"));
+        save(new Player(Player.MASSIMO_ID, "massimo"));
     }
 
     @Override

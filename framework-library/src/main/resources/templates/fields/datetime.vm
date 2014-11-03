@@ -6,6 +6,7 @@
             name="$field.property"
             value="#if($value && $value != "")$localization.formatDate($value)#end"
             data-component="datetime"
+            #if ($field.tooltip)placeholder="$field.tooltip"#end
             data-property="$field.property" />
 
     <span

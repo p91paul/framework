@@ -1,7 +1,6 @@
 package applica.framework.data.mongodb.tests;
 
-import applica.framework.data.mongodb.Constraints.ConstraintException;
-import applica.framework.data.mongodb.Constraints.ForeignKeyConstraint;
+import applica.framework.data.mongodb.constraints.ForeignKeyConstraint;
 import applica.framework.data.mongodb.tests.model.Brand;
 import applica.framework.data.mongodb.tests.model.Game;
 
@@ -25,7 +24,7 @@ public class BrandGameForeignKeyConstraint extends ForeignKeyConstraint<Brand, G
 
     @Override
     public String getForeignProperty() {
-        return "brands";
+        return "brand";
     }
 
 }

@@ -22,34 +22,17 @@ public class MockGamesRepository extends MockRepository<Game> {
     public MockGamesRepository() {
         save(
                 new Game(
-                        "game1",
+                        Game.GTA_ID,
                         "gta5",
-                        new Brand("brand1", "rockstar"),
-                        "brand1",
+                        new Brand(Brand.ROCKSTAR_ID, "rockstar"),
+                        Brand.ROCKSTAR_ID,
                         Arrays.asList(
-                                new Player("player1", "bruno"),
-                                new Player("player2", "massimo")
+                                new Player(Player.BRUNO_ID, "bruno"),
+                                new Player(Player.MASSIMO_ID, "massimo")
                         ),
                         Arrays.asList(
-                                "player1",
-                                "player2"
-                        )
-                )
-        );
-
-        save(
-                new Game(
-                        "game2",
-                        "lastofus",
-                        new Brand("brand2", "dogs"),
-                        "brand2",
-                        Arrays.asList(
-                                new Player("player1", "bruno"),
-                                new Player("player2", "massimo")
-                        ),
-                        Arrays.asList(
-                                "player1",
-                                "player2"
+                                Player.BRUNO_ID,
+                                Player.MASSIMO_ID
                         )
                 )
         );

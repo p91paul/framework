@@ -1,6 +1,7 @@
 package applica.framework.data.mongodb.tests.model;
 
 import applica.framework.data.SEntity;
+import org.bson.types.ObjectId;
 
 /**
  * Applica (www.applicamobile.com)
@@ -9,6 +10,8 @@ import applica.framework.data.SEntity;
  * Time: 12:30
  */
 public class Brand extends SEntity {
+
+    public static final String ROCKSTAR_ID = ObjectId.get().toString();
 
     private String name;
 

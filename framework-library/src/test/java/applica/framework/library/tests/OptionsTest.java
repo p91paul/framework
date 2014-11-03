@@ -20,8 +20,9 @@ public class OptionsTest {
 
         properties.put("environment", "test");
 
+        properties.put("user.name_with_strange_chars&numbers123", "bruno");
         properties.put("fullName", "${name} ${surname}");
-        properties.put("name", "bruno");
+        properties.put("name", "${user.name_with_strange_chars&numbers123}");
         properties.put("surname", "fortunato");
         properties.put("test.surname", "tested");
 
@@ -36,6 +37,7 @@ public class OptionsTest {
         Assert.assertEquals("bruno", options.get("name"));
         Assert.assertEquals("fortunato", options.get("surname"));
         Assert.assertEquals("bruno fortunato", options.get("fullName"));
+        Assert.assertEquals("bruno", options.getFromCache("test.name"));
     }
 
 }

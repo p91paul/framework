@@ -18,6 +18,14 @@ public class TypeUtils {
         return implementsInterface(type, Entity.class, true);
     }
 
+    public static boolean isEntity(Type type) {
+        if (type instanceof Class) {
+            return isEntity((Class) type);
+        }
+
+        return false;
+    }
+
     public static boolean isList(Class<?> type) {
         return List.class.isAssignableFrom(type);
     }
@@ -69,6 +77,12 @@ public class TypeUtils {
         }
     }
 
+    /**
+     * Check if a type's field has OneToMany or ManyToMany or ManyToOne annotation
+     * @param entityType
+     * @param property
+     * @return
+     */
     public static boolean isRelatedField(Class<? extends Entity> entityType, String property) {
         try {
             Field field = TypeUtils.getField(entityType, property);
@@ -86,6 +100,13 @@ public class TypeUtils {
         return false;
     }
 
+    /**
+     * Gets a class field, checking also from superclasses
+     * @param type
+     * @param name
+     * @return
+     * @throws NoSuchFieldException
+     */
     public static Field getField(Class<?> type, String name) throws NoSuchFieldException {
         Field field = null;
         try {
@@ -116,6 +137,12 @@ public class TypeUtils {
         return annotation;
     }
 
+    /**
+     * Returns a class property generic type if is a list. For example, if a field is List<String> type, returns String.class
+     * @param type
+     * @param property
+     * @return
+     */
     public static Class<?> getListGeneric(Class<?> type, String property) {
         Class<?> genericType = null;
 
@@ -134,33 +161,46 @@ public class TypeUtils {
         return genericType;
     }
 
-    public static Class<?> getListGeneric(Class<?> type) {
-        Class<?> genericType = null;
-
-        Type st = type.getGenericSuperclass();
-        ParameterizedType ptype = (ParameterizedType) st;
-        Type[] types = ptype.getActualTypeArguments();
-        if (types.length > 0) {
-            Type t = types[0];
-            genericType = (Class<?>) t;
-        }
-
-        return genericType;
-    }
-
-    public static Class<?> genericCheckedType(Type type) {
+    /**
+     * Gets the raw class of a generic type. Es: if type is List<String> the function returns List.class
+     * @param type
+     * @return
+     */
+    public static Class<?> getRawClassFromGeneric(Type type) {
         if (type instanceof ParameterizedType) {
-            return genericCheckedType(((ParameterizedType) type).getRawType());
+            return getRawClassFromGeneric(((ParameterizedType) type).getRawType());
         } else {
             return (Class<?>) type;
         }
     }
 
-    public static Class<?> getFirstGenericArgumentType(Type type) {
+    /**
+     * Returns first generic parameter type of a parameterized type. Es List<String> returns String.class
+     * A parameterized type of a list usually is getted from Field.getGenericType() method.
+     * @param type
+     * @return
+     */
+    public static Class<?> getFirstGenericArgumentType(ParameterizedType type) {
         ParameterizedType listType = (ParameterizedType) type;
         Type[] arguments = listType.getActualTypeArguments();
         Class<?> typeArgument = (Class<?>) arguments[0];
         return typeArgument;
+    }
+
+    /**
+     * Returns true if the specified data type is a list of Entities
+     * @param dataType
+     * @return
+     */
+    public static boolean isListOfEntities(Type dataType) {
+        Class<List> listType = List.class;
+        if (listType.isAssignableFrom(TypeUtils.getRawClassFromGeneric(dataType))) {
+            if (dataType instanceof ParameterizedType) {
+                return isEntity(getFirstGenericArgumentType((ParameterizedType) dataType));
+            }
+        }
+
+        return false;
     }
 }
 

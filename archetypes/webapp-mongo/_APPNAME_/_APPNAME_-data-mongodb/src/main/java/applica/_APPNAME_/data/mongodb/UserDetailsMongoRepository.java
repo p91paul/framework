@@ -24,10 +24,16 @@ public class UserDetailsMongoRepository implements UserDetailsRepository {
 
     @Override
     public UserDetails getByMail(String mail) {
-        return usersRepository
-                .find(LoadRequestBuilder.build().eq(Filters.USER_MAIL, mail))
-                .findFirst()
-                .map(UsersDetails::new)
-                .orElse(null);
+        try {
+            return usersRepository
+                    .find(LoadRequestBuilder.build().eq(Filters.USER_MAIL, mail))
+                    .findFirst()
+                    .map(UsersDetails::new)
+                    .orElse(null);
+        } catch(Throwable t) {
+            t.printStackTrace();
+        }
+
+        return null;
     }
 }

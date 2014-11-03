@@ -102,30 +102,31 @@ public class Bootstrapper {
     }
 
     private void registerForms() {
-        FormConfigurator.build(User.class, "user")
+        FormConfigurator.configure(User.class, "user")
                 .repository(UsersRepository.class)
                 .field("mail", "label.mail", MailFieldRenderer.class)
                 .field("password", "label.password")
                 .field("active", "label.active")
                 .field("registrationDate", "label.registration_date")
                 .field("image", "label.image", UserImageFieldRenderer.class)
-                .relatedField("roles", "label.roles", "", RolesFieldRenderer.class);
+                .field("roles", "label.roles", RolesFieldRenderer.class)
+        ;
 
 
-        FormConfigurator.build(Role.class, "role")
+        FormConfigurator.configure(Role.class, "role")
                 .repository(RolesRepository.class)
                 .field("role", "label.name")
                 .field("permissions", "label.permissions", PermissionsFieldRenderer.class);
     }
 
     private void registerGrids() {
-        GridConfigurator.build(User.class, "user")
+        GridConfigurator.configure(User.class, "user")
                 .repository(UsersRepository.class)
                 .searchForm(UsernameSearchForm.class)
                 .column("mail", "label.mail", true)
                 .column("active", "label.active", false);
 
-        GridConfigurator.build(Role.class, "role")
+        GridConfigurator.configure(Role.class, "role")
                 .repository(RolesRepository.class)
                 .searchForm(RoleSearchForm.class)
                 .column("role", "label.name", true);

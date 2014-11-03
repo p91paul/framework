@@ -1,6 +1,7 @@
 package applica.framework.data.mongodb.tests.model;
 
 import applica.framework.data.SEntity;
+import org.bson.types.ObjectId;
 
 /**
  * Applica (www.applicamobile.com)
@@ -9,6 +10,9 @@ import applica.framework.data.SEntity;
  * Time: 12:31
  */
 public class Player extends SEntity {
+
+    public static final String BRUNO_ID = ObjectId.get().toString();
+    public static final String MASSIMO_ID = ObjectId.get().toString();
 
     private String name;
 

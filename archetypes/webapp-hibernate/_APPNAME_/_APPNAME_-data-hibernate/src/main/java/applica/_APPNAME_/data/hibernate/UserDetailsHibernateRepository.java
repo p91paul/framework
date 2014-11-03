@@ -22,10 +22,16 @@ public class UserDetailsHibernateRepository implements UserDetailsRepository {
 
     @Override
     public org.springframework.security.core.userdetails.UserDetails getByMail(String mail) {
-        return usersRepository
-                .find(LoadRequestBuilder.build().eq(Filters.USER_MAIL, mail))
-                .findFirst()
-                .map(UserDetails::new)
-                .orElse(null);
+        try {
+            return usersRepository
+                    .find(LoadRequestBuilder.build().eq(Filters.USER_MAIL, mail))
+                    .findFirst()
+                    .map(UsersDetails::new)
+                    .orElse(null);
+        } catch(Throwable t) {
+            t.printStackTrace();
+        }
+
+        return null;
     }
 }

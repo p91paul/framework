@@ -13,6 +13,7 @@
                 value="$time"
                 data-component="time"
                 data-property="$field.property"
+                #if ($field.tooltip)placeholder="$field.tooltip"#end
                 data-property-format-date-min-value="$localization.m('format.date.minValue')"/>
     </div>
 

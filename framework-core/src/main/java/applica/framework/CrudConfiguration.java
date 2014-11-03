@@ -640,11 +640,7 @@ public class CrudConfiguration implements CrudConstants {
             formDescriptorInfos.add(info);
         }
 
-        if (TypeUtils.isRelatedField(type, property)) {
-            info.descriptor.addRelatedField(property, dataType, description, tooltip, null);
-        } else {
-            info.descriptor.addField(property, dataType, description, tooltip, null);
-        }
+        info.descriptor.addField(property, dataType, description, tooltip, null);
     }
 
     public void registerFormButton(final Class<? extends Entity> type, String label, String buttonType, String action) {

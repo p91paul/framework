@@ -65,7 +65,7 @@ public class MongoMapper {
                                 if (fieldSourceValue != null && TypeUtils.isList(fieldSourceValue.getClass())) {
                                     List<?> sourceList = (List<?>) fieldSourceValue;
                                     ArrayList<Object> values = new ArrayList<Object>();
-                                    Class<?> typeArgument = TypeUtils.getFirstGenericArgumentType(field.getGenericType());
+                                    Class<?> typeArgument = TypeUtils.getFirstGenericArgumentType((ParameterizedType) field.getGenericType());
                                     Assert.isTrue(TypeUtils.isEntity(typeArgument), "ManyToMany not allowed for non-entity types: " + field.getName());
                                     Repository repository = repositoriesFactory.createForEntity((Class<? extends Entity>) typeArgument);
                                     Objects.requireNonNull(repository, "Repository for class not found: " + typeArgument.toString());
@@ -178,7 +178,7 @@ public class MongoMapper {
 							} else if (TypeUtils.isList(field.getType())) {
                                 if (field.getAnnotation(ManyToMany.class) != null || field.getAnnotation(OneToMany.class) != null) {
                                     ArrayList<Object> values = new ArrayList<Object>();
-                                    Class<?> typeArgument = TypeUtils.getFirstGenericArgumentType(field.getGenericType());
+                                    Class<?> typeArgument = TypeUtils.getFirstGenericArgumentType((ParameterizedType) field.getGenericType());
                                     Assert.isTrue(TypeUtils.isEntity(typeArgument), "ManyToMany not allowed for non-entity types: " + field.getName());
                                     List<?> sourceList = (List<?>)source.get(field.getName());
                                     Repository repository = repositoriesFactory.createForEntity((Class<? extends Entity>) typeArgument);
@@ -189,7 +189,7 @@ public class MongoMapper {
                                     field.set(destination, values);
                                 } else {
                                     ArrayList<Object> values = new ArrayList<Object>();
-                                    Class<?> typeArgument = TypeUtils.getFirstGenericArgumentType(field.getGenericType());
+                                    Class<?> typeArgument = TypeUtils.getFirstGenericArgumentType((ParameterizedType) field.getGenericType());
                                     List<?> sourceList = (List<?>)source.get(field.getName());
                                     for(Object el : sourceList) {
                                         if (TypeUtils.isEntity(typeArgument)) {
@@ -225,4 +225,12 @@ public class MongoMapper {
 			
 		return false;
 	}
+
+    public RepositoriesFactory getRepositoriesFactory() {
+        return repositoriesFactory;
+    }
+
+    public void setRepositoriesFactory(RepositoriesFactory repositoriesFactory) {
+        this.repositoriesFactory = repositoriesFactory;
+    }
 }

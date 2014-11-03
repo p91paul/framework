@@ -7,6 +7,7 @@
                 name="$field.property"
                 value="$value"
                 data-component="mail"
+                #if ($field.tooltip)placeholder="$field.tooltip"#end
                 data-property="$field.property" />
             <span class="input-group-addon">@</span>
         </div>

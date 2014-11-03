@@ -1,6 +1,6 @@
 package applica.framework.data.mongodb.tests;
 
-import applica.framework.data.mongodb.Constraints.UniqueConstraint;
+import applica.framework.data.mongodb.constraints.UniqueConstraint;
 import applica.framework.data.mongodb.tests.model.Game;
 
 /**

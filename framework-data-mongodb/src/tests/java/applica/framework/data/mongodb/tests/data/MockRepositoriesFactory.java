@@ -3,6 +3,7 @@ package applica.framework.data.mongodb.tests.data;
 import applica.framework.data.Entity;
 import applica.framework.data.RepositoriesFactory;
 import applica.framework.data.Repository;
+import applica.framework.data.mongodb.tests.model.Brand;
 import applica.framework.data.mongodb.tests.model.Game;
 import applica.framework.data.mongodb.tests.model.Player;
 
@@ -19,7 +20,7 @@ public class MockRepositoriesFactory implements RepositoriesFactory {
             return new MockGamesRepository();
         } else if (type.equals(Player.class)) {
             return new MockPlayersRepository();
-        } else if (type.equals(Player.class)) {
+        } else if (type.equals(Brand.class)) {
             return new MockBrandsRepository();
         }
 

@@ -31,7 +31,7 @@ public class BaseCellRenderer extends VelocityCellRenderer {
     }
 
     protected String createTemplatePath(Grid grid, GridColumn column) {
-        String templateType = TypeUtils.genericCheckedType(column.getDataType()).getSimpleName().toLowerCase();
+        String templateType = TypeUtils.getRawClassFromGeneric(column.getDataType()).getSimpleName().toLowerCase();
         String templateFile = null;
 
         switch (templateType) {

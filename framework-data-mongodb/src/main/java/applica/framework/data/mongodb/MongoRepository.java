@@ -1,6 +1,7 @@
 package applica.framework.data.mongodb;
 
 import applica.framework.data.*;
+import applica.framework.data.mongodb.constraints.ConstraintsChecker;
 import applica.framework.utils.Strings;
 import com.mongodb.*;
 import org.apache.commons.lang.StringUtils;
@@ -22,6 +23,9 @@ public abstract class MongoRepository<T extends Entity> implements Repository<T>
 
     @Autowired
     private MongoMapper mongoMapper;
+
+    @Autowired(required = false)
+    private ConstraintsChecker constraintsChecker;
 	
 	private Log logger = LogFactory.getLog(getClass());
 	
@@ -182,6 +186,9 @@ public abstract class MongoRepository<T extends Entity> implements Repository<T>
 		}
 		
 		if(id != null) {
+            if (constraintsChecker != null) {
+                get(id).ifPresent(constraintsChecker::check);
+            }
 			collection.remove(Query.mk().id(String.valueOf(id)));
 		}
 	}
@@ -194,7 +201,11 @@ public abstract class MongoRepository<T extends Entity> implements Repository<T>
 			logger.warn("Mongo collection is null");
 			return;
 		}
-		
+
+        if (constraintsChecker != null) {
+            constraintsChecker.check(entity);
+        }
+
 		BasicDBObject document = mongoMapper.loadBasicDBObject(entity);
 		collection.save(document);
 		entity.setId(document.getString("_id"));

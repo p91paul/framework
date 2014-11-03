@@ -11,7 +11,7 @@ import applica.framework.data.mongodb.tests.model.Brand;
 public class MockBrandsRepository extends MockRepository<Brand> {
 
     public MockBrandsRepository() {
-        save(new Brand());
+        save(new Brand(Brand.ROCKSTAR_ID, "rockstar"));
     }
 
     @Override

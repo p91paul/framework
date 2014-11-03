@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ValidateableFormProcessor extends LoadFirstFormProcessor {
+
     private Validator validator;
     private Localization localization;
 

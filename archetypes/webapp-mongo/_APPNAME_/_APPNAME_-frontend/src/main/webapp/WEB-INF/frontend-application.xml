@@ -45,6 +45,7 @@
     <!-- mongo beans -->
     <bean class="applica.framework.data.mongodb.MongoHelper" />
     <bean class="applica.framework.data.mongodb.MongoMapper" />
+    <bean class="applica.framework.data.mongodb.constraints.SimpleConstraintsChecker" />
     <bean class="applica.framework.data.mongodb.DefaultMongoRepository" id="default-repository" />
 
     <!-- File server beans -->

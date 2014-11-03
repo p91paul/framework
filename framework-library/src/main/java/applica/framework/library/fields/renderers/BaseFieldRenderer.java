@@ -9,7 +9,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.VelocityContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.io.Writer;
@@ -33,7 +32,7 @@ public class BaseFieldRenderer extends VelocityFormFieldRenderer {
     }
 
     protected String createTemplatePath(Form form, FormField formField) {
-        String templateType = TypeUtils.genericCheckedType(formField.getDataType()).getSimpleName().toLowerCase();
+        String templateType = TypeUtils.getRawClassFromGeneric(formField.getDataType()).getSimpleName().toLowerCase();
         String templateFile = null;
 
         switch (templateType) {

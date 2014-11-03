@@ -8,6 +8,7 @@ import applica.framework.utils.TypeUtils;
 import org.apache.commons.lang.StringUtils;
 
 import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
 import java.util.Date;
 
 /**
@@ -80,7 +81,7 @@ public class Mapper extends XmlBuilder {
                         ); endl();
                     } else if (TypeUtils.isList(field.getType())) {
                         boolean isManyToMany = field.getAnnotation(ManyToMany.class) != null;
-                        Class<?> typeArgument = TypeUtils.getFirstGenericArgumentType(field.getGenericType());
+                        Class<?> typeArgument = TypeUtils.getFirstGenericArgumentType(((ParameterizedType) field.getGenericType()));
 
                         String tableName;
                         if (isManyToMany) {

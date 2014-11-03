@@ -8,6 +8,7 @@
                 name="$field.property"
                 value="$value"
                 data-component="text"
+                #if ($field.tooltip)placeholder="$field.tooltip"#end
                 data-property="$field.property" />
     </div>
 
