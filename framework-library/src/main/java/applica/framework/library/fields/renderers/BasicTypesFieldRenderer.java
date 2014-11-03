@@ -13,24 +13,9 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.io.Writer;
 
-public class BasicTypesFieldRenderer extends VelocityFormFieldRenderer {
-
-    private Log logger = LogFactory.getLog(getClass());
-
-    @Autowired
-    protected WebApplicationContext webApplicationContext;
+public class BasicTypesFieldRenderer extends TemplateFormFieldRenderer {
 
     @Override
-    public void render(Writer writer, FormField formField, Object value) {
-        String templatePath = createTemplatePath(formField.getForm(), formField);
-
-        logger.info("Loading form template: " + templatePath);
-
-        setTemplatePath(templatePath);
-
-        super.render(writer, formField, value);
-    }
-
     protected String createTemplatePath(Form form, FormField formField) {
         String templateType = TypeUtils.getRawClassFromGeneric(formField.getDataType()).getSimpleName().toLowerCase();
         String templateFile = null;
@@ -54,14 +39,4 @@ public class BasicTypesFieldRenderer extends VelocityFormFieldRenderer {
 
         return String.format("/templates/fields/%s.vm", templateFile);
     }
-
-    @Override
-    protected void setupContext(VelocityContext context) {
-        super.setupContext(context);
-
-        Localization localization = new Localization(webApplicationContext);
-        context.put("localization", localization);
-        context.put("wwwBase", webApplicationContext.getServletContext().getContextPath());
-    }
-
 }

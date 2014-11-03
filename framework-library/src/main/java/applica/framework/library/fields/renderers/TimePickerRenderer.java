@@ -6,7 +6,7 @@ import org.apache.velocity.VelocityContext;
 
 import java.util.Date;
 
-public class TimePickerRenderer extends BasicTypesFieldRenderer {
+public class TimePickerRenderer extends TemplateFormFieldRenderer {
 
     @Override
     protected String createTemplatePath(Form form, FormField formField) {

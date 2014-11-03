@@ -36,4 +36,8 @@ public class Role extends SEntity implements applica.framework.security.Role {
         this.permissions = permissions;
     }
 
+    @Override
+    public String toString() {
+        return role;
+    }
 }

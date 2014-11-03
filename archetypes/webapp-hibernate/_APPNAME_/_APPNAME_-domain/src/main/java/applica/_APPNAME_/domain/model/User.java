@@ -90,5 +90,9 @@ public class User extends IEntity implements applica.framework.security.User {
         this.roles = roles;
     }
 
+    @Override
+    public String toString() {
+        return mail;
+    }
 
 }

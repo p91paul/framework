@@ -36,4 +36,9 @@ public class Role extends IEntity implements applica.framework.security.Role {
         this.permissions = permissions;
     }
 
+    @Override
+    public String toString() {
+        return role;
+    }
+
 }

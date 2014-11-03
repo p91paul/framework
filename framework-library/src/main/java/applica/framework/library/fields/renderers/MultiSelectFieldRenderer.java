@@ -20,8 +20,14 @@ public abstract class MultiSelectFieldRenderer extends VelocityFormFieldRenderer
     @Override
     public void render(Writer writer, FormField field, Object value) {
         setTemplatePath("/templates/fields/multi_select.vm");
-        if (TypeUtils.isListOfEntities(value.getClass())) {
-            items = getItems(((List) value));
+        if (value != null) {
+            if (TypeUtils.isListOfEntities(field.getDataType())) {
+                items = getItems((List) value);
+            } else {
+                items = getItems(new ArrayList());
+            }
+        } else {
+            items = getItems(new ArrayList());
         }
         super.render(writer, field, value);
     }

@@ -7,12 +7,8 @@
                 data-component="select"
                 data-property="$field.property">
 
-            #if ($showAll)
-                <option value="">(${localization.m("label.all")})</option>
-            #end
-
             #foreach($item in $items)
-                <option value="$item.value" $item.selected>$item.label</option>
+                <option value="$item.value" #if($item.selected)selected="selected"#end>$item.label</option>
             #end
 
         </select>

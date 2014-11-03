@@ -3,7 +3,7 @@ package applica.framework.library.fields.renderers;
 import applica.framework.Form;
 import applica.framework.FormField;
 
-public class MailFieldRenderer extends BasicTypesFieldRenderer {
+public class MailFieldRenderer extends TemplateFormFieldRenderer {
 
     @Override
     protected String createTemplatePath(Form form, FormField formField) {

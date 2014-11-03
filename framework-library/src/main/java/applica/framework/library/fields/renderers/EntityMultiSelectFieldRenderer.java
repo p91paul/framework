@@ -26,11 +26,15 @@ public abstract class EntityMultiSelectFieldRenderer extends MultiSelectFieldRen
     @Override
     public List<SelectableItem> getItems(List<? extends Entity> selectedItems) {
         return (List<SelectableItem>) repositoriesFactory.createForEntity(getEntityType())
-                .find(LoadRequest.build()).getRows().stream()
+                .find(LoadRequest.build())
+                .getRows()
+                .stream()
                 .map(e -> new SelectableItem(
-                        e.toString(),
-                        ((Entity) e).getId().toString(),
-                        selectedItems.stream().anyMatch(ce -> ((Entity) ce).getId().equals(ce.getId()))))
+                            e.toString(),
+                            ((Entity) e).getId().toString(),
+                            selectedItems.stream().anyMatch(ce -> ce.getId().equals(((Entity) e).getId()))
+                        )
+                )
                 .collect(Collectors.toList());
     }
 

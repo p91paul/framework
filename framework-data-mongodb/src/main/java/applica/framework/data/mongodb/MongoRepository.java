@@ -187,7 +187,7 @@ public abstract class MongoRepository<T extends Entity> implements Repository<T>
 		
 		if(id != null) {
             if (constraintsChecker != null) {
-                get(id).ifPresent(constraintsChecker::check);
+                get(id).ifPresent(constraintsChecker::checkPrimary);
             }
 			collection.remove(Query.mk().id(String.valueOf(id)));
 		}
@@ -204,6 +204,7 @@ public abstract class MongoRepository<T extends Entity> implements Repository<T>
 
         if (constraintsChecker != null) {
             constraintsChecker.check(entity);
+            constraintsChecker.checkForeign(entity);
         }
 
 		BasicDBObject document = mongoMapper.loadBasicDBObject(entity);
