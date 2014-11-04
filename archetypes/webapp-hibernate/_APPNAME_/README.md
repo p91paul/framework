@@ -5,15 +5,15 @@ build enterprise level web applications.
 
 Documentation and contacts
 ==============
-For more information and documentation please visit http://www.applicaframework.com
+For more information and documentation please visit http://www.applicaframework.com.
 
-_Applicaframework_ is developed and maintained from Applica (http://www.applicadoit.com)
-
+_Applicaframework_ is developed and maintained from Applica (http://www.applicadoit.com).
 Write us on framework@applicadoit.com
 
 License
 ============
 
-_Applicaframework_ is release under Creative Common Attribution 4.0 (CC BY) 
+_Applicaframework_ is released under Creative Common Attribution 4.0 (CC BY)
+
 ![CC BY](http://i.creativecommons.org/l/by/3.0/88x31.png)
 
