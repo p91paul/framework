@@ -4,7 +4,7 @@ import applica._APPNAME_.admin.fields.renderers.PermissionsFieldRenderer;
 import applica._APPNAME_.admin.fields.renderers.RolesFieldRenderer;
 import applica._APPNAME_.admin.fields.renderers.UserImageFieldRenderer;
 import applica._APPNAME_.admin.search.RoleSearchForm;
-import applica._APPNAME_.admin.search.UsernameSearchForm;
+import applica._APPNAME_.admin.search.MailSearchForm;
 import applica._APPNAME_.domain.data.RolesRepository;
 import applica._APPNAME_.domain.data.UsersRepository;
 import applica._APPNAME_.domain.model.Role;
@@ -122,7 +122,7 @@ public class Bootstrapper {
     private void registerGrids() {
         GridConfigurator.configure(User.class, "user")
                 .repository(UsersRepository.class)
-                .searchForm(UsernameSearchForm.class)
+                .searchForm(MailSearchForm.class)
                 .column("mail", "label.mail", true)
                 .column("active", "label.active", false);
 

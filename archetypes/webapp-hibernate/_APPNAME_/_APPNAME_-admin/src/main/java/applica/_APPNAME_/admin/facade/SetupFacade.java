@@ -4,6 +4,7 @@ import applica._APPNAME_.domain.data.UsersRepository;
 import applica._APPNAME_.domain.model.Role;
 import applica._APPNAME_.domain.model.User;
 import applica.framework.library.utils.ProgramException;
+import applica.framework.security.authorization.Permissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -31,13 +32,14 @@ public class SetupFacade {
         }
 
         User user = new User();
-        user.setMail("admin@applicamobile.com");
+        user.setMail("admin@applicadoit.com");
         user.setPassword("applica");
         user.setUsername("administrator");
         user.setActive(true);
 
         Role role = new Role();
         role.setRole(Role.ADMIN);
+        role.setPermissions(Permissions.instance().allPermissions());
 
         List<Role> roles = new ArrayList<>();
         roles.add(role);

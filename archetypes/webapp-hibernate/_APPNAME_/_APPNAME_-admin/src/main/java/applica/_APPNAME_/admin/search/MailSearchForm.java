@@ -3,7 +3,10 @@ package applica._APPNAME_.admin.search;
 import applica.framework.annotations.Form;
 import applica.framework.annotations.FormField;
 import applica.framework.annotations.FormRenderer;
+import applica.framework.annotations.SearchCriteria;
 import applica.framework.data.Entity;
+import applica.framework.data.Filter;
+import applica.framework.data.hibernate.annotations.IgnoreMapping;
 import applica.framework.library.forms.renderers.SearchFormRenderer;
 
 /**
@@ -12,15 +15,17 @@ import applica.framework.library.forms.renderers.SearchFormRenderer;
  * Date: 3/4/13
  * Time: 4:18 PM
  */
-@Form(UsernameSearchForm.EID)
+@IgnoreMapping
+@Form(MailSearchForm.EID)
 @FormRenderer(SearchFormRenderer.class)
-public class UsernameSearchForm implements Entity {
-    public static final String EID = "usernamesearchform";
+public class MailSearchForm implements Entity {
+    public static final String EID = "mailsearchform";
 
     private Object id;
 
-    @FormField(description = "label.username")
-    private String username;
+    @FormField(description = "label.mail")
+    @SearchCriteria(Filter.LIKE)
+    private String mail;
 
     public Object getId() {
         return id;
@@ -30,11 +35,11 @@ public class UsernameSearchForm implements Entity {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getMail() {
+        return mail;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 }
