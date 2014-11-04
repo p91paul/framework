@@ -1,4 +1,4 @@
-package applica.framework.data.mongodb.Constraints;
+package applica.framework.data.mongodb.constraints;
 
 /**
  * Applica (www.applicamobile.com)
@@ -6,7 +6,7 @@ package applica.framework.data.mongodb.Constraints;
  * Date: 30/10/14
  * Time: 11:30
  */
-public class ConstraintException extends Exception {
+public class ConstraintException extends RuntimeException {
 
     public ConstraintException() {
     }

@@ -1,4 +1,4 @@
-package applica.framework.data.mongodb.Constraints;
+package applica.framework.data.mongodb.constraints;
 
 import applica.framework.data.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +21,7 @@ public class SimpleConstraintsChecker implements ConstraintsChecker {
     private ApplicationContext applicationContext;
 
     private List<Constraint> constraints;
+    private List<ReferencedConstraint> referencedConstraints;
 
     private List<Constraint> loadConstraints(Class<? extends Entity> type) {
         if (constraints == null) {
@@ -30,12 +31,37 @@ public class SimpleConstraintsChecker implements ConstraintsChecker {
         return constraints.stream().filter(c -> c.getType().equals(type)).collect(Collectors.toList());
     }
 
-    @Override
-    public void check(Entity entity) throws ConstraintException {
-        Objects.requireNonNull(entity, "Entity cannot be null");
-        List<Constraint> entityConstraints = loadConstraints(entity.getClass());
-        for (Constraint constraint : entityConstraints) {
-            constraint.check(entity);
+    private List<ReferencedConstraint> loadPrimaryConstraints(Class<? extends Entity> type) {
+        if (referencedConstraints == null) {
+            referencedConstraints = new ArrayList<ReferencedConstraint>(applicationContext.getBeansOfType(ReferencedConstraint.class).values());
         }
+
+        return referencedConstraints.stream().filter(c -> c.getPrimaryType().equals(type)).collect(Collectors.toList());
+    }
+
+    private List<ReferencedConstraint> loadForeignConstraints(Class<? extends Entity> type) {
+        if (referencedConstraints == null) {
+            referencedConstraints = new ArrayList<ReferencedConstraint>(applicationContext.getBeansOfType(ReferencedConstraint.class).values());
+        }
+
+        return referencedConstraints.stream().filter(c -> c.getForeignType().equals(type)).collect(Collectors.toList());
+    }
+
+    @Override
+    public void check(Entity entity) {
+        Objects.requireNonNull(entity, "Entity cannot be null");
+        loadConstraints(entity.getClass()).forEach(c -> c.check(entity));
+    }
+
+    @Override
+    public void checkPrimary(Entity entity) {
+        Objects.requireNonNull(entity, "Entity cannot be null");
+        loadPrimaryConstraints(entity.getClass()).forEach(c -> c.checkPrimary(entity));
+    }
+
+    @Override
+    public void checkForeign(Entity entity) {
+        Objects.requireNonNull(entity, "Entity cannot be null");
+        loadForeignConstraints(entity.getClass()).forEach(c -> c.checkForeign(entity));
     }
 }

@@ -1,4 +1,4 @@
-package applica.framework.data.mongodb.Constraints;
+package applica.framework.data.mongodb.constraints;
 
 import applica.framework.data.Entity;
 import applica.framework.data.LoadRequest;
@@ -6,10 +6,9 @@ import applica.framework.data.RepositoriesFactory;
 import applica.framework.data.Repository;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.Assert;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
+import java.util.function.Function;
 
 /**
  * Applica (www.applicamobile.com)
@@ -21,6 +20,16 @@ public abstract class UniqueConstraint<T extends Entity> implements Constraint<T
 
     @Autowired
     private RepositoriesFactory repositoriesFactory;
+
+    /**
+     * Returns a LoadRequest builder for check in check() function.
+     * By default, entire entity collection was loaded.
+     * You can specify an optimized query to load optimized data
+     * @return
+     */
+    protected LoadRequest getOptimizedLoadRequest(T entity) {
+        return LoadRequest.build();
+    }
 
     public RepositoriesFactory getRepositoriesFactory() {
         return repositoriesFactory;
@@ -42,7 +51,7 @@ public abstract class UniqueConstraint<T extends Entity> implements Constraint<T
             throw new RuntimeException(e);
         }
         if (value != null) {
-            for (Entity checkEntity : repository.find(LoadRequest.build()).getRows()) {
+            for (Entity checkEntity : repository.find(getOptimizedLoadRequest(entity)).getRows()) {
                 if (!checkEntity.getId().equals(entity.getId())) {
                     Object checkValue = null;
                     try {

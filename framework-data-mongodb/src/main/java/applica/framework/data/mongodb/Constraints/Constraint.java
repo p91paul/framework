@@ -1,9 +1,6 @@
-package applica.framework.data.mongodb.Constraints;
+package applica.framework.data.mongodb.constraints;
 
 import applica.framework.data.Entity;
-
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 /**
  * Applica (www.applicamobile.com)
@@ -15,6 +12,6 @@ public interface Constraint<T extends Entity> {
 
     Class<T> getType();
     String getProperty();
-    void check(T entity) throws ConstraintException;
+    void check(T entity);
 
 }

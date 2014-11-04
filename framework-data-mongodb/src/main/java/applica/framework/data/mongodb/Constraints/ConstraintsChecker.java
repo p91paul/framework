@@ -1,4 +1,4 @@
-package applica.framework.data.mongodb.Constraints;
+package applica.framework.data.mongodb.constraints;
 
 import applica.framework.data.Entity;
 
@@ -10,6 +10,8 @@ import applica.framework.data.Entity;
  */
 public interface ConstraintsChecker {
 
-    void check(Entity entity) throws ConstraintException;
+    void check(Entity entity);
+    void checkPrimary(Entity entity);
+    void checkForeign(Entity entity);
 
 }
