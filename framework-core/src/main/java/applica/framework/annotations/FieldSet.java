@@ -5,9 +5,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Applica (www.applicamobile.com)
+ * User: bimbobruno
+ * Date: 04/11/14
+ * Time: 18:06
+ */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface FormField {
-    String description() default "";
-    String tooltip() default "";
+public @interface FieldSet {
+    String value();
 }

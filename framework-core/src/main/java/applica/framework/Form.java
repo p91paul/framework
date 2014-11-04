@@ -5,10 +5,14 @@ import applica.framework.builders.FormProcessorBuilder;
 import applica.framework.data.Entity;
 import applica.framework.processors.FormProcessor;
 import applica.framework.render.FormRenderer;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Form {
     String identifier;
@@ -17,6 +21,7 @@ public class Form {
     boolean editMode = false;
     private String method = "POST";
     private Map<String, Object> data;
+    private List<FieldSet> fieldSets;
 
     public String getMethod() {
         return method;
@@ -69,6 +74,37 @@ public class Form {
 
     public boolean isEditMode() {
         return editMode;
+    }
+
+    public List<FieldSet> getFieldSets() {
+        if (fieldSets == null) {
+            fieldSets = new ArrayList<>();
+
+            FieldSet defaultFieldSet = new FieldSet(this);
+            defaultFieldSet.setName("<default>");
+            defaultFieldSet.setFields(
+                    descriptor.getFields().stream().filter(f -> StringUtils.isEmpty(f.getFieldSet())).collect(Collectors.toList())
+            );
+            fieldSets.add(defaultFieldSet);
+
+            descriptor.getFields()
+                    .stream()
+                    .filter(f -> StringUtils.isNotEmpty(f.getFieldSet()))
+                    .map(FormField::getFieldSet)
+                    .distinct()
+                    .forEach(fs -> {
+                        FieldSet fieldSet = new FieldSet(this);
+                        fieldSet.setName(fs);
+                        fieldSet.setFields(
+                                descriptor.getFields().stream().filter(f -> fs.equals(f.getFieldSet())).collect(Collectors.toList())
+                        );
+                        fieldSets.add(fieldSet);
+                    });
+
+        }
+
+        return fieldSets;
+
     }
 
     public String writeToString() throws FormCreationException, CrudConfigurationException {

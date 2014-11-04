@@ -49,8 +49,8 @@ public class FormDescriptor {
         this.buttons = buttons;
     }
 
-    public FormField addField(String property, Type dataType, String description, String tooltip, FormFieldRenderer renderer) {
-        FormField newField = new FormField(form, property, dataType, description, tooltip, renderer);
+    public FormField addField(String property, Type dataType, String description, String tooltip, String fieldSet, FormFieldRenderer renderer) {
+        FormField newField = new FormField(form, property, dataType, description, tooltip, fieldSet, renderer);
         fields.add(newField);
         return newField;
     }

@@ -42,8 +42,8 @@ public class ProjectModule implements Module {
     public void newProject(Properties properties) {
         List<String> editableExtensions = Arrays.asList("java", "xml", "vm", "properties", "manifest");
 
-        Assert.isTrue(properties.containsKey("name"), "missing name. Specify -Dname=<choise>");
-        Assert.isTrue(properties.containsKey("archetype"), "missing archetype. Specify -Darchetype=<choise>");
+        Assert.isTrue(properties.containsKey("name"), "missing name. Specify -Dname=<value>");
+        Assert.isTrue(properties.containsKey("archetype"), "missing archetype. Specify -Darchetype=<value>");
 
         String appName = (String) properties.get("name");
         String archetype = (String) properties.get("archetype");

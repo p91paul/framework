@@ -25,6 +25,7 @@ import java.util.stream.Stream;
 public class FormConfigurator {
     private Class<? extends Entity> entityType;
     private String identifier;
+    private String currentFieldSet = null;
 
     private FormConfigurator() {
 
@@ -82,21 +83,61 @@ public class FormConfigurator {
         return this;
     }
 
+    public FormConfigurator fieldSet(String fieldSet) {
+        this.currentFieldSet = fieldSet;
+        return this;
+    }
+
+    public FormConfigurator noFieldSet() {
+        this.currentFieldSet = null;
+        return this;
+    }
+
     public FormConfigurator field(String property, String description) {
-        CrudConfiguration.instance().registerFormField(entityType, property, getDataType(property), description, "");
+        CrudConfiguration.instance().registerFormField(entityType, property, getDataType(property), description, "", currentFieldSet);
+        return this;
+    }
+
+    public FormConfigurator field(String property, String description, String tooltip) {
+        CrudConfiguration.instance().registerFormField(entityType, property, getDataType(property), description, tooltip, currentFieldSet);
         return this;
     }
 
     public FormConfigurator field(String property, String description, Class<? extends FormFieldRenderer> renderer) {
-        CrudConfiguration.instance().registerFormField(entityType, property, getDataType(property), description, "");
-        CrudConfiguration.instance().registerFormFieldRenderer(entityType, property, renderer);
+        CrudConfiguration.instance().registerFormField(entityType, property, getDataType(property), description, "", currentFieldSet);
+        if (renderer != null) {
+            CrudConfiguration.instance().registerFormFieldRenderer(entityType, property, renderer);
+        }
+        return this;
+    }
+
+    public FormConfigurator field(String property, String description, String tooltip,  Class<? extends FormFieldRenderer> renderer) {
+        CrudConfiguration.instance().registerFormField(entityType, property, getDataType(property), description, tooltip, currentFieldSet);
+        if (renderer != null) {
+            CrudConfiguration.instance().registerFormFieldRenderer(entityType, property, renderer);
+        }
         return this;
     }
 
     public FormConfigurator field(String property, String description, Class<? extends FormFieldRenderer> renderer, Class<? extends PropertyMapper> propertyMapper) {
-        CrudConfiguration.instance().registerFormField(entityType, property, getDataType(property), description, "");
-        CrudConfiguration.instance().registerFormFieldRenderer(entityType, property, renderer);
-        CrudConfiguration.instance().registerPropertyMapper(entityType, property, propertyMapper);
+        CrudConfiguration.instance().registerFormField(entityType, property, getDataType(property), description, "", currentFieldSet);
+        if (renderer != null) {
+            CrudConfiguration.instance().registerFormFieldRenderer(entityType, property, renderer);
+        }
+        if (propertyMapper != null) {
+            CrudConfiguration.instance().registerPropertyMapper(entityType, property, propertyMapper);
+        }
+        return this;
+    }
+
+    public FormConfigurator field(String property, String description, String tooltip, Class<? extends FormFieldRenderer> renderer, Class<? extends PropertyMapper> propertyMapper) {
+        CrudConfiguration.instance().registerFormField(entityType, property, getDataType(property), description, tooltip, currentFieldSet);
+        if (renderer != null) {
+            CrudConfiguration.instance().registerFormFieldRenderer(entityType, property, renderer);
+        }
+        if (propertyMapper != null) {
+            CrudConfiguration.instance().registerPropertyMapper(entityType, property, propertyMapper);
+        }
         return this;
     }
 

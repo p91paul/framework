@@ -1,6 +1,7 @@
 package applica.framework;
 
 import applica.framework.annotations.*;
+import applica.framework.annotations.FieldSet;
 import applica.framework.data.Entity;
 import applica.framework.data.Repository;
 import applica.framework.data.Sort;
@@ -176,6 +177,7 @@ public class CrudConfiguration implements CrudConstants {
                     String property = field.getName();
                     String description = formFieldAnnotation.description();
                     String tooltip = formFieldAnnotation.tooltip();
+                    String fieldSet = null;
 
                     if (!StringUtils.hasLength(description)) description = property;
 
@@ -200,7 +202,13 @@ public class CrudConfiguration implements CrudConstants {
                         logger.info("Registered field search criteria: " + searchCriteriaAnnotation.value());
                     }
 
-                    CrudConfiguration.instance().registerFormField(formAlias.type, property, field.getGenericType(), description, tooltip);
+                    applica.framework.annotations.FieldSet fieldSetAnnotation = field.getAnnotation(applica.framework.annotations.FieldSet.class);
+                    if(fieldSetAnnotation != null) {
+                        fieldSet = fieldSetAnnotation.value();
+                        logger.info("Registered field fieldSet: " + fieldSetAnnotation.value());
+                    }
+
+                    CrudConfiguration.instance().registerFormField(formAlias.type, property, field.getGenericType(), description, tooltip, fieldSet);
                 }
             }
 
@@ -624,7 +632,7 @@ public class CrudConfiguration implements CrudConstants {
         info.descriptor.addColumn(property, header, dataType, linked, null);
     }
 
-    public void registerFormField(final Class<? extends Entity> type, String property, Type dataType, String description, String tooltip) {
+    public void registerFormField(final Class<? extends Entity> type, String property, Type dataType, String description, String tooltip, String fieldSet) {
         FormDescriptorInfo info = (FormDescriptorInfo) CollectionUtils.find(formDescriptorInfos, new Predicate() {
             @Override
             public boolean evaluate(Object item) {
@@ -640,7 +648,7 @@ public class CrudConfiguration implements CrudConstants {
             formDescriptorInfos.add(info);
         }
 
-        info.descriptor.addField(property, dataType, description, tooltip, null);
+        info.descriptor.addField(property, dataType, description, tooltip, fieldSet, null);
     }
 
     public void registerFormButton(final Class<? extends Entity> type, String label, String buttonType, String action) {

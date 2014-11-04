@@ -15,6 +15,7 @@ public class FormField {
     String description;
     String tooltip;
     String property;
+    String fieldSet;
     String searchCriteria;
     FormFieldRenderer renderer;
     Form form;
@@ -23,10 +24,11 @@ public class FormField {
 
     Log logger = LogFactory.getLog(getClass());
 
-    public FormField(Form form, String property, Type dataType, String description, String tooltip, FormFieldRenderer renderer) {
+    public FormField(Form form, String property, Type dataType, String description, String tooltip, String fieldSet, FormFieldRenderer renderer) {
         super();
         this.form = form;
         this.property = property;
+        this.fieldSet = fieldSet;
         this.dataType = dataType;
         this.description = description;
         this.tooltip = tooltip;
@@ -67,6 +69,14 @@ public class FormField {
 
     public void setProperty(String property) {
         this.property = property;
+    }
+
+    public String getFieldSet() {
+        return fieldSet;
+    }
+
+    public void setFieldSet(String fieldSet) {
+        this.fieldSet = fieldSet;
     }
 
     public FormFieldRenderer getRenderer() {

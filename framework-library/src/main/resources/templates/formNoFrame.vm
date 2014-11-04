@@ -8,8 +8,19 @@
             <input type="hidden" name="mode" value="create"/>
         #end
 
-        #foreach ($field in $fields)
-            $field.writeToString($data)
+        #foreach ($fieldSet in $form.fieldSets)
+            #if ($fieldSet.name != "<default>")
+            <div class="panel panel-default">
+                <div class="panel-heading">$fieldSet.name</div>
+            <div class="panel-body">
+            #end
+            #foreach ($field in $fieldSet.fields)
+                $field.writeToString($data)
+            #end
+            #if ($fieldSet.name != "<default>")
+            </div>
+            </div>
+            #end
         #end
 
         #if($form.descriptor.buttons && $form.descriptor.buttons.size() > 0)

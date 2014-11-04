@@ -44,10 +44,10 @@ public class PropertyMapperTester {
         }
 
         FormDescriptor formDescriptor = new FormDescriptor(form);
-        FormField nameField = formDescriptor.addField("name", String.class, "name", "", new MockFormFieldRenderer());
-        FormField brandField = formDescriptor.addField("brand", Brand.class, "brand", "", new MockFormFieldRenderer());
-        FormField playersField = formDescriptor.addField("players", playersType, "players", "", new MockFormFieldRenderer());
-        FormField manyToManyPlayersField = formDescriptor.addField("manyToManyPlayers", playersType, "manyToManyPlayers", "", new MockFormFieldRenderer());
+        FormField nameField = formDescriptor.addField("name", String.class, "name", "", null, new MockFormFieldRenderer());
+        FormField brandField = formDescriptor.addField("brand", Brand.class, "brand", "", null,  new MockFormFieldRenderer());
+        FormField playersField = formDescriptor.addField("players", playersType, "players", "", null,  new MockFormFieldRenderer());
+        FormField manyToManyPlayersField = formDescriptor.addField("manyToManyPlayers", playersType, "manyToManyPlayers", "", null,  new MockFormFieldRenderer());
 
         SimplePropertyMapper propertyMapper = new SimplePropertyMapper();
         propertyMapper.setRepositoriesFactory(repositoriesFactory);
