@@ -38,12 +38,6 @@ public class ProjectModule implements Module {
         return path;
     }
 
-    @Action(value = "test", description = "Create a new app with specified name")
-    public void test(Properties properties) {
-        System.out.println(AppContext.current().appPath(""));
-        System.out.println(AppContext.current().getAppName());
-    }
-
     @Action(value = "create", description = "Create a new app with specified name")
     public void newProject(Properties properties) {
         List<String> editableExtensions = Arrays.asList("java", "xml", "vm", "properties", "manifest");

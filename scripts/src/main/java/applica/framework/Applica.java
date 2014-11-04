@@ -55,7 +55,22 @@ public class Applica {
     }
 
     public static void printUsage() {
-        System.out.println("usage");
+        StringBuilder usage = new StringBuilder();
+        usage.append("Usage: applica module:action [properties...]\n");
+        usage.append("\t\t\t(to execute a module action)\n");
+        usage.append("specify properties with\n");
+        usage.append("\t-D<name>=<value>\n\t\t\t\tSpecify parameters for action\n");
+        usage.append("where vailable modules are\n");
+        usage.append("\thelp\n\t\t\t\tShow this help\n");
+        usage.append("\tversion\n\t\t\t\tDisplay framework version\n");
+        Modules.instance().getModules().forEach( m -> {
+            usage.append(String.format("\t%s\n", m.getModule()));
+            m.getMethods().forEach(a -> usage.append(String.format("\t\t\t\t:%s -> %s\n", a.getAction(), a.getDescription())));
+        });
+        usage.append("\nExample:\n");
+        usage.append("\tapplica project:create -Dname=myproject -Dachetype=webapp-mongo\n");
+        usage.append("\t\t\t\tCreates a new project called myproject with archetype webapp-mongo\n");
+        System.out.println(usage.toString());
     }
 
 }
