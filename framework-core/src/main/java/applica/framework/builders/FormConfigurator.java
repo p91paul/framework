@@ -42,6 +42,10 @@ public class FormConfigurator {
 
         return formConfigurator;
     }
+    
+    public static FormConfigurator configure(Class<? extends Entity> entityType){
+        return configure(entityType, entityType.getSimpleName());
+    }
 
     public static FormConfigurator configure(Class<? extends Entity> entityType, String identifier) {
         FormConfigurator formConfigurator = new FormConfigurator();

@@ -40,6 +40,10 @@ public class GridConfigurator {
 
         return gridConfigurator;
     }
+    
+    public static GridConfigurator configure(Class<? extends Entity> entityType){
+        return configure(entityType, entityType.getSimpleName());
+    }
 
     public static GridConfigurator configure(Class<? extends Entity> entityType, String identifier) {
         GridConfigurator gridConfigurator = new GridConfigurator();
