@@ -72,6 +72,10 @@ public class FormConfigurator {
         CrudConfiguration.instance().registerFormMethod(entityType, method);
         return this;
     }
+    
+    public FormConfigurator submitButton(String label){
+        return button(label, "submit", null);
+    }
 
     public FormConfigurator button(String label, String type, String action) {
         CrudConfiguration.instance().registerFormButton(entityType, label, type, action);
