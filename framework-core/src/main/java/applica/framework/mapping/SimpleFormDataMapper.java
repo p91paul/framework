@@ -5,11 +5,9 @@ import applica.framework.CrudConfigurationException;
 import applica.framework.FormDescriptor;
 import applica.framework.FormField;
 import applica.framework.data.Entity;
-import applica.framework.utils.TypeUtils;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +36,7 @@ public class SimpleFormDataMapper implements FormDataMapper {
                     propertyMapper = new SimplePropertyMapper();
                 }
 
-                propertyMapper.mapFormValueFromEntityProperty(formDescriptor, formField, values, entity);
+                propertyMapper.toFormValue(formDescriptor, formField, values, entity);
             }
         }
     }
@@ -64,7 +62,7 @@ public class SimpleFormDataMapper implements FormDataMapper {
                 mapper = new SimplePropertyMapper();
             }
 
-            mapper.mapEntityPropertyFromRequestValue(formDescriptor, formField, entity, requestValues);
+            mapper.toEntityProperty(formDescriptor, formField, entity, requestValues);
         }
     }
 

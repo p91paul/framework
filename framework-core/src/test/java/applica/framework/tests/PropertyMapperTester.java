@@ -12,11 +12,7 @@ import applica.framework.utils.TypeUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.StringWriter;
-import java.io.Writer;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -59,10 +55,10 @@ public class PropertyMapperTester {
         values.put("players", new String[] {Player.BRUNO_ID, Player.MASSIMO_ID });
         values.put("manyToManyPlayers", new String[] {Player.BRUNO_ID, Player.MASSIMO_ID });
         try {
-            propertyMapper.mapEntityPropertyFromRequestValue(formDescriptor, nameField, game, values);
-            propertyMapper.mapEntityPropertyFromRequestValue(formDescriptor, brandField, game, values);
-            propertyMapper.mapEntityPropertyFromRequestValue(formDescriptor, playersField, game, values);
-            propertyMapper.mapEntityPropertyFromRequestValue(formDescriptor, manyToManyPlayersField, game, values);
+            propertyMapper.toEntityProperty(formDescriptor, nameField, game, values);
+            propertyMapper.toEntityProperty(formDescriptor, brandField, game, values);
+            propertyMapper.toEntityProperty(formDescriptor, playersField, game, values);
+            propertyMapper.toEntityProperty(formDescriptor, manyToManyPlayersField, game, values);
         } catch (MappingException e) {
             e.printStackTrace();
             Assert.assertTrue(e.getMessage(), false);
@@ -79,10 +75,10 @@ public class PropertyMapperTester {
 
         HashMap<String, Object> formValues = new HashMap<>();
         try {
-            propertyMapper.mapFormValueFromEntityProperty(formDescriptor, nameField, formValues, game);
-            propertyMapper.mapFormValueFromEntityProperty(formDescriptor, brandField, formValues, game);
-            propertyMapper.mapFormValueFromEntityProperty(formDescriptor, playersField, formValues, game);
-            propertyMapper.mapFormValueFromEntityProperty(formDescriptor, manyToManyPlayersField, formValues, game);
+            propertyMapper.toFormValue(formDescriptor, nameField, formValues, game);
+            propertyMapper.toFormValue(formDescriptor, brandField, formValues, game);
+            propertyMapper.toFormValue(formDescriptor, playersField, formValues, game);
+            propertyMapper.toFormValue(formDescriptor, manyToManyPlayersField, formValues, game);
         } catch (MappingException e) {
             e.printStackTrace();
             Assert.assertTrue(e.getMessage(), false);

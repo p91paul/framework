@@ -51,7 +51,7 @@ public class SimplePropertyMapper implements PropertyMapper {
 
     @SuppressWarnings({"rawtypes"})
     @Override
-    public void mapFormValueFromEntityProperty(FormDescriptor formDescriptor, FormField formField, Map<String, Object> values, Entity entity)
+    public void toFormValue(FormDescriptor formDescriptor, FormField formField, Map<String, Object> values, Entity entity)
             throws MappingException {
 
         if (isRelation(formField)) {
@@ -90,7 +90,7 @@ public class SimplePropertyMapper implements PropertyMapper {
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     @Override
-    public void mapEntityPropertyFromRequestValue(FormDescriptor formDescriptor, FormField formField, Entity entity, Map<String, String[]> requestValues)
+    public void toEntityProperty(FormDescriptor formDescriptor, FormField formField, Entity entity, Map<String, String[]> requestValues)
             throws MappingException {
         if (requestValues.containsKey(formField.getProperty())) {
             String[] requestValueArray = requestValues.get(formField.getProperty());

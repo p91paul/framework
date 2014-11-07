@@ -10,8 +10,10 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Represents a form field. The data in this object is used for rendering and mapping
+ */
 public class FormField {
-
     String description;
     String tooltip;
     String property;

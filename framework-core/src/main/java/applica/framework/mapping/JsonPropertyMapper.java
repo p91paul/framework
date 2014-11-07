@@ -17,7 +17,7 @@ public class JsonPropertyMapper implements PropertyMapper {
     private Log logger = LogFactory.getLog(getClass());
 
     @Override
-    public void mapFormValueFromEntityProperty(FormDescriptor formDescriptor, FormField formField, Map<String, Object> values, Entity entity)
+    public void toFormValue(FormDescriptor formDescriptor, FormField formField, Map<String, Object> values, Entity entity)
             throws MappingException {
 
         if (entity != null) {
@@ -40,7 +40,7 @@ public class JsonPropertyMapper implements PropertyMapper {
     }
 
     @Override
-    public void mapEntityPropertyFromRequestValue(FormDescriptor formDescriptor, FormField formField, Entity entity, Map<String, String[]> requestValues)
+    public void toEntityProperty(FormDescriptor formDescriptor, FormField formField, Entity entity, Map<String, String[]> requestValues)
             throws MappingException {
 
         if (entity != null) {
