@@ -24,7 +24,6 @@
 		<property name="hbm2ddl.auto">update</property>
 
 		<!-- Mapped classes -->
-		<mapping resource="applica/_APPNAME_/admin/viewmodel/UILogin.hbm.xml" />
 		<mapping resource="applica/_APPNAME_/domain/model/Role.hbm.xml" />
 		<mapping resource="applica/_APPNAME_/domain/model/User.hbm.xml" />
 	</session-factory>

@@ -1,7 +1,7 @@
 <applica>
     <appname>_APPNAME_</appname>
     <webapps>
-        <webapp path="_APPNAME_-admin">
+        <webapp name="_APPNAME_-admin">
             <mappings>
                 <includes>
                     <include>_APPNAME_-domain</include>
@@ -9,7 +9,7 @@
             </mappings>
         </webapp>
 
-        <webapp path="_APPNAME_-frontend">
+        <webapp name="_APPNAME_-frontend">
             <mappings>
                 <includes>
                     <include>_APPNAME_-domain</include>

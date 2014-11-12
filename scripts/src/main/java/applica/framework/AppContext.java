@@ -2,12 +2,17 @@ package applica.framework;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.*;
 import java.io.File;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Applica (www.applicadoit.com)
@@ -30,6 +35,7 @@ public class AppContext {
 
     private String appDir;
     private String appName;
+    Document document;
 
     private void init() {
         appDir = Paths.get("").toAbsolutePath().toString();
@@ -38,7 +44,7 @@ public class AppContext {
 
         try {
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            Document document = documentBuilder.parse(manifest);
+            document = documentBuilder.parse(manifest);
             Element root = document.getDocumentElement();
             appName = root.getElementsByTagName("appname").item(0).getTextContent();
         } catch (Exception e) {
@@ -54,8 +60,36 @@ public class AppContext {
         return String.format("%s%s%s", appDir, File.separator, normalized);
     }
 
+    public String relativePath(String path) {
+        String rel = path.replace(appPath("/"), "");
+        if (rel.startsWith(File.separator)) {
+            return ".".concat(rel);
+        } else {
+            return SystemUtils.multiplatformPath("./".concat(rel));
+        }
+    }
+
     public String getAppName() {
         return appName;
+    }
+
+    public List<String> getMappingIncludes(String webApp) {
+        List<String> includes = new ArrayList<>();
+
+        XPathFactory xPathfactory = XPathFactory.newInstance();
+        XPath xpath = xPathfactory.newXPath();
+        try {
+            XPathExpression expr = xpath.compile(String.format("applica/webapps/webapp[@name='%s']/mappings/includes/*", webApp));
+            NodeList nodeList = (NodeList) expr.evaluate(document, XPathConstants.NODESET);
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                Node node = nodeList.item(i);
+                includes.add(node.getTextContent().trim());
+            }
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
+        }
+
+        return includes;
     }
 
 }
