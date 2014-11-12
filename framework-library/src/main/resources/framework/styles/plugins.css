@@ -67,10 +67,6 @@
     background-color: #d3d3d3;
 }
 
-.ui-dialog {
-    font-size: 12px !important;
-}
-
 .searchableInputDialog .keyword {
     margin-bottom: 5px;
     width: 256px;
@@ -138,72 +134,6 @@
     width: 100px;
 }
 
-/* custom tabs */
-.ctabs {
-    margin: 0px;
-}
-
-.ctabs > ul {
-    height: 40px;
-    width: 100%;
-    padding: 0px;
-    margin: 0px;
-    background-color: #999999;
-}
-
-.ctabs > ul li {
-    display: block;
-    float: left;
-    list-style: none;
-    padding: 0px;
-    margin: 0px;
-}
-
-.ctabs > ul li a:link, .ctabs > ul li a:visited {
-    display: block;
-    height: 25px;
-    padding: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-    margin: 0px;
-    margin-top: 5px;
-    margin-left: 2px;
-    border-radius: 3px 3px 0px 0px;
-    background-color: #035375;
-    color: white;
-    text-decoration: none;
-    font-weight: normal;
-    font-size: 14px;
-}
-
-.ctabs > ul li a:hover {
-    background-color: #000000;
-}
-
-.ctabs > ul li a.selected:link, .ctabs > ul li a.selected:visited {
-    display: block;
-    height: 25px;
-    padding: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-    margin: 0px;
-    margin-top: 5px;
-    margin-left: 2px;
-    border-radius: 3px 3px 0px 0px;
-    background-color: #ffffff;
-    color: #035375;
-    text-decoration: none;
-    font-weight: normal;
-    font-size: 14px;
-}
-
-.ctabs > ul li a.selected:hover {
-}
-
-.ctabs > ul li:first-child {
-    margin-left: 3px;
-}
-
 .modalOverlay {
     position: absolute;
     top: 0px;
@@ -257,36 +187,26 @@
 ul.breadcrumbs {
     display: inline;
 }
+
 ul.breadcrumbs li {
     display: inline;
     list-style-type: none;
     font-size: 13px;
 }
+
 ul.breadcrumbs li a {
     color: Black;
     text-decoration: none;
 }
+
 ul.breadcrumbs li img {
     margin-left: 2px;
     margin-right: 4px;
 }
+
 ul.breadcrumbs li:hover a,
 ul.breadcrumbs li a.selected {
     color: #666
-}
-
-.percentage {
-}
-
-.percentage .slider {
-    width: 250px;
-    display: inline-block;
-    vertical-align: middle;
-}
-.percentage .display {
-    width: 90px;
-    display: inline-block;
-    margin-left: 10px;
 }
 
 .framework-modal {

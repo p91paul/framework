@@ -80,6 +80,7 @@
     <bean class="applica.framework.library.fields.renderers.ReadOnlyFieldRenderer" />
     <bean class="applica.framework.library.fields.renderers.TextAreaFieldRenderer" />
     <bean class="applica.framework.library.fields.renderers.TimePickerRenderer" />
+    <bean class="applica.framework.library.fields.renderers.HtmlFieldRenderer" />
 
     <!-- forms beans -->
     <bean class="applica.framework.library.forms.processors.DefaultFormProcessor" />

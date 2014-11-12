@@ -43,21 +43,22 @@ public class LibraryDemoController {
             form.setRenderer(context.getBean(NoFrameFormRenderer.class));
 
             FormDescriptor descriptor = new FormDescriptor(form);
-            descriptor.addField("check", Boolean.class, "check", "", context.getBean(DefaultFieldRenderer.class));
-            descriptor.addField("color", String.class, "color", "", context.getBean(ColorFieldRenderer.class));
-            descriptor.addField("mail", String.class, "mail", "", context.getBean(MailFieldRenderer.class));
-            descriptor.addField("password", String.class, "password", "", context.getBean(PasswordFieldRenderer.class));
-            descriptor.addField("date", Date.class, "date", "", context.getBean(DefaultFieldRenderer.class));
-            descriptor.addField("file", String.class, "file", "", context.getBean(LibraryDemoFileRenderer.class));
-            descriptor.addField("percentage", Integer.class, "percentage", "", context.getBean(PercentageFieldRenderer.class));
-            descriptor.addField("readonly", Integer.class, "readonly", "", context.getBean(ReadOnlyFieldRenderer.class));
-            descriptor.addField("select", String.class, "readonly", "", context.getBean(LibraryDemoSelectRenderer.class));
-            descriptor.addField("text", String.class, "text", "", context.getBean(DefaultFieldRenderer.class));
-            descriptor.addField("textarea", String.class, "readonly", "", context.getBean(TextAreaFieldRenderer.class));
-            descriptor.addField("time", String.class, "time", "", context.getBean(TimePickerRenderer.class));
+            descriptor.addField("check", Boolean.class, "check", "", "", context.getBean(DefaultFieldRenderer.class));
+            descriptor.addField("color", String.class, "color", "", "", context.getBean(ColorFieldRenderer.class));
+            descriptor.addField("mail", String.class, "mail", "", "", context.getBean(MailFieldRenderer.class));
+            descriptor.addField("password", String.class, "password", "", "", context.getBean(PasswordFieldRenderer.class));
+            descriptor.addField("date", Date.class, "date", "", "", context.getBean(DefaultFieldRenderer.class));
+            descriptor.addField("file", String.class, "file", "", "", context.getBean(LibraryDemoFileRenderer.class));
+            descriptor.addField("percentage", Integer.class, "percentage", "", "", context.getBean(PercentageFieldRenderer.class));
+            descriptor.addField("readonly", Integer.class, "readonly", "", "", context.getBean(ReadOnlyFieldRenderer.class));
+            descriptor.addField("select", String.class, "readonly", "", "", context.getBean(LibraryDemoSelectRenderer.class));
+            descriptor.addField("text", String.class, "text", "", "", context.getBean(DefaultFieldRenderer.class));
+            descriptor.addField("textarea", String.class, "readonly", "", "", context.getBean(TextAreaFieldRenderer.class));
+            descriptor.addField("time", String.class, "time", "", "", context.getBean(TimePickerRenderer.class));
+            descriptor.addField("html", String.class, "html", "", "", context.getBean(HtmlFieldRenderer.class));
 
-            descriptor.addField("singleSearchableInput", String.class, "singleSearchableInput", "", context.getBean(LibraryDemoSingleSearchableInputRenderer.class));
-            descriptor.addField("multiSearchableInput", List.class, "multiSearchableInput", "", context.getBean(LibraryDemoMultiSearchableInputRenderer.class));
+            descriptor.addField("singleSearchableInput", String.class, "singleSearchableInput", "", "", context.getBean(LibraryDemoSingleSearchableInputRenderer.class));
+            descriptor.addField("multiSearchableInput", List.class, "multiSearchableInput", "", "", context.getBean(LibraryDemoMultiSearchableInputRenderer.class));
 
             formResponse.setTitle("Library demo form");
             formResponse.setContent(form.writeToString());

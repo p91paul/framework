@@ -5,6 +5,8 @@
  * Time: 10:38 AM
  */
 
+@import url(webapp.css);
+
 body {
     padding-top: 60px;
 }

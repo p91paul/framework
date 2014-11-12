@@ -313,6 +313,17 @@ define(["framework/core"], function(core) {
                         .text(v + '%');
                 }
             });
+        },
+
+        html: function (element) {
+            $(element).summernote({
+                height: "250"
+            });
+
+            //override form method
+            this.on("beforeSubmit", function() {
+                $(element).val($(element).code())
+            });
         }
     };
 

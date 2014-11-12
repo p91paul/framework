@@ -1,3 +1,20 @@
 <applica>
     <appname>_APPNAME_</appname>
+    <webapps>
+        <webapp path="_APPNAME_-admin">
+            <mappings>
+                <includes>
+                    <include>_APPNAME_-domain</include>
+                </includes>
+            </mappings>
+        </webapp>
+
+        <webapp path="_APPNAME_-frontend">
+            <mappings>
+                <includes>
+                    <include>_APPNAME_-domain</include>
+                </includes>
+            </mappings>
+        </webapp>
+    </webapps>
 </applica>
