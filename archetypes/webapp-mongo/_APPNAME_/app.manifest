@@ -1,3 +1,4 @@
 <applica>
     <appname>_APPNAME_</appname>
+    <archetype>webapp-mongo</archetype>
 </applica>

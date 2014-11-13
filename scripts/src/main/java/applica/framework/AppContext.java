@@ -35,27 +35,31 @@ public class AppContext {
 
     private String appDir;
     private String appName;
+    private String archetype;
     Document document;
 
     private void init() {
         appDir = Paths.get("").toAbsolutePath().toString();
         File manifest = new File(appPath("app.manifest"));
-        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        if (manifest.exists()) {
+            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 
-        try {
-            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            document = documentBuilder.parse(manifest);
-            Element root = document.getDocumentElement();
-            appName = root.getElementsByTagName("appname").item(0).getTextContent();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            try {
+                DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+                document = documentBuilder.parse(manifest);
+                Element root = document.getDocumentElement();
+                appName = root.getElementsByTagName("appname").item(0).getTextContent();
+                archetype = root.getElementsByTagName("archetype").item(0).getTextContent();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
     public String appPath(String path) {
         String normalized = path;
         if (path.startsWith("\\") || path.startsWith("/")) {
-            normalized = path.substring(0, path.length() - 1);
+            normalized = path.substring(1, path.length());
         }
         return String.format("%s%s%s", appDir, File.separator, normalized);
     }
@@ -92,4 +96,7 @@ public class AppContext {
         return includes;
     }
 
+    public String getArchetype() {
+        return archetype;
+    }
 }

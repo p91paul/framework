@@ -1,5 +1,6 @@
 <applica>
     <appname>_APPNAME_</appname>
+    <archetype>webapp-hibernate</archetype>
     <webapps>
         <webapp name="_APPNAME_-admin">
             <mappings>
