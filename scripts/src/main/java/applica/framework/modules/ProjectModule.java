@@ -70,7 +70,7 @@ public class ProjectModule implements Module {
         };
 
         for (String appPath : appPaths) {
-            if (!new File(appPath).exists()) {
+            if (!new File(String.format("%s/%s", Applica.frameworkHome, appPath)).exists()) {
                 p("Archetype %s not found", archetype);
                 System.exit(2);
                 return;
