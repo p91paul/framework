@@ -43,6 +43,12 @@ public class FormConfigurator {
         return formConfigurator;
     }
     
+    /**
+     * Configures a new form for {@code entityType} with identifier {@code entityType.getSimpleName()}.
+     * See {@link #configure(java.lang.Class, java.lang.String) }
+     * @param entityType
+     * @return 
+     */
     public static FormConfigurator configure(Class<? extends Entity> entityType){
         return configure(entityType, entityType.getSimpleName());
     }
@@ -84,6 +90,16 @@ public class FormConfigurator {
     public FormConfigurator button(String label, String type, String action) {
         CrudConfiguration.instance().registerFormButton(entityType, label, type, action);
         return this;
+    }
+
+    /**
+     * Adds a new property to the form with label "label.identifier.property" 
+     * where identifier is the form identifier specified in {@link #configure(java.lang.Class, java.lang.String)}.
+     * @param property the property name
+     * @return the updated FormConfigurator
+     */
+    public FormConfigurator field(String property) {
+        return field(property, String.format("label.%s.%s", identifier, property));
     }
 
     public FormConfigurator field(String property, String description) {
