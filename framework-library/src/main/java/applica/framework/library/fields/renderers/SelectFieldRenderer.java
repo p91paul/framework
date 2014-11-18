@@ -1,16 +1,12 @@
 package applica.framework.library.fields.renderers;
 
+import applica.framework.CrudConfiguration;
 import applica.framework.FormField;
 import applica.framework.library.SimpleItem;
-import applica.framework.library.i18n.Localization;
 import applica.framework.library.velocity.VelocityFormFieldRenderer;
-import org.apache.velocity.VelocityContext;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.web.context.WebApplicationContext;
-
 import java.io.Writer;
 import java.util.List;
+import org.apache.velocity.VelocityContext;
 
 public abstract class SelectFieldRenderer extends VelocityFormFieldRenderer {
 
@@ -28,5 +24,13 @@ public abstract class SelectFieldRenderer extends VelocityFormFieldRenderer {
         super.setupContext(context);
 
         context.put("items", getItems());
+    }
+
+    protected SimpleItem getSimpleItem(Class<?> selectClass, String selectValue) {
+        return new SimpleItem(CrudConfiguration.getDefaultDescription(selectClass, selectValue), selectValue);
+    }
+
+    protected SimpleItem getSimpleItem(String selectIdentifier, String selectValue) {
+        return new SimpleItem(CrudConfiguration.getDefaultDescription(selectIdentifier, selectValue), selectValue);
     }
 }
