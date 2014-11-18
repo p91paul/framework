@@ -8,7 +8,6 @@ import applica.framework.processors.FormProcessor;
 import applica.framework.render.FormFieldRenderer;
 import applica.framework.render.FormRenderer;
 import applica.framework.utils.TypeUtils;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 
@@ -127,22 +126,18 @@ public class FormConfigurator {
     }
 
     public FormConfigurator field(String property, String description, Class<? extends FormFieldRenderer> renderer, Class<? extends PropertyMapper> propertyMapper) {
-        if (description == null) 
-            description = getDefaultDescription(property);        
-        CrudConfiguration.instance().registerFormField(entityType, property, 
+        if (description == null)
+            description = CrudConfiguration.getDefaultDescription(identifier, property);
+        CrudConfiguration.instance().registerFormField(entityType, property,
                 getDataType(property), description, "");
-        
-        if (renderer != null) 
+
+        if (renderer != null)
             CrudConfiguration.instance().registerFormFieldRenderer(entityType, property, renderer);
-        
+
         if (propertyMapper != null)
             CrudConfiguration.instance().registerPropertyMapper(entityType, property, propertyMapper);
-        
-        return this;
-    }
 
-    private String getDefaultDescription(String property) {
-        return String.format("label.%s.%s", identifier, property);
+        return this;
     }
 
     public FormConfigurator propertyMapper(String property, Class<? extends PropertyMapper> propertyMapper) {

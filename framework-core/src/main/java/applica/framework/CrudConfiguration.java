@@ -1,6 +1,5 @@
 package applica.framework;
 
-import applica.framework.annotations.Param;
 import applica.framework.annotations.Params;
 import applica.framework.data.Entity;
 import applica.framework.data.Repository;
@@ -12,6 +11,13 @@ import applica.framework.render.FormFieldRenderer;
 import applica.framework.render.FormRenderer;
 import applica.framework.render.GridRenderer;
 import applica.framework.utils.TypeUtils;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.logging.Log;
@@ -21,15 +27,8 @@ import org.springframework.context.annotation.ClassPathScanningCandidateComponen
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.util.StringUtils;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class CrudConfiguration implements CrudConstants {
+
     private CrudConfiguration() {
     }
 
@@ -40,6 +39,14 @@ public class CrudConfiguration implements CrudConstants {
             s_instance = new CrudConfiguration();
 
         return s_instance;
+    }
+
+    public static String getDefaultDescription(Class<?> entityClass, String property) {
+        return getDefaultDescription(entityClass.getSimpleName(), property);
+    }
+
+    public static String getDefaultDescription(String identifier, String property) {
+        return String.format("label.%s.%s", identifier, property);
     }
 
     private CrudFactory crudFactory = null;
@@ -104,13 +111,13 @@ public class CrudConfiguration implements CrudConstants {
         for (Field field : fields) {
             logger.info("scanning field params: " + field.getName());
             Annotation[] paramAnnotations = field.getAnnotations();
-            for(Annotation a : paramAnnotations) {
-                if(a instanceof applica.framework.annotations.Param) {
-                    applica.framework.annotations.Param pa = (applica.framework.annotations.Param)a;
+            for (Annotation a : paramAnnotations) {
+                if (a instanceof applica.framework.annotations.Param) {
+                    applica.framework.annotations.Param pa = (applica.framework.annotations.Param) a;
                     CrudConfiguration.instance().setPropertyParam((Class<? extends Entity>) type, field.getName(), pa.key(), pa.value());
                     logger.info(String.format("Registered parameter for property %s: %s = %s", field.getName(), pa.key(), pa.value()));
-                } else if(a instanceof applica.framework.annotations.Params) {
-                    for(applica.framework.annotations.Param p : ((Params) a).value()) {
+                } else if (a instanceof applica.framework.annotations.Params) {
+                    for (applica.framework.annotations.Param p : ((Params) a).value()) {
                         CrudConfiguration.instance().setPropertyParam((Class<? extends Entity>) type, field.getName(), p.key(), p.value());
                         logger.info(String.format("Registered parameter for property %s: %s = %s", field.getName(), p.key(), p.value()));
                     }
@@ -128,8 +135,8 @@ public class CrudConfiguration implements CrudConstants {
                 if (param != null) {
                     setParam(((Class<? extends Entity>) type), param.key(), param.value());
                     logger.info(String.format("Registered parameter for type %s: %s = %s", type, param.key(), param.value()));
-                } else if(param instanceof applica.framework.annotations.Params) {
-                    for(applica.framework.annotations.Param p : ((Params) param).value()) {
+                } else if (param instanceof applica.framework.annotations.Params) {
+                    for (applica.framework.annotations.Param p : ((Params) param).value()) {
                         CrudConfiguration.instance().setParam((Class<? extends Entity>) type, p.key(), p.value());
                         logger.info(String.format("Registered parameter for type %s: %s = %s", type, p.key(), p.value()));
                     }
@@ -161,7 +168,7 @@ public class CrudConfiguration implements CrudConstants {
                 CrudConfiguration.instance().registerFormRepository(formAlias.type, loader.value());
             if (formProcessor != null)
                 CrudConfiguration.instance().registerFormProcessor(formAlias.type, formProcessor.value());
-            if(method != null)
+            if (method != null)
                 CrudConfiguration.instance().registerFormMethod(formAlias.type, method.value());
 
             List<Field> fields = TypeUtils.getAllFields(formAlias.type);
@@ -177,7 +184,8 @@ public class CrudConfiguration implements CrudConstants {
                     String description = formFieldAnnotation.description();
                     String tooltip = formFieldAnnotation.tooltip();
 
-                    if (!StringUtils.hasLength(description)) description = property;
+                    if (!StringUtils.hasLength(description))
+                        description = property;
 
                     logger.info(String.format("Field %s as description: %s, tooltip: %s", property, description, tooltip));
 
@@ -189,13 +197,13 @@ public class CrudConfiguration implements CrudConstants {
                     }
 
                     applica.framework.mapping.annotations.PropertyMapper propertyMapperAnnotation = field.getAnnotation(applica.framework.mapping.annotations.PropertyMapper.class);
-                    if(propertyMapperAnnotation != null) {
+                    if (propertyMapperAnnotation != null) {
                         CrudConfiguration.instance().registerPropertyMapper(formAlias.type, property, propertyMapperAnnotation.value());
                         logger.info("Registered property mapper class: " + propertyMapperAnnotation.value());
                     }
 
                     applica.framework.annotations.SearchCriteria searchCriteriaAnnotation = field.getAnnotation(applica.framework.annotations.SearchCriteria.class);
-                    if(searchCriteriaAnnotation != null) {
+                    if (searchCriteriaAnnotation != null) {
                         CrudConfiguration.instance().registerSearchCriteria(formAlias.type, property, searchCriteriaAnnotation.value());
                         logger.info("Registered field search criteria: " + searchCriteriaAnnotation.value());
                     }
@@ -217,7 +225,8 @@ public class CrudConfiguration implements CrudConstants {
                         crudFactory.createRepository(relatedFormFieldAnnotation.repository(), null);
                     }
 
-                    if (!StringUtils.hasLength(description)) description = property;
+                    if (!StringUtils.hasLength(description))
+                        description = property;
 
                     logger.info(String.format("Field %s as description: %s, tooltip: %s", property, description, tooltip));
                     logger.info(String.format("Related field repository: %s", relatedFormFieldAnnotation.repository().getName()));
@@ -235,9 +244,9 @@ public class CrudConfiguration implements CrudConstants {
 
             //search for buttons
             applica.framework.annotations.FormButtons buttons = type.getAnnotation(applica.framework.annotations.FormButtons.class);
-            if(buttons != null) {
-                if(buttons.value() != null && buttons.value().length > 0) {
-                    for(applica.framework.annotations.FormButton button : buttons.value()) {
+            if (buttons != null) {
+                if (buttons.value() != null && buttons.value().length > 0) {
+                    for (applica.framework.annotations.FormButton button : buttons.value()) {
                         CrudConfiguration.instance().registerFormButton(formAlias.type, button.label(), button.type(), button.action());
                     }
                 }
@@ -264,7 +273,8 @@ public class CrudConfiguration implements CrudConstants {
 
             if (gridRenderer != null)
                 CrudConfiguration.instance().registerGridRenderer(gridAlias.type, gridRenderer.value());
-            if (loader != null) CrudConfiguration.instance().registerGridRepository(gridAlias.type, loader.value());
+            if (loader != null)
+                CrudConfiguration.instance().registerGridRepository(gridAlias.type, loader.value());
 
             CrudConfiguration.instance().registerGrid(gridAlias.type, gridAlias.identifier);
 
@@ -293,7 +303,8 @@ public class CrudConfiguration implements CrudConstants {
                     logger.info(field.getName() + " is displayable in grid");
 
                     String header = gridColumnAnnotation.header();
-                    if (!StringUtils.hasLength(header)) header = field.getName();
+                    if (!StringUtils.hasLength(header))
+                        header = field.getName();
 
                     logger.info(String.format("%s header: %s", field.getName(), header));
 
@@ -382,7 +393,7 @@ public class CrudConfiguration implements CrudConstants {
             }
         });
 
-        if(data != null) {
+        if (data != null) {
             return data.method;
         } else {
             return null;
@@ -737,7 +748,8 @@ public class CrudConfiguration implements CrudConstants {
             }
         });
 
-        if (info == null) throw new CrudConfigurationException("No descriptor for " + type.getName());
+        if (info == null)
+            throw new CrudConfigurationException("No descriptor for " + type.getName());
 
         return info.descriptor;
     }
@@ -782,13 +794,15 @@ public class CrudConfiguration implements CrudConstants {
             }
         });
 
-        if (info == null) throw new CrudConfigurationException("No descriptor for " + type.getName());
+        if (info == null)
+            throw new CrudConfigurationException("No descriptor for " + type.getName());
 
         return info.descriptor;
     }
 
     public FormProcessor getFormProcessor(final Class<? extends Entity> type) throws CrudConfigurationException {
-        if (crudFactory == null) throw new CrudConfigurationException("Please set framework factory");
+        if (crudFactory == null)
+            throw new CrudConfigurationException("Please set framework factory");
 
         FormProcessorInfo info = (FormProcessorInfo) CollectionUtils.find(formProcessorInfos, new Predicate() {
             @Override
@@ -806,7 +820,8 @@ public class CrudConfiguration implements CrudConstants {
             });
         }
 
-        if (info == null) throw new CrudConfigurationException("No processor for " + type.getName());
+        if (info == null)
+            throw new CrudConfigurationException("No processor for " + type.getName());
 
         FormProcessor processor = crudFactory.createFormProcessor(info.processor, type, getFormIdentifierFromType(type));
         if (processor == null)
@@ -815,7 +830,8 @@ public class CrudConfiguration implements CrudConstants {
     }
 
     public GridRenderer getGridRenderer(final Class<? extends Entity> type) throws CrudConfigurationException {
-        if (crudFactory == null) throw new CrudConfigurationException("Please set framework factory");
+        if (crudFactory == null)
+            throw new CrudConfigurationException("Please set framework factory");
 
         GridRendererInfo info = (GridRendererInfo) CollectionUtils.find(gridRendererInfos, new Predicate() {
             @Override
@@ -837,12 +853,14 @@ public class CrudConfiguration implements CrudConstants {
             throw new CrudConfigurationException("No grid renderer builder provided for " + type.getName());
 
         GridRenderer renderer = crudFactory.createGridRenderer(info.renderer, type, getGridIdentifierFromType(type));
-        if (renderer == null) throw new CrudConfigurationException("GridRenderer not found for type " + type.getName());
+        if (renderer == null)
+            throw new CrudConfigurationException("GridRenderer not found for type " + type.getName());
         return renderer;
     }
 
     public FormRenderer getFormRenderer(final Class<? extends Entity> type) throws CrudConfigurationException {
-        if (crudFactory == null) throw new CrudConfigurationException("Please set framework factory");
+        if (crudFactory == null)
+            throw new CrudConfigurationException("Please set framework factory");
 
         FormRendererInfo info = (FormRendererInfo) CollectionUtils.find(formRendererInfos, new Predicate() {
             @Override
@@ -864,12 +882,14 @@ public class CrudConfiguration implements CrudConstants {
             throw new CrudConfigurationException("No form renderer builder provided for " + type.getName());
 
         FormRenderer renderer = crudFactory.createFormRenderer(info.renderer, type, getFormIdentifierFromType(type));
-        if (renderer == null) throw new CrudConfigurationException("FormRenderer not found for type " + type.getName());
+        if (renderer == null)
+            throw new CrudConfigurationException("FormRenderer not found for type " + type.getName());
         return renderer;
     }
 
     public FormFieldRenderer getFormFieldRenderer(final Class<? extends Entity> type, final String property) throws CrudConfigurationException {
-        if (crudFactory == null) throw new CrudConfigurationException("Please set framework factory");
+        if (crudFactory == null)
+            throw new CrudConfigurationException("Please set framework factory");
 
         FormFieldRendererInfo info = (FormFieldRendererInfo) CollectionUtils.find(formFieldRendererInfos, new Predicate() {
             @Override
@@ -899,7 +919,8 @@ public class CrudConfiguration implements CrudConstants {
     }
 
     public CellRenderer getCellRenderer(final Class<? extends Entity> type, final String property) throws CrudConfigurationException {
-        if (crudFactory == null) throw new CrudConfigurationException("Please set framework factory");
+        if (crudFactory == null)
+            throw new CrudConfigurationException("Please set framework factory");
 
         CellRendererInfo info = (CellRendererInfo) CollectionUtils.find(cellRendererInfos, new Predicate() {
             @Override
@@ -923,12 +944,14 @@ public class CrudConfiguration implements CrudConstants {
             throw new CrudConfigurationException("No cell renderer builder provided for " + type.getName() + " of property " + property);
 
         CellRenderer renderer = crudFactory.createCellRenderer(info.renderer, type, getGridIdentifierFromType(type), property);
-        if (renderer == null) throw new CrudConfigurationException("CellRenderer not found for type " + type.getName());
+        if (renderer == null)
+            throw new CrudConfigurationException("CellRenderer not found for type " + type.getName());
         return renderer;
     }
 
     public PropertyMapper getPropertyMapper(final Class<? extends Entity> type, final String property) throws CrudConfigurationException {
-        if (crudFactory == null) throw new CrudConfigurationException("Please set framework factory");
+        if (crudFactory == null)
+            throw new CrudConfigurationException("Please set framework factory");
 
         PropertyMapperInfo info = (PropertyMapperInfo) CollectionUtils.find(propertyMapperInfos, new Predicate() {
             @Override
@@ -938,7 +961,7 @@ public class CrudConfiguration implements CrudConstants {
             }
         });
 
-        if(info != null) {
+        if (info != null) {
             return crudFactory.createPropertyMapper(info.mapper, type, getFormIdentifierFromType(type), property);
         }
 
@@ -946,7 +969,8 @@ public class CrudConfiguration implements CrudConstants {
     }
 
     public String getSearchCriteria(final Class<? extends Entity> type, final String property) throws CrudConfigurationException {
-        if (crudFactory == null) throw new CrudConfigurationException("Please set framework factory");
+        if (crudFactory == null)
+            throw new CrudConfigurationException("Please set framework factory");
 
         SearchCriteriaInfo info = (SearchCriteriaInfo) CollectionUtils.find(searchCriteriaInfos, new Predicate() {
             @Override
@@ -956,7 +980,7 @@ public class CrudConfiguration implements CrudConstants {
             }
         });
 
-        if(info != null) {
+        if (info != null) {
             return info.criteria;
         }
 
@@ -964,7 +988,8 @@ public class CrudConfiguration implements CrudConstants {
     }
 
     public Repository getGridRepository(final Class<? extends Entity> type) throws CrudConfigurationException {
-        if (crudFactory == null) throw new CrudConfigurationException("Please set framework factory");
+        if (crudFactory == null)
+            throw new CrudConfigurationException("Please set framework factory");
 
         RepositoryInfo info = (RepositoryInfo) CollectionUtils.find(gridRepositoryInfos, new Predicate() {
             @Override
@@ -974,12 +999,14 @@ public class CrudConfiguration implements CrudConstants {
         });
 
         Repository repository = crudFactory.createRepository(info != null ? info.repository : null, type);
-        if (repository == null) throw new CrudConfigurationException("Repository not found for type " + type.getName());
+        if (repository == null)
+            throw new CrudConfigurationException("Repository not found for type " + type.getName());
         return repository;
     }
 
     public Repository getFormRepository(final Class<? extends Entity> type) throws CrudConfigurationException {
-        if (crudFactory == null) throw new CrudConfigurationException("Please set framework factory");
+        if (crudFactory == null)
+            throw new CrudConfigurationException("Please set framework factory");
 
         RepositoryInfo info = (RepositoryInfo) CollectionUtils.find(formRepositoryInfos, new Predicate() {
             @Override
@@ -989,13 +1016,15 @@ public class CrudConfiguration implements CrudConstants {
         });
 
         Repository repository = crudFactory.createRepository(info != null ? info.repository : null, type);
-        if (repository == null) throw new CrudConfigurationException("Repository not found for type " + type.getName());
+        if (repository == null)
+            throw new CrudConfigurationException("Repository not found for type " + type.getName());
         return repository;
     }
 
     private Param getParamInternal(Class<? extends Entity> type, String key) {
         for (Param param : params) {
-            if (param.type.equals(type) && param.key.equals(key)) return param;
+            if (param.type.equals(type) && param.key.equals(key))
+                return param;
         }
 
         return null;
@@ -1045,7 +1074,8 @@ public class CrudConfiguration implements CrudConstants {
 
     private PropertyParam getPropertyParamInternal(Class<? extends Entity> type, String property, String key) {
         for (PropertyParam param : propertyParams) {
-            if (param.type.equals(type) && param.property.equals(property) && param.key.equals(key)) return param;
+            if (param.type.equals(type) && param.property.equals(property) && param.key.equals(key))
+                return param;
         }
 
         return null;
@@ -1086,7 +1116,7 @@ public class CrudConfiguration implements CrudConstants {
             }
         });
 
-        for(PropertyParam p : filteredParams) {
+        for (PropertyParam p : filteredParams) {
             paramsMap.put(p.key, p.value);
         }
 
@@ -1102,75 +1132,89 @@ public class CrudConfiguration implements CrudConstants {
     }
 
     class GridRendererInfo {
+
         private Class<? extends Entity> type;
         private Class<? extends GridRenderer> renderer;
     }
 
     class FormRendererInfo {
+
         private Class<? extends Entity> type;
         private Class<? extends FormRenderer> renderer;
     }
 
     class FormFieldRendererInfo {
+
         public Class<? extends Entity> type;
         private String property;
         private Class<? extends FormFieldRenderer> renderer;
     }
 
     class CellRendererInfo {
+
         public Class<? extends Entity> type;
         private String property;
         private Class<? extends CellRenderer> renderer;
     }
 
     class RepositoryInfo {
+
         private Class<? extends Entity> type;
         private Class<? extends Repository> repository;
     }
 
     class FormProcessorInfo {
+
         private Class<? extends Entity> type;
         private Class<? extends FormProcessor> processor;
     }
 
     class GridDescriptorInfo {
+
         private Class<? extends Entity> type;
         private GridDescriptor descriptor;
     }
 
     class FormDescriptorInfo {
+
         private Class<? extends Entity> type;
         private FormDescriptor descriptor;
     }
 
     class TypeAlias {
+
         private Class<? extends Entity> type;
         private String identifier;
     }
 
     class FormIdentifier {
+
         String grid;
         String form;
     }
 
     class SearchableInfo {
+
         private Class<? extends Entity> type;
         private Class<? extends Entity> searchableType;
     }
 
     class SortByInfo {
+
         private Class<? extends Entity> type;
         private String property;
         private boolean descending;
     }
 
     class Param {
+
         private Class<? extends Entity> type;
         private String key;
         private String value;
     }
 
     class PropertyParam {
+
         private Class<? extends Entity> type;
         private String property;
         private String key;
@@ -1178,17 +1222,20 @@ public class CrudConfiguration implements CrudConstants {
     }
 
     class FormExtraDataInfo {
+
         private Class<? extends Entity> type;
         private String method;
     }
 
     class PropertyMapperInfo {
+
         private Class<? extends Entity> type;
         private String property;
         private Class<? extends PropertyMapper> mapper;
     }
 
     class SearchCriteriaInfo {
+
         private Class<? extends Entity> type;
         private String property;
         private String criteria;

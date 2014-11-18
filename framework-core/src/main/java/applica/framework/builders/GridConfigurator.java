@@ -6,7 +6,6 @@ import applica.framework.data.Repository;
 import applica.framework.render.CellRenderer;
 import applica.framework.render.GridRenderer;
 import applica.framework.utils.TypeUtils;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 
@@ -98,7 +97,8 @@ public class GridConfigurator {
     public GridConfigurator column(String property) {
         return column(property, null);
     }
-/**
+
+    /**
      * Adds a new column for property {@code property} with label
      * "label.grididentifier.property". This column will not be linked (which
      * means clicking on it won't open the corresponding form for modifications)
@@ -132,7 +132,7 @@ public class GridConfigurator {
 
     public GridConfigurator column(String property, String header, boolean linked, Class<? extends CellRenderer> cellRenderer) {
         if (header == null)
-            header = String.format("label.%s.%s", identifier, property);
+            header = CrudConfiguration.getDefaultDescription(identifier, property);
         CrudConfiguration.instance().registerGridColumn(entityType, property, header, getDataType(property), linked);
 
         if (cellRenderer != null)
