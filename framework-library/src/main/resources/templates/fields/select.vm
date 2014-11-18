@@ -18,7 +18,7 @@
                     #set ($selected = "")
                 #end
 
-                <option value="$item.value" $selected>$item.label</option>
+                <option value="$item.value" $selected>${localization.m($item.label)}</option>
             #end
 
         </select>
