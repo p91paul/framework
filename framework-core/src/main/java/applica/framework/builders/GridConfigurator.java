@@ -11,12 +11,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 
 /**
- * Applica (www.applicadoit.com)
- * User: bimbobruno
- * Date: 3/14/13
- * Time: 4:45 PM
+ * Applica (www.applicadoit.com) User: bimbobruno Date: 3/14/13 Time: 4:45 PM
  */
 public class GridConfigurator {
+
     private Class<? extends Entity> entityType;
     private String identifier;
 
@@ -26,6 +24,7 @@ public class GridConfigurator {
 
     /**
      * build() method is deprecated. Use configure instead
+     *
      * @param entityType
      * @param identifier
      * @return
@@ -40,14 +39,16 @@ public class GridConfigurator {
 
         return gridConfigurator;
     }
-    
+
     /**
-     * Configures a new grid for {@code entityType} with identifier {@code entityType.getSimpleName()}.
-     * See {@link #configure(java.lang.Class, java.lang.String) }
+     * Configures a new grid for {@code entityType} with identifier
+     * {@code entityType.getSimpleName()}. See {@link #configure(java.lang.Class, java.lang.String)
+     * }
+     *
      * @param entityType
-     * @return 
+     * @return
      */
-    public static GridConfigurator configure(Class<? extends Entity> entityType){
+    public static GridConfigurator configure(Class<? extends Entity> entityType) {
         return configure(entityType, entityType.getSimpleName());
     }
 
@@ -87,37 +88,55 @@ public class GridConfigurator {
     }
 
     /**
-     * Adds a new column for property {@code property} with label "label.grididentifier.property".
-     * This column will not be linked (which means clicking on it won't open 
-     * the corresponding form for modifications)
+     * Adds a new column for property {@code property} with label
+     * "label.grididentifier.property". This column will not be linked (which
+     * means clicking on it won't open the corresponding form for modifications)
+     *
      * @param property the name of the property to show
      * @return the updated GridConfigurator
      */
     public GridConfigurator column(String property) {
-        return column(property, false);
+        return column(property, null);
     }
-   
-    /**
-     * Adds a new column for property {@code property} with label "label.identifier.property"
-     * where identifier is the form identifier specified in {@link #configure(java.lang.Class, java.lang.String)}.
-     * 
+/**
+     * Adds a new column for property {@code property} with label
+     * "label.grididentifier.property". This column will not be linked (which
+     * means clicking on it won't open the corresponding form for modifications)
+     *
      * @param property the name of the property to show
-     * @param linked wheter or not this column will be linked (which means 
-     *     clicking on it will or won't open the corresponding form for modifications)
+     * @param cellRenderer a renderer for the column
      * @return the updated GridConfigurator
-     */ 
+     */
+    public GridConfigurator column(String property, Class<? extends CellRenderer> cellRenderer) {
+        return column(property, null, false, cellRenderer);
+    }
+
+    /**
+     * Adds a new column for property {@code property} with label
+     * "label.identifier.property" where identifier is the form identifier
+     * specified in {@link #configure(java.lang.Class, java.lang.String)}.
+     *
+     * @param property the name of the property to show
+     * @param linked wheter or not this column will be linked (which means
+     * clicking on it will or won't open the corresponding form for
+     * modifications)
+     * @return the updated GridConfigurator
+     */
     public GridConfigurator column(String property, boolean linked) {
-        return column(property, String.format("label.%s.%s", identifier, property), true);
+        return column(property, null, linked);
     }
 
     public GridConfigurator column(String property, String header, boolean linked) {
-        CrudConfiguration.instance().registerGridColumn(entityType, property, header, getDataType(property), linked);
-        return this;
+        return column(property, header, linked, null);
     }
 
     public GridConfigurator column(String property, String header, boolean linked, Class<? extends CellRenderer> cellRenderer) {
+        if (header == null)
+            header = String.format("label.%s.%s", identifier, property);
         CrudConfiguration.instance().registerGridColumn(entityType, property, header, getDataType(property), linked);
-        CrudConfiguration.instance().registerCellRenderer(entityType, property, cellRenderer);
+
+        if (cellRenderer != null)
+            CrudConfiguration.instance().registerCellRenderer(entityType, property, cellRenderer);
         return this;
     }
 
@@ -127,9 +146,8 @@ public class GridConfigurator {
     }
 
     //
-
     private Type getDataType(String property) {
-        if(entityType != null) {
+        if (entityType != null) {
             try {
                 Field field = TypeUtils.getField(entityType, property);
                 return field.getGenericType();

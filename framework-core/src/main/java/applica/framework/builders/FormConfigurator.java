@@ -13,12 +13,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 
 /**
- * Applica (www.applicadoit.com)
- * User: bimbobruno
- * Date: 3/14/13
- * Time: 4:45 PM
+ * Applica (www.applicadoit.com) User: bimbobruno Date: 3/14/13 Time: 4:45 PM
  */
 public class FormConfigurator {
+
     private Class<? extends Entity> entityType;
     private String identifier;
 
@@ -28,6 +26,7 @@ public class FormConfigurator {
 
     /**
      * build() method is deprecated. Use configure instead
+     *
      * @param entityType
      * @param identifier
      * @return
@@ -42,14 +41,16 @@ public class FormConfigurator {
 
         return formConfigurator;
     }
-    
+
     /**
-     * Configures a new form for {@code entityType} with identifier {@code entityType.getSimpleName()}.
-     * See {@link #configure(java.lang.Class, java.lang.String) }
+     * Configures a new form for {@code entityType} with identifier
+     * {@code entityType.getSimpleName()}. See {@link #configure(java.lang.Class, java.lang.String)
+     * }
+     *
      * @param entityType
-     * @return 
+     * @return
      */
-    public static FormConfigurator configure(Class<? extends Entity> entityType){
+    public static FormConfigurator configure(Class<? extends Entity> entityType) {
         return configure(entityType, entityType.getSimpleName());
     }
 
@@ -82,8 +83,8 @@ public class FormConfigurator {
         CrudConfiguration.instance().registerFormMethod(entityType, method);
         return this;
     }
-    
-    public FormConfigurator submitButton(String label){
+
+    public FormConfigurator submitButton(String label) {
         return button(label, "submit", null);
     }
 
@@ -93,31 +94,55 @@ public class FormConfigurator {
     }
 
     /**
-     * Adds a new property to the form with label "label.identifier.property" 
-     * where identifier is the form identifier specified in {@link #configure(java.lang.Class, java.lang.String)}.
+     * Adds a new property to the form with label "label.identifier.property"
+     * where identifier is the form identifier specified in
+     * {@link #configure(java.lang.Class, java.lang.String)}.
+     *
      * @param property the property name
      * @return the updated FormConfigurator
      */
     public FormConfigurator field(String property) {
-        return field(property, String.format("label.%s.%s", identifier, property));
+        return field(property, null, null);
+    }
+
+    /**
+     * Adds a new property to the form with label "label.identifier.property"
+     * where identifier is the form identifier specified in
+     * {@link #configure(java.lang.Class, java.lang.String)}.
+     *
+     * @param property the property name
+     * @param renderer the renderer for this property
+     * @return the updated FormConfigurator
+     */
+    public FormConfigurator field(String property, Class<? extends FormFieldRenderer> renderer) {
+        return field(property, null, renderer);
     }
 
     public FormConfigurator field(String property, String description) {
-        CrudConfiguration.instance().registerFormField(entityType, property, getDataType(property), description, "");
-        return this;
+        return field(property, description, null);
     }
 
     public FormConfigurator field(String property, String description, Class<? extends FormFieldRenderer> renderer) {
-        CrudConfiguration.instance().registerFormField(entityType, property, getDataType(property), description, "");
-        CrudConfiguration.instance().registerFormFieldRenderer(entityType, property, renderer);
-        return this;
+        return field(property, description, renderer, null);
     }
 
     public FormConfigurator field(String property, String description, Class<? extends FormFieldRenderer> renderer, Class<? extends PropertyMapper> propertyMapper) {
-        CrudConfiguration.instance().registerFormField(entityType, property, getDataType(property), description, "");
-        CrudConfiguration.instance().registerFormFieldRenderer(entityType, property, renderer);
-        CrudConfiguration.instance().registerPropertyMapper(entityType, property, propertyMapper);
+        if (description == null) 
+            description = getDefaultDescription(property);        
+        CrudConfiguration.instance().registerFormField(entityType, property, 
+                getDataType(property), description, "");
+        
+        if (renderer != null) 
+            CrudConfiguration.instance().registerFormFieldRenderer(entityType, property, renderer);
+        
+        if (propertyMapper != null)
+            CrudConfiguration.instance().registerPropertyMapper(entityType, property, propertyMapper);
+        
         return this;
+    }
+
+    private String getDefaultDescription(String property) {
+        return String.format("label.%s.%s", identifier, property);
     }
 
     public FormConfigurator propertyMapper(String property, Class<? extends PropertyMapper> propertyMapper) {
@@ -153,10 +178,8 @@ public class FormConfigurator {
     }
 
     //
-
-
     private Type getDataType(String property) {
-        if(entityType != null) {
+        if (entityType != null) {
             try {
                 Field field = TypeUtils.getField(entityType, property);
                 return field.getGenericType();
