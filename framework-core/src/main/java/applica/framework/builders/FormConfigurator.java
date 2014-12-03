@@ -101,7 +101,7 @@ public class FormConfigurator {
      * @return the updated FormConfigurator
      */
     public FormConfigurator field(String property) {
-        return field(property, null, null);
+        return field(property, null, null, null);
     }
 
     /**
@@ -115,6 +115,20 @@ public class FormConfigurator {
      */
     public FormConfigurator field(String property, Class<? extends FormFieldRenderer> renderer) {
         return field(property, null, renderer);
+    }
+
+    /**
+     * Adds a new property to the form with label "label.identifier.property"
+     * where identifier is the form identifier specified in
+     * {@link #configure(java.lang.Class, java.lang.String)}.
+     *
+     * @param property the property name
+     * @param renderer the renderer for this property
+     * @param propertyMapper the value mapper for this property
+     * @return the updated FormConfigurator
+     */
+    public FormConfigurator field(String property, Class<? extends FormFieldRenderer> renderer, Class<? extends PropertyMapper> propertyMapper) {
+        return field(property, null, renderer, propertyMapper);
     }
 
     public FormConfigurator field(String property, String description) {
@@ -146,25 +160,40 @@ public class FormConfigurator {
     }
 
     public FormConfigurator relatedField(String property, String description, String tooltip, Repository repository) {
-        CrudConfiguration.instance().registerRelatedFormField(entityType, property, getDataType(property), description, tooltip, repository);
-        return this;
+        return relatedField(property, description, tooltip, repository, null);
+    }
+
+    /**
+     * Adds a new related property to the form with label
+     * "label.identifier.property" where identifier is the form identifier
+     * specified in {@link #configure(java.lang.Class, java.lang.String)}.
+     *
+     * @param property the property name
+     * @param repository the repository of the related entities
+     * @param renderer the property renderer
+     * @return
+     */
+    public FormConfigurator relatedField(String property, Repository repository, Class<? extends FormFieldRenderer> renderer) {
+        return relatedField(property, null, null, repository, renderer);
     }
 
     public FormConfigurator relatedField(String property, String description, String tooltip, Repository repository, Class<? extends FormFieldRenderer> renderer) {
+        if (description == null)
+            description = CrudConfiguration.getDefaultDescription(entityType, property);
+        if (tooltip == null)
+            tooltip = "";
         CrudConfiguration.instance().registerRelatedFormField(entityType, property, getDataType(property), description, tooltip, repository);
-        CrudConfiguration.instance().registerFormFieldRenderer(entityType, property, renderer);
+        if (renderer != null)
+            CrudConfiguration.instance().registerFormFieldRenderer(entityType, property, renderer);
         return this;
     }
 
     public FormConfigurator relatedField(String property, String description, String tooltip) {
-        CrudConfiguration.instance().registerRelatedFormField(entityType, property, getDataType(property), description, tooltip, null);
-        return this;
+        return relatedField(property, description, tooltip, null, null);
     }
 
     public FormConfigurator relatedField(String property, String description, String tooltip, Class<? extends FormFieldRenderer> renderer) {
-        CrudConfiguration.instance().registerRelatedFormField(entityType, property, getDataType(property), description, tooltip, null);
-        CrudConfiguration.instance().registerFormFieldRenderer(entityType, property, renderer);
-        return this;
+        return relatedField(property, description, tooltip, null, renderer);
     }
 
     public FormConfigurator param(String property, String key, String value) {
