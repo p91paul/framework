@@ -1,6 +1,14 @@
 package applica.framework.library.utils;
 
-import applica.framework.*;
+import applica.framework.CrudConfiguration;
+import applica.framework.CrudConfigurationException;
+import applica.framework.Form;
+import applica.framework.FormCreationException;
+import applica.framework.FormProcessException;
+import applica.framework.Grid;
+import applica.framework.GridCreationException;
+import applica.framework.ValidationException;
+import applica.framework.ValidationResult;
 import applica.framework.builders.FormBuilder;
 import applica.framework.builders.FormProcessorBuilder;
 import applica.framework.builders.GridBuilder;
@@ -10,26 +18,27 @@ import applica.framework.library.i18n.Localization;
 import applica.framework.library.responses.FormResponse;
 import applica.framework.library.responses.GridResponse;
 import applica.framework.library.responses.SimpleResponse;
-import applica.framework.mapping.*;
+import applica.framework.mapping.GridDataMapper;
+import applica.framework.mapping.SimpleGridDataMapper;
 import applica.framework.processors.FormProcessor;
 import applica.framework.utils.Paginator;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.MapBindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.Validator;
 import org.springframework.web.context.WebApplicationContext;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 public class CrudUtils {
 
     /**
      * Creates a form for specified identifier filled by data present in entity
+     *
      * @param entity Entity that contains form data
      * @param identifier Form identifier
      * @return A FormResponse of created form
@@ -65,8 +74,9 @@ public class CrudUtils {
     }
 
     /**
-     * Creates a form for specified identifier filled by data present in request.
-     * Request data is used to fill the entity using CrudUtils.toEntity() method
+     * Creates a form for specified identifier filled by data present in request. Request data is used to fill the
+     * entity using CrudUtils.toEntity() method
+     *
      * @param request Http request to get data
      * @param identifier Form identifier
      * @return A FormResponse of created form
@@ -106,6 +116,7 @@ public class CrudUtils {
 
     /**
      * Creates a grid with data specified in entities list
+     *
      * @param entities Grid data
      * @param identifier Grid identifier
      * @return Returns GridResponse of created grid
@@ -115,38 +126,44 @@ public class CrudUtils {
     }
 
     /**
-     * Creates a grid with data specified in entities list.
-     * LoadRequest can be specified if some filters are applied in a related search form
+     * Creates a grid with data specified in entities list. LoadRequest can be specified if some filters are applied in
+     * a related search form
+     *
      * @param entities Grid data
      * @param identifier Grid identifier
      * @param loadRequest Load request used to load grid data
      * @return Returns GridResponse of created grid
      */
-    public static GridResponse createGridResponse(List<? extends Entity> entities, String identifier, LoadRequest loadRequest) {
+    public static GridResponse createGridResponse(List<? extends Entity> entities, String identifier,
+            LoadRequest loadRequest) {
         return createGridResponse(entities, identifier, null, loadRequest);
     }
 
     /**
      * Creates a grid with data specified in entities list
+     *
      * @param entities Grid data
      * @param identifier Grid identifier
      * @param initializer Custom code to execute after grid creation
      * @return Returns GridResponse of created grid
      */
-    public static GridResponse createGridResponse(List<? extends Entity> entities, String identifier, GridInitializer initializer) {
+    public static GridResponse createGridResponse(List<? extends Entity> entities, String identifier,
+            GridInitializer initializer) {
         return createGridResponse(entities, identifier, initializer, null);
     }
 
     /**
-     * Creates a grid with data specified in entities list
-     * LoadRequest can be specified if some filters are applied in a related search form
+     * Creates a grid with data specified in entities list LoadRequest can be specified if some filters are applied in a
+     * related search form
+     *
      * @param entities Grid data
      * @param identifier Grid identifier
      * @param initializer Custom code to execute after grid creation
      * @param loadRequest Load request used to load grid data
      * @return Returns GridResponse of created grid
      */
-    public static GridResponse createGridResponse(List<? extends Entity> entities, String identifier, GridInitializer initializer, LoadRequest loadRequest) {
+    public static GridResponse createGridResponse(List<? extends Entity> entities, String identifier,
+            GridInitializer initializer, LoadRequest loadRequest) {
         GridResponse response = new GridResponse();
 
         try {
@@ -180,6 +197,7 @@ public class CrudUtils {
 
     /**
      * Creates a paginated grid
+     *
      * @param identifier Grid identifier
      * @param paginator Contains pagination informations
      * @return Returns GridResponse of created grid
@@ -220,18 +238,18 @@ public class CrudUtils {
 
     /**
      * Helper method to set grid data starting from an entities list
+     *
      * @param grid
      * @param entities
      */
     public static void setGridData(Grid grid, List<? extends Entity> entities) {
-        List<Map<String, Object>> data = new ArrayList<>();
         GridDataMapper mapper = new SimpleGridDataMapper();
-        mapper.mapGridDataFromEntities(grid.getDescriptor(), data, entities);
-        grid.setData(data);
+        grid.setData(mapper.mapGridDataFromEntities(grid.getDescriptor(), entities));
     }
 
     /**
      * Convert a typical request data to a capable form data
+     *
      * @param requestData
      * @return
      */
@@ -247,6 +265,7 @@ public class CrudUtils {
 
     /**
      * Helper method to calidate an entity
+     *
      * @param entity Entity to validate
      * @param identifier
      * @param applicationContext
@@ -281,9 +300,9 @@ public class CrudUtils {
     }
 
     /**
-     * Utility method that converts a value to a list of strings.
-     * Value can be a single object or a String[] array.
+     * Utility method that converts a value to a list of strings. Value can be a single object or a String[] array.
      * String arrays are typical in java requests parameters
+     *
      * @param value
      * @return
      */
@@ -305,6 +324,7 @@ public class CrudUtils {
 
     /**
      * Convert request data to an entity of specified identifier.
+     *
      * @param identifier
      * @param data
      * @return
@@ -324,6 +344,7 @@ public class CrudUtils {
 
     /**
      * Convert request data to an entity of specified identifier with validation.
+     *
      * @param identifier
      * @param data
      * @return
@@ -339,7 +360,7 @@ public class CrudUtils {
         ValidationResult result = new ValidationResult();
         Entity entity = processor.toEntity(form, type, data, result);
 
-        if(!result.isValid()) {
+        if (!result.isValid()) {
             throw new ValidationException(result);
         }
 
@@ -348,6 +369,7 @@ public class CrudUtils {
 
     /**
      * Convert an entity to a form capable data structure
+     *
      * @param identifier
      * @param entity
      * @return
@@ -369,6 +391,7 @@ public class CrudUtils {
      * calling one of the grid creation method of CrudUtils class
      */
     public interface GridInitializer {
+
         void initialize(Grid grid);
     }
 }

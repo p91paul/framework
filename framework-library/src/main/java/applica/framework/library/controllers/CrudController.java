@@ -1,26 +1,44 @@
 package applica.framework.library.controllers;
 
 /**
- * Applica (www.applicadoit.com)
- * User: bimbobruno
- * Date: 2/26/13
- * Time: 4:30 PM
+ * Applica (www.applicadoit.com) User: bimbobruno Date: 2/26/13 Time: 4:30 PM
  */
-
-import applica.framework.*;
-import applica.framework.builders.*;
-import applica.framework.data.*;
+import applica.framework.CrudConfigurationException;
+import applica.framework.Form;
+import applica.framework.FormCreationException;
+import applica.framework.FormProcessException;
+import applica.framework.Grid;
+import applica.framework.GridCreationException;
+import applica.framework.GridProcessException;
+import applica.framework.ValidationException;
+import applica.framework.builders.DeleteOperationBuilder;
+import applica.framework.builders.FormBuilder;
+import applica.framework.builders.FormDataProviderBuilder;
+import applica.framework.builders.GridBuilder;
+import applica.framework.builders.GridDataProviderBuilder;
+import applica.framework.builders.SaveOperationBuilder;
+import applica.framework.data.DeleteOperation;
+import applica.framework.data.FormDataProvider;
+import applica.framework.data.GridDataProvider;
+import applica.framework.data.LoadRequest;
+import applica.framework.data.SaveOperation;
 import applica.framework.library.crud.acl.CrudAuthorizationException;
 import applica.framework.library.crud.acl.CrudGuard;
 import applica.framework.library.crud.acl.CrudPermission;
-import applica.framework.library.responses.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
+import applica.framework.library.responses.ErrorResponse;
+import applica.framework.library.responses.FormActionResponse;
+import applica.framework.library.responses.FormResponse;
+import applica.framework.library.responses.GridResponse;
+import applica.framework.library.responses.SimpleResponse;
 import java.io.StringWriter;
+import javax.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @RequestMapping("/crud")
 public class CrudController extends LocalizedController {
@@ -28,9 +46,10 @@ public class CrudController extends LocalizedController {
     @Autowired(required = false)
     private CrudGuard crudGuard;
 
-    @RequestMapping(value="/grid/{entity}")
-    public @ResponseBody SimpleResponse grid(@PathVariable String entity, String loadRequest) {
-        if(crudGuard != null) {
+    @RequestMapping(value = "/grid/{entity}")
+    public @ResponseBody
+    SimpleResponse grid(@PathVariable String entity, String loadRequest) {
+        if (crudGuard != null) {
             try {
                 crudGuard.check(CrudPermission.LIST, entity);
             } catch (CrudAuthorizationException e) {
@@ -60,15 +79,19 @@ public class CrudController extends LocalizedController {
         } catch (GridCreationException e) {
             response.setError(true);
             response.setMessage("Error creating grid: " + e.getMessage());
+        } catch (GridProcessException e) {
+            response.setError(true);
+            response.setMessage("Error processing grid: " + e.getMessage());
         }
 
         response.setContent(writer.toString());
         return response;
     }
 
-    @RequestMapping(value="/grid/{entity}/delete", method= RequestMethod.POST)
-    public @ResponseBody SimpleResponse gridDelete(@PathVariable String entity, @RequestParam String ids) {
-        if(crudGuard != null) {
+    @RequestMapping(value = "/grid/{entity}/delete", method = RequestMethod.POST)
+    public @ResponseBody
+    SimpleResponse gridDelete(@PathVariable String entity, @RequestParam String ids) {
+        if (crudGuard != null) {
             try {
                 crudGuard.check(CrudPermission.DELETE, entity);
             } catch (CrudAuthorizationException e) {
@@ -91,9 +114,10 @@ public class CrudController extends LocalizedController {
         return response;
     }
 
-    @RequestMapping(value="/form/{entity}", method=RequestMethod.GET)
-    public @ResponseBody SimpleResponse form(@PathVariable String entity, String id) {
-        if(crudGuard != null) {
+    @RequestMapping(value = "/form/{entity}", method = RequestMethod.GET)
+    public @ResponseBody
+    SimpleResponse form(@PathVariable String entity, String id) {
+        if (crudGuard != null) {
             try {
                 String crudPermission = StringUtils.hasLength(id) ? CrudPermission.EDIT : CrudPermission.NEW;
                 crudGuard.check(crudPermission, entity);
@@ -113,7 +137,7 @@ public class CrudController extends LocalizedController {
             dataProvider.load(form, id);
             form.write(writer);
 
-            if(!form.isEditMode()) {
+            if (!form.isEditMode()) {
                 response.setTitle(localization.getMessage(String.format("crud.form.create.%s", entity)));
             } else {
                 response.setTitle(localization.getMessage(String.format("crud.form.edit.%s", entity)));
@@ -136,9 +160,10 @@ public class CrudController extends LocalizedController {
         return response;
     }
 
-    @RequestMapping(value="/form/{entity}/save", method=RequestMethod.POST)
-    public @ResponseBody SimpleResponse save(@PathVariable String entity, HttpServletRequest request) {
-        if(crudGuard != null) {
+    @RequestMapping(value = "/form/{entity}/save", method = RequestMethod.POST)
+    public @ResponseBody
+    SimpleResponse save(@PathVariable String entity, HttpServletRequest request) {
+        if (crudGuard != null) {
             try {
                 crudGuard.check(CrudPermission.SAVE, entity);
             } catch (CrudAuthorizationException e) {
@@ -153,7 +178,7 @@ public class CrudController extends LocalizedController {
             saveOperation = SaveOperationBuilder.instance().build(entity);
             saveOperation.save(form, request.getParameterMap());
             response.setValid(true);
-        } catch(ValidationException e) {
+        } catch (ValidationException e) {
             response.setError(false);
             response.setValid(false);
             response.setMessage("Validation error");
