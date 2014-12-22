@@ -15,8 +15,6 @@ public class GridDataProviderBuilder {
     private GridDataProviderBuilder() {
     }
 
-    ;
-
     private static GridDataProviderBuilder s_instance = null;
 
     public static GridDataProviderBuilder instance() {
@@ -32,14 +30,14 @@ public class GridDataProviderBuilder {
         try {
             Class<? extends Entity> type = CrudConfiguration.instance().getGridTypeFromIdentifier(identifier);
 
-            if (type == null) {
+            if (type == null)
                 throw new CrudConfigurationException("Grid not registered for type: " + identifier);
-            }
 
             GridDataProvider formDataProvider = new GridDataProvider();
 
             Repository repository = CrudConfiguration.instance().getGridRepository(type);
-            if (repository == null) throw new CrudConfigurationException("Cannot create repository");
+            if (repository == null)
+                throw new CrudConfigurationException("Cannot create repository");
 
             formDataProvider.setRepository(repository);
 

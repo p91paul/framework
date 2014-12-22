@@ -1,8 +1,12 @@
 package applica.framework.builders;
 
-import applica.framework.*;
+import applica.framework.CrudConfiguration;
+import applica.framework.CrudConfigurationException;
+import applica.framework.Form;
+import applica.framework.FormCreationException;
+import applica.framework.FormDescriptor;
+import applica.framework.FormField;
 import applica.framework.data.Entity;
-import applica.framework.processors.FormProcessor;
 import applica.framework.render.FormRenderer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -12,7 +16,9 @@ public class FormBuilder {
 
     private Log logger = LogFactory.getLog(getClass());
 
-    private FormBuilder() {};
+    private FormBuilder() {
+    }
+    ;
 
     private static FormBuilder s_instance = null;
 
@@ -29,23 +35,24 @@ public class FormBuilder {
         try {
             Class<? extends Entity> type = CrudConfiguration.instance().getFormTypeFromIdentifier(identifier);
 
-            if (type == null) {
+            if (type == null)
                 throw new CrudConfigurationException("Form not registered for type: " + identifier);
-            }
 
             Form form = new Form();
             form.setIdentifier(identifier);
+            form.setEntityType(type);
 
             String method = CrudConfiguration.instance().getFormMethod(type);
-            if(StringUtils.hasLength(method)) {
+            if (StringUtils.hasLength(method))
                 form.setMethod(method);
-            }
 
             FormRenderer renderer = CrudConfiguration.instance().getFormRenderer(type);
-            if (renderer == null) throw new FormCreationException("Cannot create renderer");
+            if (renderer == null)
+                throw new FormCreationException("Cannot create renderer");
 
             FormDescriptor descriptor = CrudConfiguration.instance().getFormDescriptor(type);
-            if (descriptor == null) throw new FormCreationException("Cannot create descriptor");
+            if (descriptor == null)
+                throw new FormCreationException("Cannot create descriptor");
 
             form.setRenderer(renderer);
             form.setDescriptor(descriptor);
