@@ -5,6 +5,7 @@ import applica.framework.CrudConfigurationException;
 import applica.framework.data.Entity;
 import applica.framework.data.GridDataProvider;
 import applica.framework.data.Repository;
+import applica.framework.processors.GridProcessor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -33,15 +34,19 @@ public class GridDataProviderBuilder {
             if (type == null)
                 throw new CrudConfigurationException("Grid not registered for type: " + identifier);
 
-            GridDataProvider formDataProvider = new GridDataProvider();
+            GridDataProvider gridDataProvider = new GridDataProvider();
 
             Repository repository = CrudConfiguration.instance().getGridRepository(type);
+            GridProcessor processor = CrudConfiguration.instance().getGridProcessor(type);
             if (repository == null)
                 throw new CrudConfigurationException("Cannot create repository");
+            if (processor == null)
+                throw new CrudConfigurationException("Cannot create processor");
 
-            formDataProvider.setRepository(repository);
+            gridDataProvider.setRepository(repository);
+            gridDataProvider.setProcessor(processor);
 
-            return formDataProvider;
+            return gridDataProvider;
         } catch (CrudConfigurationException ex) {
             logger.error("Configuration error: " + ex.getMessage());
             throw ex;

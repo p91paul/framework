@@ -1,18 +1,18 @@
 package applica.framework.library;
 
 import applica.framework.CrudFactory;
-import applica.framework.data.Entity;
 import applica.framework.data.DefaultRepositoriesFactory;
+import applica.framework.data.Entity;
 import applica.framework.data.Repository;
 import applica.framework.mapping.PropertyMapper;
 import applica.framework.processors.FormProcessor;
+import applica.framework.processors.GridProcessor;
 import applica.framework.render.CellRenderer;
 import applica.framework.render.FormFieldRenderer;
 import applica.framework.render.FormRenderer;
 import applica.framework.render.GridRenderer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Component;
 
 public class DefaultCrudFactory implements CrudFactory {
 
@@ -32,7 +32,7 @@ public class DefaultCrudFactory implements CrudFactory {
 
     @Override
     public FormRenderer createFormRenderer(Class<? extends FormRenderer> type,
-                                           Class<? extends Entity> entityType, String identifier) {
+            Class<? extends Entity> entityType, String identifier) {
         return applicationContext.getBean(type);
     }
 
@@ -44,37 +44,43 @@ public class DefaultCrudFactory implements CrudFactory {
     }
 
     @Override
+    public GridProcessor createGridProcessor(
+            Class<? extends GridProcessor> type,
+            Class<? extends Entity> entityType, String identifier) {
+        return applicationContext.getBean(type);
+    }
+
+    @Override
     public GridRenderer createGridRenderer(Class<? extends GridRenderer> type,
-                                           Class<? extends Entity> entityType, String identifier) {
+            Class<? extends Entity> entityType, String identifier) {
         return applicationContext.getBean(type);
     }
 
     @Override
     public CellRenderer createCellRenderer(Class<? extends CellRenderer> type,
-                                           Class<? extends Entity> entityType, String identifier,
-                                           String property) {
+            Class<? extends Entity> entityType, String identifier,
+            String property) {
         return applicationContext.getBean(type);
     }
 
     @Override
     public Repository createRepository(Class<? extends Repository> type,
-                                       Class<? extends Entity> entityType) {
+            Class<? extends Entity> entityType) {
         Repository repository = null;
 
-        if (type != null) {
+        if (type != null)
             repository = repositoriesFactory.create(type);
-        } else {
+        else
             repository = repositoriesFactory.createForEntity(entityType);
-        }
 
         return repository;
     }
 
     @Override
     public PropertyMapper createPropertyMapper(Class<? extends PropertyMapper> type,
-                                               Class<? extends Entity> entityType,
-                                               String identifier,
-                                               String property) {
+            Class<? extends Entity> entityType,
+            String identifier,
+            String property) {
         return applicationContext.getBean(type);
     }
 

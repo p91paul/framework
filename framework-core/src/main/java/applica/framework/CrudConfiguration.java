@@ -6,6 +6,7 @@ import applica.framework.data.Repository;
 import applica.framework.data.Sort;
 import applica.framework.mapping.PropertyMapper;
 import applica.framework.processors.FormProcessor;
+import applica.framework.processors.GridProcessor;
 import applica.framework.render.CellRenderer;
 import applica.framework.render.FormFieldRenderer;
 import applica.framework.render.FormRenderer;
@@ -62,6 +63,7 @@ public class CrudConfiguration implements CrudConstants {
     private List<CellRendererInfo> cellRendererInfos = new ArrayList<>();
     private List<FormDescriptorInfo> formDescriptorInfos = new ArrayList<>();
     private List<FormProcessorInfo> formProcessorInfos = new ArrayList<>();
+    private List<GridProcessorInfo> gridProcessorInfos = new ArrayList<>();
     private List<FormIdentifier> formIdentifiers = new ArrayList<>();
     private List<FormExtraDataInfo> formExtraDataInfos = new ArrayList<>();
     private List<SearchableInfo> searchableInfos = new ArrayList<>();
@@ -111,38 +113,42 @@ public class CrudConfiguration implements CrudConstants {
         for (Field field : fields) {
             logger.info("scanning field params: " + field.getName());
             Annotation[] paramAnnotations = field.getAnnotations();
-            for (Annotation a : paramAnnotations) {
+            for (Annotation a : paramAnnotations)
                 if (a instanceof applica.framework.annotations.Param) {
                     applica.framework.annotations.Param pa = (applica.framework.annotations.Param) a;
-                    CrudConfiguration.instance().setPropertyParam((Class<? extends Entity>) type, field.getName(), pa.key(), pa.value());
-                    logger.info(String.format("Registered parameter for property %s: %s = %s", field.getName(), pa.key(), pa.value()));
-                } else if (a instanceof applica.framework.annotations.Params) {
+                    CrudConfiguration.instance().setPropertyParam((Class<? extends Entity>) type, field.getName(), pa
+                            .key(), pa.value());
+                    logger.info(String
+                            .format("Registered parameter for property %s: %s = %s", field.getName(), pa.key(), pa
+                                    .value()));
+                } else if (a instanceof applica.framework.annotations.Params)
                     for (applica.framework.annotations.Param p : ((Params) a).value()) {
-                        CrudConfiguration.instance().setPropertyParam((Class<? extends Entity>) type, field.getName(), p.key(), p.value());
-                        logger.info(String.format("Registered parameter for property %s: %s = %s", field.getName(), p.key(), p.value()));
+                        CrudConfiguration.instance().setPropertyParam((Class<? extends Entity>) type, field.getName(), p
+                                .key(), p.value());
+                        logger.info(String.format("Registered parameter for property %s: %s = %s", field.getName(), p
+                                .key(), p.value()));
                     }
-                }
-            }
         }
     }
 
     @SuppressWarnings("unchecked")
     private void scanParams(Class<?> type) {
         Annotation[] annotations = type.getAnnotations();
-        for (Annotation annotation : annotations) {
+        for (Annotation annotation : annotations)
             if (annotation instanceof applica.framework.annotations.Param) {
                 applica.framework.annotations.Param param = (applica.framework.annotations.Param) annotation;
                 if (param != null) {
                     setParam(((Class<? extends Entity>) type), param.key(), param.value());
-                    logger.info(String.format("Registered parameter for type %s: %s = %s", type, param.key(), param.value()));
-                } else if (param instanceof applica.framework.annotations.Params) {
+                    logger.info(String.format("Registered parameter for type %s: %s = %s", type, param.key(), param
+                            .value()));
+                } else if (param instanceof applica.framework.annotations.Params)
                     for (applica.framework.annotations.Param p : ((Params) param).value()) {
                         CrudConfiguration.instance().setParam((Class<? extends Entity>) type, p.key(), p.value());
-                        logger.info(String.format("Registered parameter for type %s: %s = %s", type, p.key(), p.value()));
+                        logger
+                                .info(String.format("Registered parameter for type %s: %s = %s", type, p.key(), p
+                                                .value()));
                     }
-                }
             }
-        }
     }
 
     @SuppressWarnings("unchecked")
@@ -155,10 +161,14 @@ public class CrudConfiguration implements CrudConstants {
             formAlias.identifier = (formAnnotation.value());
             formAlias.type = ((Class<? extends Entity>) type);
 
-            applica.framework.annotations.FormRenderer formRenderer = type.getAnnotation(applica.framework.annotations.FormRenderer.class);
-            applica.framework.annotations.FormProcessor formProcessor = type.getAnnotation(applica.framework.annotations.FormProcessor.class);
-            applica.framework.annotations.Repository loader = type.getAnnotation(applica.framework.annotations.Repository.class);
-            applica.framework.annotations.FormMethod method = type.getAnnotation(applica.framework.annotations.FormMethod.class);
+            applica.framework.annotations.FormRenderer formRenderer = type.getAnnotation(
+                    applica.framework.annotations.FormRenderer.class);
+            applica.framework.annotations.FormProcessor formProcessor = type.getAnnotation(
+                    applica.framework.annotations.FormProcessor.class);
+            applica.framework.annotations.Repository loader = type.getAnnotation(
+                    applica.framework.annotations.Repository.class);
+            applica.framework.annotations.FormMethod method = type.getAnnotation(
+                    applica.framework.annotations.FormMethod.class);
 
             CrudConfiguration.instance().registerForm(formAlias.type, formAlias.identifier);
 
@@ -175,7 +185,8 @@ public class CrudConfiguration implements CrudConstants {
             for (Field field : fields) {
                 logger.info("scanning field " + field.getName());
 
-                applica.framework.annotations.FormField formFieldAnnotation = field.getAnnotation(applica.framework.annotations.FormField.class);
+                applica.framework.annotations.FormField formFieldAnnotation = field.getAnnotation(
+                        applica.framework.annotations.FormField.class);
 
                 if (formFieldAnnotation != null) {
                     logger.info(field.getName() + " is a form field");
@@ -187,31 +198,40 @@ public class CrudConfiguration implements CrudConstants {
                     if (!StringUtils.hasLength(description))
                         description = property;
 
-                    logger.info(String.format("Field %s as description: %s, tooltip: %s", property, description, tooltip));
+                    logger.info(String
+                            .format("Field %s as description: %s, tooltip: %s", property, description, tooltip));
 
-                    applica.framework.annotations.FormFieldRenderer rendererAnnotation = field.getAnnotation(applica.framework.annotations.FormFieldRenderer.class);
+                    applica.framework.annotations.FormFieldRenderer rendererAnnotation = field.getAnnotation(
+                            applica.framework.annotations.FormFieldRenderer.class);
                     if (rendererAnnotation != null) {
-                        CrudConfiguration.instance().registerFormFieldRenderer(formAlias.type, property, rendererAnnotation.value());
+                        CrudConfiguration.instance().registerFormFieldRenderer(formAlias.type, property,
+                                rendererAnnotation.value());
                         logger.info("Registered field renderer class: " + rendererAnnotation.value());
 
                     }
 
-                    applica.framework.mapping.annotations.PropertyMapper propertyMapperAnnotation = field.getAnnotation(applica.framework.mapping.annotations.PropertyMapper.class);
+                    applica.framework.mapping.annotations.PropertyMapper propertyMapperAnnotation = field.getAnnotation(
+                            applica.framework.mapping.annotations.PropertyMapper.class);
                     if (propertyMapperAnnotation != null) {
-                        CrudConfiguration.instance().registerPropertyMapper(formAlias.type, property, propertyMapperAnnotation.value());
+                        CrudConfiguration.instance().registerPropertyMapper(formAlias.type, property,
+                                propertyMapperAnnotation.value());
                         logger.info("Registered property mapper class: " + propertyMapperAnnotation.value());
                     }
 
-                    applica.framework.annotations.SearchCriteria searchCriteriaAnnotation = field.getAnnotation(applica.framework.annotations.SearchCriteria.class);
+                    applica.framework.annotations.SearchCriteria searchCriteriaAnnotation = field.getAnnotation(
+                            applica.framework.annotations.SearchCriteria.class);
                     if (searchCriteriaAnnotation != null) {
-                        CrudConfiguration.instance().registerSearchCriteria(formAlias.type, property, searchCriteriaAnnotation.value());
+                        CrudConfiguration.instance().registerSearchCriteria(formAlias.type, property,
+                                searchCriteriaAnnotation.value());
                         logger.info("Registered field search criteria: " + searchCriteriaAnnotation.value());
                     }
 
-                    CrudConfiguration.instance().registerFormField(formAlias.type, property, field.getGenericType(), description, tooltip);
+                    CrudConfiguration.instance().registerFormField(formAlias.type, property, field.getGenericType(),
+                            description, tooltip);
                 }
 
-                applica.framework.annotations.RelatedFormField relatedFormFieldAnnotation = field.getAnnotation(applica.framework.annotations.RelatedFormField.class);
+                applica.framework.annotations.RelatedFormField relatedFormFieldAnnotation = field.getAnnotation(
+                        applica.framework.annotations.RelatedFormField.class);
                 if (relatedFormFieldAnnotation != null) {
                     logger.info(field.getName() + " is a related form field");
 
@@ -221,39 +241,41 @@ public class CrudConfiguration implements CrudConstants {
 
                     //repository is not mandatory
                     Repository repository = null;
-                    if (!relatedFormFieldAnnotation.repository().equals(Repository.class)) {
+                    if (!relatedFormFieldAnnotation.repository().equals(Repository.class))
                         crudFactory.createRepository(relatedFormFieldAnnotation.repository(), null);
-                    }
 
                     if (!StringUtils.hasLength(description))
                         description = property;
 
-                    logger.info(String.format("Field %s as description: %s, tooltip: %s", property, description, tooltip));
-                    logger.info(String.format("Related field repository: %s", relatedFormFieldAnnotation.repository().getName()));
+                    logger.info(String
+                            .format("Field %s as description: %s, tooltip: %s", property, description, tooltip));
+                    logger.info(String.format("Related field repository: %s", relatedFormFieldAnnotation.repository()
+                            .getName()));
 
-                    applica.framework.annotations.FormFieldRenderer rendererAnnotation = field.getAnnotation(applica.framework.annotations.FormFieldRenderer.class);
+                    applica.framework.annotations.FormFieldRenderer rendererAnnotation = field.getAnnotation(
+                            applica.framework.annotations.FormFieldRenderer.class);
                     if (rendererAnnotation != null) {
-                        CrudConfiguration.instance().registerFormFieldRenderer(formAlias.type, property, rendererAnnotation.value());
+                        CrudConfiguration.instance().registerFormFieldRenderer(formAlias.type, property,
+                                rendererAnnotation.value());
                         logger.info("Registered field renderer class: " + rendererAnnotation.value());
 
                     }
 
-                    CrudConfiguration.instance().registerRelatedFormField(formAlias.type, property, field.getGenericType(), description, tooltip, repository);
+                    CrudConfiguration.instance().registerRelatedFormField(formAlias.type, property, field
+                            .getGenericType(), description, tooltip, repository);
                 }
             }
 
             //search for buttons
-            applica.framework.annotations.FormButtons buttons = type.getAnnotation(applica.framework.annotations.FormButtons.class);
-            if (buttons != null) {
-                if (buttons.value() != null && buttons.value().length > 0) {
-                    for (applica.framework.annotations.FormButton button : buttons.value()) {
-                        CrudConfiguration.instance().registerFormButton(formAlias.type, button.label(), button.type(), button.action());
-                    }
-                }
-            }
-        } else {
+            applica.framework.annotations.FormButtons buttons = type.getAnnotation(
+                    applica.framework.annotations.FormButtons.class);
+            if (buttons != null)
+                if (buttons.value() != null && buttons.value().length > 0)
+                    for (applica.framework.annotations.FormButton button : buttons.value())
+                        CrudConfiguration.instance().registerFormButton(formAlias.type, button.label(), button.type(),
+                                button.action());
+        } else
             logger.warn(type.getName() + " has NOT FORM annotation");
-        }
     }
 
     @SuppressWarnings("unchecked")
@@ -266,9 +288,12 @@ public class CrudConfiguration implements CrudConstants {
             gridAlias.identifier = (gridAnnotation.value());
             gridAlias.type = ((Class<? extends Entity>) type);
 
-            applica.framework.annotations.GridRenderer gridRenderer = type.getAnnotation(applica.framework.annotations.GridRenderer.class);
-            applica.framework.annotations.Repository loader = type.getAnnotation(applica.framework.annotations.Repository.class);
-            applica.framework.annotations.Searchable searchable = type.getAnnotation(applica.framework.annotations.Searchable.class);
+            applica.framework.annotations.GridRenderer gridRenderer = type.getAnnotation(
+                    applica.framework.annotations.GridRenderer.class);
+            applica.framework.annotations.Repository loader = type.getAnnotation(
+                    applica.framework.annotations.Repository.class);
+            applica.framework.annotations.Searchable searchable = type.getAnnotation(
+                    applica.framework.annotations.Searchable.class);
             applica.framework.annotations.SortBy sortBy = type.getAnnotation(applica.framework.annotations.SortBy.class);
 
             if (gridRenderer != null)
@@ -278,9 +303,8 @@ public class CrudConfiguration implements CrudConstants {
 
             CrudConfiguration.instance().registerGrid(gridAlias.type, gridAlias.identifier);
 
-            if (StringUtils.hasLength(gridAnnotation.form())) {
+            if (StringUtils.hasLength(gridAnnotation.form()))
                 registerGridFormIdentifier(gridAlias.identifier, gridAnnotation.form());
-            }
 
             if (searchable != null) {
                 logger.info("Grid has searchable: " + searchable.value().getName());
@@ -298,7 +322,8 @@ public class CrudConfiguration implements CrudConstants {
             for (Field field : fields) {
                 logger.info("scanning field " + field.getName());
 
-                applica.framework.annotations.GridColumn gridColumnAnnotation = field.getAnnotation(applica.framework.annotations.GridColumn.class);
+                applica.framework.annotations.GridColumn gridColumnAnnotation = field.getAnnotation(
+                        applica.framework.annotations.GridColumn.class);
                 if (gridColumnAnnotation != null) {
                     logger.info(field.getName() + " is displayable in grid");
 
@@ -308,18 +333,20 @@ public class CrudConfiguration implements CrudConstants {
 
                     logger.info(String.format("%s header: %s", field.getName(), header));
 
-                    CrudConfiguration.instance().registerGridColumn(gridAlias.type, field.getName(), header, field.getType(), gridColumnAnnotation.linked());
+                    CrudConfiguration.instance().registerGridColumn(gridAlias.type, field.getName(), header, field
+                            .getType(), gridColumnAnnotation.linked());
 
-                    applica.framework.annotations.CellRenderer cellRendererAnnotation = field.getAnnotation(applica.framework.annotations.CellRenderer.class);
+                    applica.framework.annotations.CellRenderer cellRendererAnnotation = field.getAnnotation(
+                            applica.framework.annotations.CellRenderer.class);
                     if (cellRendererAnnotation != null) {
-                        CrudConfiguration.instance().registerCellRenderer(gridAlias.type, field.getName(), cellRendererAnnotation.value());
+                        CrudConfiguration.instance().registerCellRenderer(gridAlias.type, field.getName(),
+                                cellRendererAnnotation.value());
                         logger.info("Registered cell render builder: " + cellRendererAnnotation.value().getName());
                     }
                 }
             }
-        } else {
+        } else
             logger.warn(type.getName() + " has NOT GRID annotation");
-        }
     }
 
     public void registerGrid(Class<? extends Entity> type, String identifier) {
@@ -338,9 +365,8 @@ public class CrudConfiguration implements CrudConstants {
             }
         });
 
-        if (alias != null) {
+        if (alias != null)
             return alias.type;
-        }
 
         return null;
     }
@@ -353,9 +379,8 @@ public class CrudConfiguration implements CrudConstants {
             }
         });
 
-        if (alias != null) {
+        if (alias != null)
             return alias.identifier;
-        }
 
         return null;
     }
@@ -393,11 +418,10 @@ public class CrudConfiguration implements CrudConstants {
             }
         });
 
-        if (data != null) {
+        if (data != null)
             return data.method;
-        } else {
+        else
             return null;
-        }
     }
 
     public void registerGridFormIdentifier(String grid, String form) {
@@ -416,9 +440,8 @@ public class CrudConfiguration implements CrudConstants {
             }
         });
 
-        if (identifier != null) {
+        if (identifier != null)
             return identifier.form;
-        }
 
         return grid;
     }
@@ -431,9 +454,8 @@ public class CrudConfiguration implements CrudConstants {
             }
         });
 
-        if (alias != null) {
+        if (alias != null)
             return alias.type;
-        }
 
         return null;
     }
@@ -535,14 +557,33 @@ public class CrudConfiguration implements CrudConstants {
         info.processor = processor;
     }
 
-    public void registerFormFieldRenderer(final Class<? extends Entity> type, final String property, Class<? extends FormFieldRenderer> renderer) {
-        FormFieldRendererInfo info = (FormFieldRendererInfo) CollectionUtils.find(formFieldRendererInfos, new Predicate() {
+    public void registerGridProcessor(final Class<? extends Entity> type, Class<? extends GridProcessor> processor) {
+        GridProcessorInfo info = (GridProcessorInfo) CollectionUtils.find(gridProcessorInfos, new Predicate() {
             @Override
             public boolean evaluate(Object item) {
-                FormFieldRendererInfo info = (FormFieldRendererInfo) item;
-                return info.type.equals(type) && info.property.equals(property);
+                return ((GridProcessorInfo) item).type.equals(type);
             }
         });
+
+        if (info == null) {
+            info = new GridProcessorInfo();
+            info.type = type;
+            gridProcessorInfos.add(info);
+        }
+
+        info.processor = processor;
+    }
+
+    public void registerFormFieldRenderer(final Class<? extends Entity> type, final String property,
+            Class<? extends FormFieldRenderer> renderer) {
+        FormFieldRendererInfo info = (FormFieldRendererInfo) CollectionUtils.find(formFieldRendererInfos,
+                new Predicate() {
+                    @Override
+                    public boolean evaluate(Object item) {
+                        FormFieldRendererInfo info = (FormFieldRendererInfo) item;
+                        return info.type.equals(type) && info.property.equals(property);
+                    }
+                });
 
         if (info == null) {
             info = new FormFieldRendererInfo();
@@ -554,7 +595,8 @@ public class CrudConfiguration implements CrudConstants {
         info.renderer = renderer;
     }
 
-    public void registerPropertyMapper(final Class<? extends Entity> type, final String property, Class<? extends PropertyMapper> propertyMapper) {
+    public void registerPropertyMapper(final Class<? extends Entity> type, final String property,
+            Class<? extends PropertyMapper> propertyMapper) {
         PropertyMapperInfo info = (PropertyMapperInfo) CollectionUtils.find(propertyMapperInfos, new Predicate() {
             @Override
             public boolean evaluate(Object item) {
@@ -592,7 +634,8 @@ public class CrudConfiguration implements CrudConstants {
         info.criteria = criteria;
     }
 
-    public void registerCellRenderer(final Class<? extends Entity> type, final String property, Class<? extends CellRenderer> renderer) {
+    public void registerCellRenderer(final Class<? extends Entity> type, final String property,
+            Class<? extends CellRenderer> renderer) {
         CellRendererInfo info = (CellRendererInfo) CollectionUtils.find(cellRendererInfos, new Predicate() {
             @Override
             public boolean evaluate(Object item) {
@@ -645,7 +688,8 @@ public class CrudConfiguration implements CrudConstants {
         info.repository = repository;
     }
 
-    public void registerGridColumn(final Class<? extends Entity> type, String property, String header, Type dataType, boolean linked) {
+    public void registerGridColumn(final Class<? extends Entity> type, String property, String header, Type dataType,
+            boolean linked) {
         GridDescriptorInfo info = (GridDescriptorInfo) CollectionUtils.find(gridDescriptorInfos, new Predicate() {
             @Override
             public boolean evaluate(Object item) {
@@ -664,7 +708,8 @@ public class CrudConfiguration implements CrudConstants {
         info.descriptor.addColumn(property, header, dataType, linked, null);
     }
 
-    public void registerFormField(final Class<? extends Entity> type, String property, Type dataType, String description, String tooltip) {
+    public void registerFormField(final Class<? extends Entity> type, String property, Type dataType, String description,
+            String tooltip) {
         FormDescriptorInfo info = (FormDescriptorInfo) CollectionUtils.find(formDescriptorInfos, new Predicate() {
             @Override
             public boolean evaluate(Object item) {
@@ -683,7 +728,8 @@ public class CrudConfiguration implements CrudConstants {
         info.descriptor.addField(property, dataType, description, tooltip, null);
     }
 
-    public void registerRelatedFormField(final Class<? extends Entity> type, String property, Type dataType, String description, String tooltip, Repository repository) {
+    public void registerRelatedFormField(final Class<? extends Entity> type, String property, Type dataType,
+            String description, String tooltip, Repository repository) {
         FormDescriptorInfo info = (FormDescriptorInfo) CollectionUtils.find(formDescriptorInfos, new Predicate() {
             @Override
             public boolean evaluate(Object item) {
@@ -702,7 +748,8 @@ public class CrudConfiguration implements CrudConstants {
         info.descriptor.addField(property, dataType, description, tooltip, null, repository);
     }
 
-    public void registerRelatedFormField(final Class<? extends Entity> type, String property, Type dataType, String description, String tooltip) {
+    public void registerRelatedFormField(final Class<? extends Entity> type, String property, Type dataType,
+            String description, String tooltip) {
         FormDescriptorInfo info = (FormDescriptorInfo) CollectionUtils.find(formDescriptorInfos, new Predicate() {
             @Override
             public boolean evaluate(Object item) {
@@ -811,14 +858,13 @@ public class CrudConfiguration implements CrudConstants {
             }
         });
 
-        if (info == null) {
+        if (info == null)
             info = (FormProcessorInfo) CollectionUtils.find(formProcessorInfos, new Predicate() {
                 @Override
                 public boolean evaluate(Object item) {
                     return ((FormProcessorInfo) item).type.equals(CrudConstants.DEFAULT_ENTITY_TYPE);
                 }
             });
-        }
 
         if (info == null)
             throw new CrudConfigurationException("No processor for " + type.getName());
@@ -826,6 +872,34 @@ public class CrudConfiguration implements CrudConstants {
         FormProcessor processor = crudFactory.createFormProcessor(info.processor, type, getFormIdentifierFromType(type));
         if (processor == null)
             throw new CrudConfigurationException("FormProcessor not found for type " + type.getName());
+        return processor;
+    }
+
+    public GridProcessor getGridProcessor(final Class<? extends Entity> type) throws CrudConfigurationException {
+        if (crudFactory == null)
+            throw new CrudConfigurationException("Please set framework factory");
+
+        GridProcessorInfo info = (GridProcessorInfo) CollectionUtils.find(gridProcessorInfos, new Predicate() {
+            @Override
+            public boolean evaluate(Object item) {
+                return ((GridProcessorInfo) item).type.equals(type);
+            }
+        });
+
+        if (info == null)
+            info = (GridProcessorInfo) CollectionUtils.find(gridProcessorInfos, new Predicate() {
+                @Override
+                public boolean evaluate(Object item) {
+                    return ((GridProcessorInfo) item).type.equals(CrudConstants.DEFAULT_ENTITY_TYPE);
+                }
+            });
+
+        if (info == null)
+            throw new CrudConfigurationException("No processor for " + type.getName());
+
+        GridProcessor processor = crudFactory.createGridProcessor(info.processor, type, getGridIdentifierFromType(type));
+        if (processor == null)
+            throw new CrudConfigurationException("GridProcessor not found for type " + type.getName());
         return processor;
     }
 
@@ -840,14 +914,13 @@ public class CrudConfiguration implements CrudConstants {
             }
         });
 
-        if (info == null) {
+        if (info == null)
             info = (GridRendererInfo) CollectionUtils.find(gridRendererInfos, new Predicate() {
                 @Override
                 public boolean evaluate(Object item) {
                     return ((GridRendererInfo) item).type.equals(CrudConstants.DEFAULT_ENTITY_TYPE);
                 }
             });
-        }
 
         if (info == null)
             throw new CrudConfigurationException("No grid renderer builder provided for " + type.getName());
@@ -869,14 +942,13 @@ public class CrudConfiguration implements CrudConstants {
             }
         });
 
-        if (info == null) {
+        if (info == null)
             info = (FormRendererInfo) CollectionUtils.find(formRendererInfos, new Predicate() {
                 @Override
                 public boolean evaluate(Object item) {
                     return ((FormRendererInfo) item).type.equals(CrudConstants.DEFAULT_ENTITY_TYPE);
                 }
             });
-        }
 
         if (info == null)
             throw new CrudConfigurationException("No form renderer builder provided for " + type.getName());
@@ -887,19 +959,21 @@ public class CrudConfiguration implements CrudConstants {
         return renderer;
     }
 
-    public FormFieldRenderer getFormFieldRenderer(final Class<? extends Entity> type, final String property) throws CrudConfigurationException {
+    public FormFieldRenderer getFormFieldRenderer(final Class<? extends Entity> type, final String property) throws
+            CrudConfigurationException {
         if (crudFactory == null)
             throw new CrudConfigurationException("Please set framework factory");
 
-        FormFieldRendererInfo info = (FormFieldRendererInfo) CollectionUtils.find(formFieldRendererInfos, new Predicate() {
-            @Override
-            public boolean evaluate(Object item) {
-                FormFieldRendererInfo info = (FormFieldRendererInfo) item;
-                return info.type.equals(type) && info.property.equals(property);
-            }
-        });
+        FormFieldRendererInfo info = (FormFieldRendererInfo) CollectionUtils.find(formFieldRendererInfos,
+                new Predicate() {
+                    @Override
+                    public boolean evaluate(Object item) {
+                        FormFieldRendererInfo info = (FormFieldRendererInfo) item;
+                        return info.type.equals(type) && info.property.equals(property);
+                    }
+                });
 
-        if (info == null) {
+        if (info == null)
             info = (FormFieldRendererInfo) CollectionUtils.find(formFieldRendererInfos, new Predicate() {
                 @Override
                 public boolean evaluate(Object item) {
@@ -907,18 +981,20 @@ public class CrudConfiguration implements CrudConstants {
                     return info.type.equals(CrudConstants.DEFAULT_ENTITY_TYPE);
                 }
             });
-        }
 
         if (info == null)
-            throw new CrudConfigurationException("No form field renderer builder provided for " + type.getName() + " of property " + property);
+            throw new CrudConfigurationException("No form field renderer builder provided for " + type.getName()
+                    + " of property " + property);
 
-        FormFieldRenderer renderer = crudFactory.createFormFieldRenderer(info.renderer, type, getFormIdentifierFromType(type), property);
+        FormFieldRenderer renderer = crudFactory.createFormFieldRenderer(info.renderer, type, getFormIdentifierFromType(
+                type), property);
         if (renderer == null)
             throw new CrudConfigurationException("FormFieldRenderer not found for type " + type.getName());
         return renderer;
     }
 
-    public CellRenderer getCellRenderer(final Class<? extends Entity> type, final String property) throws CrudConfigurationException {
+    public CellRenderer getCellRenderer(final Class<? extends Entity> type, final String property) throws
+            CrudConfigurationException {
         if (crudFactory == null)
             throw new CrudConfigurationException("Please set framework factory");
 
@@ -930,7 +1006,7 @@ public class CrudConfiguration implements CrudConstants {
             }
         });
 
-        if (info == null) {
+        if (info == null)
             info = (CellRendererInfo) CollectionUtils.find(cellRendererInfos, new Predicate() {
                 @Override
                 public boolean evaluate(Object item) {
@@ -938,18 +1014,20 @@ public class CrudConfiguration implements CrudConstants {
                     return info.type.equals(CrudConstants.DEFAULT_ENTITY_TYPE);
                 }
             });
-        }
 
         if (info == null)
-            throw new CrudConfigurationException("No cell renderer builder provided for " + type.getName() + " of property " + property);
+            throw new CrudConfigurationException("No cell renderer builder provided for " + type.getName()
+                    + " of property " + property);
 
-        CellRenderer renderer = crudFactory.createCellRenderer(info.renderer, type, getGridIdentifierFromType(type), property);
+        CellRenderer renderer = crudFactory.createCellRenderer(info.renderer, type, getGridIdentifierFromType(type),
+                property);
         if (renderer == null)
             throw new CrudConfigurationException("CellRenderer not found for type " + type.getName());
         return renderer;
     }
 
-    public PropertyMapper getPropertyMapper(final Class<? extends Entity> type, final String property) throws CrudConfigurationException {
+    public PropertyMapper getPropertyMapper(final Class<? extends Entity> type, final String property) throws
+            CrudConfigurationException {
         if (crudFactory == null)
             throw new CrudConfigurationException("Please set framework factory");
 
@@ -961,14 +1039,14 @@ public class CrudConfiguration implements CrudConstants {
             }
         });
 
-        if (info != null) {
+        if (info != null)
             return crudFactory.createPropertyMapper(info.mapper, type, getFormIdentifierFromType(type), property);
-        }
 
         return null;
     }
 
-    public String getSearchCriteria(final Class<? extends Entity> type, final String property) throws CrudConfigurationException {
+    public String getSearchCriteria(final Class<? extends Entity> type, final String property) throws
+            CrudConfigurationException {
         if (crudFactory == null)
             throw new CrudConfigurationException("Please set framework factory");
 
@@ -980,9 +1058,8 @@ public class CrudConfiguration implements CrudConstants {
             }
         });
 
-        if (info != null) {
+        if (info != null)
             return info.criteria;
-        }
 
         return null;
     }
@@ -1022,10 +1099,9 @@ public class CrudConfiguration implements CrudConstants {
     }
 
     private Param getParamInternal(Class<? extends Entity> type, String key) {
-        for (Param param : params) {
+        for (Param param : params)
             if (param.type.equals(type) && param.key.equals(key))
                 return param;
-        }
 
         return null;
     }
@@ -1048,9 +1124,8 @@ public class CrudConfiguration implements CrudConstants {
 
     public String getParam(Class<? extends Entity> type, String key, String fallback) {
         Param param = getParamInternal(type, key);
-        if (param != null) {
+        if (param != null)
             return param.value;
-        }
 
         return fallback;
     }
@@ -1061,22 +1136,19 @@ public class CrudConfiguration implements CrudConstants {
 
     public String getDefaultParam(Class<? extends Entity> type, String key, String fallback) {
         Param param = getParamInternal(type, key);
-        if (param == null) {
+        if (param == null)
             param = getParamInternal(DEFAULT_ENTITY_TYPE, key);
-        }
 
-        if (param != null) {
+        if (param != null)
             return param.value;
-        }
 
         return fallback;
     }
 
     private PropertyParam getPropertyParamInternal(Class<? extends Entity> type, String property, String key) {
-        for (PropertyParam param : propertyParams) {
+        for (PropertyParam param : propertyParams)
             if (param.type.equals(type) && param.property.equals(property) && param.key.equals(key))
                 return param;
-        }
 
         return null;
     }
@@ -1100,25 +1172,24 @@ public class CrudConfiguration implements CrudConstants {
 
     public String getPropertyParam(Class<? extends Entity> type, String property, String key, String fallback) {
         PropertyParam param = getPropertyParamInternal(type, property, key);
-        if (param != null) {
+        if (param != null)
             return param.value;
-        }
 
         return fallback;
     }
 
     public Map<String, String> getPropertyParams(Class<? extends Entity> type, final String property) {
         Map<String, String> paramsMap = new HashMap<>();
-        List<PropertyParam> filteredParams = (List<PropertyParam>) CollectionUtils.select(this.propertyParams, new Predicate() {
-            @Override
-            public boolean evaluate(Object o) {
-                return ((PropertyParam) o).property.equals(property);
-            }
-        });
+        List<PropertyParam> filteredParams = (List<PropertyParam>) CollectionUtils.select(this.propertyParams,
+                new Predicate() {
+                    @Override
+                    public boolean evaluate(Object o) {
+                        return ((PropertyParam) o).property.equals(property);
+                    }
+                });
 
-        for (PropertyParam p : filteredParams) {
+        for (PropertyParam p : filteredParams)
             paramsMap.put(p.key, p.value);
-        }
 
         return paramsMap;
     }
@@ -1167,6 +1238,12 @@ public class CrudConfiguration implements CrudConstants {
 
         private Class<? extends Entity> type;
         private Class<? extends FormProcessor> processor;
+    }
+
+    class GridProcessorInfo {
+
+        private Class<? extends Entity> type;
+        private Class<? extends GridProcessor> processor;
     }
 
     class GridDescriptorInfo {
