@@ -1,19 +1,17 @@
 package applica.framework;
 
-import applica.framework.builders.FormBuilder;
-import applica.framework.builders.FormProcessorBuilder;
 import applica.framework.data.Entity;
-import applica.framework.processors.FormProcessor;
 import applica.framework.render.FormRenderer;
-
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Map;
 
 public class Form {
-    String identifier;
-    FormDescriptor descriptor;
-    FormRenderer renderer;
+
+    private String identifier;
+    private Class<? extends Entity> entityType;
+    private FormDescriptor descriptor;
+    private FormRenderer renderer;
     boolean editMode = false;
     private String method = "POST";
     private Map<String, Object> data;
@@ -42,6 +40,15 @@ public class Form {
         this.identifier = identifier;
     }
 
+    public Class<? extends Entity> getEntityType() {
+        return entityType;
+    }
+
+    public void setEntityType(
+            Class<? extends Entity> entityType) {
+        this.entityType = entityType;
+    }
+
     public FormDescriptor getDescriptor() {
         return descriptor;
     }
@@ -50,9 +57,8 @@ public class Form {
         this.descriptor = descriptor;
 
         //adjust references
-        if (descriptor != null) {
+        if (descriptor != null)
             descriptor.setForm(this);
-        }
     }
 
     public FormRenderer getRenderer() {
@@ -79,8 +85,10 @@ public class Form {
     }
 
     public void write(Writer writer) throws FormCreationException, CrudConfigurationException {
-        if (descriptor == null) throw new FormCreationException("Missing descriptor");
-        if (renderer == null) throw new FormCreationException("Missing renderer");
+        if (descriptor == null)
+            throw new FormCreationException("Missing descriptor");
+        if (renderer == null)
+            throw new FormCreationException("Missing renderer");
 
         renderer.render(writer, this, data);
     }
