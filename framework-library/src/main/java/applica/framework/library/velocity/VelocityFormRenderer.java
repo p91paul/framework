@@ -1,13 +1,14 @@
 package applica.framework.library.velocity;
 
 import applica.framework.Form;
+import applica.framework.FormField;
 import applica.framework.render.FormRenderer;
+import java.io.Writer;
+import java.util.List;
+import java.util.Map;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.springframework.util.StringUtils;
-
-import java.io.Writer;
-import java.util.Map;
 
 public class VelocityFormRenderer extends VelocityRenderer implements FormRenderer {
 
@@ -22,18 +23,23 @@ public class VelocityFormRenderer extends VelocityRenderer implements FormRender
 
     @Override
     public void render(Writer writer, Form form, Map<String, Object> data) {
-        if (!StringUtils.hasLength(getTemplatePath())) return;
+        if (!StringUtils.hasLength(getTemplatePath()))
+            return;
 
         Template template = VelocityBuilderProvider.provide().engine().getTemplate(getTemplatePath(), "UTF-8");
         VelocityContext context = new VelocityContext();
         context.put("writer", writer);
         context.put("data", data);
         context.put("form", form);
-        context.put("fields", form.getDescriptor().getFields());
+        context.put("fields", getFields(form));
 
         setupContext(context);
 
         template.merge(context, writer);
+    }
+
+    protected List<FormField> getFields(Form form) {
+        return form.getDescriptor().getFields();
     }
 
 }
