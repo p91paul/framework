@@ -42,8 +42,7 @@ public class FormConfigurator {
     }
 
     /**
-     * Configures a new form for {@code entityType} with identifier
-     * {@code entityType.getSimpleName()}. See {@link #configure(java.lang.Class, java.lang.String)
+     * Configures a new form for {@code entityType} with identifier {@code entityType.getSimpleName()}. See {@link #configure(java.lang.Class, java.lang.String)
      * }
      *
      * @param entityType
@@ -93,9 +92,8 @@ public class FormConfigurator {
     }
 
     /**
-     * Adds a new property to the form with label "label.identifier.property"
-     * where identifier is the form identifier specified in
-     * {@link #configure(java.lang.Class, java.lang.String)}.
+     * Adds a new property to the form with label "label.identifier.property" where identifier is the form identifier
+     * specified in {@link #configure(java.lang.Class, java.lang.String)}.
      *
      * @param property the property name
      * @return the updated FormConfigurator
@@ -105,9 +103,8 @@ public class FormConfigurator {
     }
 
     /**
-     * Adds a new property to the form with label "label.identifier.property"
-     * where identifier is the form identifier specified in
-     * {@link #configure(java.lang.Class, java.lang.String)}.
+     * Adds a new property to the form with label "label.identifier.property" where identifier is the form identifier
+     * specified in {@link #configure(java.lang.Class, java.lang.String)}.
      *
      * @param property the property name
      * @param renderer the renderer for this property
@@ -118,16 +115,16 @@ public class FormConfigurator {
     }
 
     /**
-     * Adds a new property to the form with label "label.identifier.property"
-     * where identifier is the form identifier specified in
-     * {@link #configure(java.lang.Class, java.lang.String)}.
+     * Adds a new property to the form with label "label.identifier.property" where identifier is the form identifier
+     * specified in {@link #configure(java.lang.Class, java.lang.String)}.
      *
      * @param property the property name
      * @param renderer the renderer for this property
      * @param propertyMapper the value mapper for this property
      * @return the updated FormConfigurator
      */
-    public FormConfigurator field(String property, Class<? extends FormFieldRenderer> renderer, Class<? extends PropertyMapper> propertyMapper) {
+    public FormConfigurator field(String property, Class<? extends FormFieldRenderer> renderer,
+            Class<? extends PropertyMapper> propertyMapper) {
         return field(property, null, renderer, propertyMapper);
     }
 
@@ -139,7 +136,8 @@ public class FormConfigurator {
         return field(property, description, renderer, null);
     }
 
-    public FormConfigurator field(String property, String description, Class<? extends FormFieldRenderer> renderer, Class<? extends PropertyMapper> propertyMapper) {
+    public FormConfigurator field(String property, String description, Class<? extends FormFieldRenderer> renderer,
+            Class<? extends PropertyMapper> propertyMapper) {
         if (description == null)
             description = CrudConfiguration.getDefaultDescription(identifier, property);
         CrudConfiguration.instance().registerFormField(entityType, property,
@@ -164,25 +162,27 @@ public class FormConfigurator {
     }
 
     /**
-     * Adds a new related property to the form with label
-     * "label.identifier.property" where identifier is the form identifier
-     * specified in {@link #configure(java.lang.Class, java.lang.String)}.
+     * Adds a new related property to the form with label "label.identifier.property" where identifier is the form
+     * identifier specified in {@link #configure(java.lang.Class, java.lang.String)}.
      *
      * @param property the property name
      * @param repository the repository of the related entities
      * @param renderer the property renderer
      * @return
      */
-    public FormConfigurator relatedField(String property, Repository repository, Class<? extends FormFieldRenderer> renderer) {
+    public FormConfigurator relatedField(String property, Repository repository,
+            Class<? extends FormFieldRenderer> renderer) {
         return relatedField(property, null, null, repository, renderer);
     }
 
-    public FormConfigurator relatedField(String property, String description, String tooltip, Repository repository, Class<? extends FormFieldRenderer> renderer) {
+    public FormConfigurator relatedField(String property, String description, String tooltip, Repository repository,
+            Class<? extends FormFieldRenderer> renderer) {
         if (description == null)
             description = CrudConfiguration.getDefaultDescription(entityType, property);
         if (tooltip == null)
             tooltip = "";
-        CrudConfiguration.instance().registerRelatedFormField(entityType, property, getDataType(property), description, tooltip, repository);
+        CrudConfiguration.instance().registerRelatedFormField(entityType, property, getDataType(property), description,
+                tooltip, repository);
         if (renderer != null)
             CrudConfiguration.instance().registerFormFieldRenderer(entityType, property, renderer);
         return this;
@@ -192,7 +192,8 @@ public class FormConfigurator {
         return relatedField(property, description, tooltip, null, null);
     }
 
-    public FormConfigurator relatedField(String property, String description, String tooltip, Class<? extends FormFieldRenderer> renderer) {
+    public FormConfigurator relatedField(String property, String description, String tooltip,
+            Class<? extends FormFieldRenderer> renderer) {
         return relatedField(property, description, tooltip, null, renderer);
     }
 
@@ -201,16 +202,14 @@ public class FormConfigurator {
         return this;
     }
 
-    //
     private Type getDataType(String property) {
-        if (entityType != null) {
+        if (entityType != null)
             try {
                 Field field = TypeUtils.getField(entityType, property);
                 return field.getGenericType();
             } catch (NoSuchFieldException e) {
-                throw new RuntimeException(e); //programmers error
+                return null;
             }
-        }
 
         return null;
     }
