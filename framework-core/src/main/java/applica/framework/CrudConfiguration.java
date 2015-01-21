@@ -16,9 +16,9 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.logging.Log;
@@ -1179,19 +1179,9 @@ public class CrudConfiguration implements CrudConstants {
     }
 
     public Map<String, String> getPropertyParams(Class<? extends Entity> type, final String property) {
-        Map<String, String> paramsMap = new HashMap<>();
-        List<PropertyParam> filteredParams = (List<PropertyParam>) CollectionUtils.select(this.propertyParams,
-                new Predicate() {
-                    @Override
-                    public boolean evaluate(Object o) {
-                        return ((PropertyParam) o).property.equals(property);
-                    }
-                });
-
-        for (PropertyParam p : filteredParams)
-            paramsMap.put(p.key, p.value);
-
-        return paramsMap;
+        return this.propertyParams.stream()
+                .filter(p -> p.type.equals(type) && p.property.equals(property))
+                .collect(Collectors.toMap(p -> p.key, p -> p.value));
     }
 
     public CrudFactory getCrudFactory() {
