@@ -81,12 +81,13 @@ define(["framework/core", "framework/widgets", "framework/ui", "framework/plugin
             this.breadcrumbItems = [];
             this.toolbarButtons = [];
             this.rightbarButtons = [];
+            this.toolbar = $("#toolbar");
         },
 
         createToolbar: function() {
             var buttons = this.getToolbarButtons();
 
-            var $t = $("#toolbar");
+            var $t = this.toolbar;
             if(!$t.toolbar("isToolbar")) {
                 $t.toolbar();
             }

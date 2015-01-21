@@ -7,13 +7,12 @@ import applica.framework.RelatedFormField;
 import applica.framework.data.Entity;
 import applica.framework.data.RepositoriesFactory;
 import applica.framework.data.Repository;
+import applica.framework.utils.PropertyPathUtils;
 import applica.framework.utils.TypeUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.util.StringUtils;
@@ -43,12 +42,12 @@ public class SimplePropertyMapper implements PropertyMapper {
                 if (listType.isAssignableFrom(TypeUtils.genericCheckedType(formField.getDataType()))) {
                     logger.info(String.format("related field %s is list of entity type", formField.getProperty()));
 
-                    List list = (List) PropertyUtils.getProperty(entity, formField.getProperty());
+                    List list = (List) getProperty(entity, formField);
                     finalValue = list;
                 } else {
                     logger.info(String.format("related field %s is single entity type", formField.getProperty()));
 
-                    Entity relatedEntity = (Entity) PropertyUtils.getProperty(entity, formField.getProperty());
+                    Entity relatedEntity = (Entity) getProperty(entity, formField);
                     finalValue = relatedEntity;
                 }
                 values.put(formField.getProperty(), finalValue);
@@ -57,12 +56,7 @@ public class SimplePropertyMapper implements PropertyMapper {
             }
         } else {
             logger.info(String.format("field %s is standard field", formField.getProperty()));
-            Object value = null;
-            try {
-                value = PropertyUtils.getProperty(entity, formField.getProperty());
-            } catch (Exception e) {
-                throw new MappingException(formField.getProperty(), e);
-            }
+            Object value = getProperty(entity, formField);
 
             values.put(formField.getProperty(), value);
         }
@@ -93,7 +87,7 @@ public class SimplePropertyMapper implements PropertyMapper {
 
                     List entities = null;
                     try {
-                        entities = ((List) PropertyUtils.getProperty(entity, formField.getProperty()));
+                        entities = getProperty(entity, formField);
                         if (entities != null)
                             entities.clear();
                         else
@@ -119,11 +113,7 @@ public class SimplePropertyMapper implements PropertyMapper {
                     finalValue = relatedEntity;
                 }
 
-                try {
-                    BeanUtils.setProperty(entity, formField.getProperty(), finalValue);
-                } catch (Exception e) {
-                    throw new MappingException(formField.getProperty(), e);
-                }
+                setProperty(entity, formField, finalValue);
             } else {
                 logger.info(String.format("field %s is a standard type", formField.getProperty()));
 
@@ -139,11 +129,7 @@ public class SimplePropertyMapper implements PropertyMapper {
                 } else
                     finalValue = requestValueArray;
 
-                try {
-                    BeanUtils.setProperty(entity, formField.getProperty(), finalValue);
-                } catch (Exception e) {
-                    throw new MappingException(formField.getProperty(), e);
-                }
+                setProperty(entity, formField, finalValue);
 
             }
         } else {
@@ -154,7 +140,7 @@ public class SimplePropertyMapper implements PropertyMapper {
                     .getDataType()))) {
                 List entities = null;
                 try {
-                    entities = ((List) PropertyUtils.getProperty(entity, formField.getProperty()));
+                    entities = getProperty(entity, formField);
                     if (entities != null)
                         entities.clear();
                 } catch (Exception e) {
@@ -162,12 +148,24 @@ public class SimplePropertyMapper implements PropertyMapper {
 
                 finalValue = entities;
 
-                try {
-                    BeanUtils.setProperty(entity, formField.getProperty(), finalValue);
-                } catch (Exception e) {
-                    throw new MappingException(formField.getProperty(), e);
-                }
+                setProperty(entity, formField, finalValue);
             }
+        }
+    }
+
+    private <T> T getProperty(Entity entity, FormField formField) throws MappingException {
+        try {
+            return PropertyPathUtils.getPropertyFromPath(entity, formField.getProperty());
+        } catch (Exception e) {
+            throw new MappingException(formField.getProperty(), e);
+        }
+    }
+
+    private void setProperty(Entity entity, FormField formField, Object value) throws MappingException {
+        try {
+            PropertyPathUtils.setPropertyFromPath(entity, formField.getProperty(), value);
+        } catch (Exception e) {
+            throw new MappingException(formField.getProperty(), e);
         }
     }
 

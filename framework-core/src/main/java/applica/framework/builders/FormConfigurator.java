@@ -7,8 +7,7 @@ import applica.framework.mapping.PropertyMapper;
 import applica.framework.processors.FormProcessor;
 import applica.framework.render.FormFieldRenderer;
 import applica.framework.render.FormRenderer;
-import applica.framework.utils.TypeUtils;
-import java.lang.reflect.Field;
+import applica.framework.utils.PropertyPathUtils;
 import java.lang.reflect.Type;
 
 /**
@@ -140,8 +139,9 @@ public class FormConfigurator {
             Class<? extends PropertyMapper> propertyMapper) {
         if (description == null)
             description = CrudConfiguration.getDefaultDescription(identifier, property);
-        CrudConfiguration.instance().registerFormField(entityType, property,
-                getDataType(property), description, "");
+
+        final Type dataType = PropertyPathUtils.getDataTypeFromPath(entityType, property);
+        CrudConfiguration.instance().registerFormField(entityType, property, dataType, description, "");
 
         if (renderer != null)
             CrudConfiguration.instance().registerFormFieldRenderer(entityType, property, renderer);
@@ -181,8 +181,9 @@ public class FormConfigurator {
             description = CrudConfiguration.getDefaultDescription(entityType, property);
         if (tooltip == null)
             tooltip = "";
-        CrudConfiguration.instance().registerRelatedFormField(entityType, property, getDataType(property), description,
-                tooltip, repository);
+        final Type dataType = PropertyPathUtils.getDataTypeFromPath(entityType, property);
+        CrudConfiguration.instance().registerRelatedFormField(entityType, property, dataType,
+                description, tooltip, repository);
         if (renderer != null)
             CrudConfiguration.instance().registerFormFieldRenderer(entityType, property, renderer);
         return this;
@@ -202,15 +203,4 @@ public class FormConfigurator {
         return this;
     }
 
-    private Type getDataType(String property) {
-        if (entityType != null)
-            try {
-                Field field = TypeUtils.getField(entityType, property);
-                return field.getGenericType();
-            } catch (NoSuchFieldException e) {
-                return null;
-            }
-
-        return null;
-    }
 }
