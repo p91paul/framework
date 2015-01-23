@@ -18,7 +18,6 @@ define(["framework/core", "framework/ui"], function(core, ui) {
             this.dataType = "json";
             //this.contentType = "application/json";
         },
-
         load: function() {
             var self = this;
             $.ajax({
@@ -36,10 +35,9 @@ define(["framework/core", "framework/ui"], function(core, ui) {
                 }
             });
         },
-
         onSuccess: function(response) {
             var self = this;
-            if(response.error) {
+            if (response.error) {
                 self.invoke("error", response.message);
                 return;
             }
@@ -47,7 +45,6 @@ define(["framework/core", "framework/ui"], function(core, ui) {
             var data = response.value;
             self.invoke("load", data);
         },
-
         onError: function(error) {
             this.invoke("error", error);
         }
@@ -64,23 +61,21 @@ define(["framework/core", "framework/ui"], function(core, ui) {
                 redirect: function(value) {
                     location.href = BASE + value;
                 },
-
                 command: function(value) {
                     ui.CommandsManager.instance().invoke(value);
                 }
             };
         },
-
         execute: function() {
-            if(!core.utils.stringIsNullOrEmpty(this.command)) {
+            if (!core.utils.stringIsNullOrEmpty(this.command)) {
                 var split = this.command.split(":");
-                if(!split.size == 2) {
+                if (!split.size == 2) {
                     return;
                 }
                 var command = split[0];
                 var value = split[1];
                 var fn = this.commands[command];
-                if($.isFunction(fn)) {
+                if ($.isFunction(fn)) {
                     fn(value);
                 }
             }
@@ -99,11 +94,11 @@ define(["framework/core", "framework/ui"], function(core, ui) {
             this.identifier = null;
             this.title = null;
         },
-
         load: function() {
             var self = this;
 
-            if(!this.url) throw "FormService.load(): url is needed";
+            if (!this.url)
+                throw "FormService.load(): url is needed";
 
             self.element = null;
             $.ajax({
@@ -112,7 +107,7 @@ define(["framework/core", "framework/ui"], function(core, ui) {
                 data: this.data,
                 dataType: 'json',
                 success: function(response) {
-                    if(response.error) {
+                    if (response.error) {
                         self.invoke("error", response.message);
                     }
                     else {
@@ -127,7 +122,6 @@ define(["framework/core", "framework/ui"], function(core, ui) {
                 }
             });
         },
-
         performAction: function(data) {
             var self = this;
             var url = this.action;
@@ -143,14 +137,14 @@ define(["framework/core", "framework/ui"], function(core, ui) {
                 data: options.data,
                 dataType: "json",
                 success: function(response) {
-                    if(response.error) {
+                    if (response.error) {
                         self.invoke("error", response.message);
-                    } else if(!response.valid) {
+                    } else if (!response.valid) {
                         self.invoke("validationError", response.validationResult);
                     } else {
                         self.invoke("complete");
 
-                        if(response.after) {
+                        if (response.after) {
                             var executor = new AfterActionExecutor(response.after);
                             executor.execute();
                         }
@@ -161,10 +155,9 @@ define(["framework/core", "framework/ui"], function(core, ui) {
                 }
             });
         },
-
         save: function(data) {
             var self = this;
-            if(!this.identifier) {
+            if (!this.identifier) {
                 throw "Please specify an identifier in formService to save";
             }
 
@@ -182,9 +175,9 @@ define(["framework/core", "framework/ui"], function(core, ui) {
                 data: options.data,
                 dataType: "json",
                 success: function(response) {
-                    if(response.error) {
+                    if (response.error) {
                         self.invoke("error", response.message);
-                    } else if(!response.valid) {
+                    } else if (!response.valid) {
                         self.invoke("validationError", response.validationResult);
                     } else {
                         self.invoke("save");
@@ -222,23 +215,24 @@ define(["framework/core", "framework/ui"], function(core, ui) {
             this.identifier = null;
             this.title = null;
             this.searchFormIncluded = false;
+            this.defaultFilters = [];
         },
-
         load: function(opts) {
             var self = this;
 
-            if(!this.url) throw "GridService.load(): url is needed";
+            if (!this.url)
+                throw "GridService.load(): url is needed";
 
             self.element = null;
             $.ajax({
                 type: this.method,
                 url: this.url,
-                data: $.extend(this.data, { loadRequest: JSON.stringify(this.loadRequest) }),
+                data: $.extend(this.data, {loadRequest: JSON.stringify(this.loadRequest)}),
                 dataType: "json",
                 success: function(response) {
                     self.element = null;
 
-                    if(response.error) {
+                    if (response.error) {
                         self.invoke("error", response.message);
                     } else {
                         self.element = _E("div").html(response.content);
@@ -255,13 +249,12 @@ define(["framework/core", "framework/ui"], function(core, ui) {
             });
 
         },
-
         remove: function(ids) {
-            if(!this.identifier) {
+            if (!this.identifier) {
                 throw "Please specify an identifier in gridService to remove";
             }
 
-            if(!ids || ids.length == 0) {
+            if (!ids || ids.length == 0) {
                 return;
             }
             var url = BASE + "crud/grid/" + this.identifier + "/delete";
@@ -269,10 +262,10 @@ define(["framework/core", "framework/ui"], function(core, ui) {
             $.ajax({
                 type: "POST",
                 url: url,
-                data: { ids: ids.join() },
+                data: {ids: ids.join()},
                 dataType: "json",
                 success: function(response) {
-                    if(response.error) {
+                    if (response.error) {
                         self.invoke("error", response.message);
                     } else {
                         self.invoke("remove", ids);
@@ -283,35 +276,33 @@ define(["framework/core", "framework/ui"], function(core, ui) {
                 }
             });
         },
-
         reload: function() {
             this.load(this.options);
         },
-
         setPage: function(page) {
             this.loadRequest.page = page;
         },
-
         nextPage: function() {
             this.loadRequest.page++;
         },
-
         previousPage: function() {
             this.loadRequest.page--;
-            if(this.loadRequest.page <= 0) {
+            if (this.loadRequest.page <= 0) {
                 this.loadRequest.page = 1;
             }
         },
-
         setSort: function(property, descending) {
             this.loadRequest.sorts = [{
-                property: property,
-                descending: descending
-            }];
+                    property: property,
+                    descending: descending
+                }];
         },
-
+        setDefaultFilters: function(filters) {
+            this.defaultFilters = filters;
+            this.setFilters(this.loadRequest.filters);
+        },
         setFilters: function(filters) {
-            this.loadRequest.filters = filters;
+            this.loadRequest.filters = this.defaultFilters.concat(filters);
             this.loadRequest.page = 1;
         }
     });
@@ -326,17 +317,14 @@ define(["framework/core", "framework/ui"], function(core, ui) {
             this.from = 0;
             this.to = 0;
         },
-
         set_to: function(to) {
             this.to = to;
             this.check();
         },
-
         set_from: function(from) {
             this.from = from;
             this.check();
         },
-
         initLastHour: function() {
             this.to = new Date().getTime();
             this.from = this.to - 60 * 60 * 1000;
@@ -344,16 +332,13 @@ define(["framework/core", "framework/ui"], function(core, ui) {
             this.invoke("to_change");
             this.invoke("from_change");
         },
-
         initLastDay: function() {
             this.initTo(new Date().getTime(), 1);
         },
-
         initLastWeek: function() {
             var now = new Date();
             this.initTo(now, now.getDay());
         },
-
         initFrom: function(from, days) {
             this.from = from;
 
@@ -365,7 +350,6 @@ define(["framework/core", "framework/ui"], function(core, ui) {
             this.invoke("to_change");
             this.invoke("from_change");
         },
-
         initTo: function(to, days) {
             this.to = to;
 
@@ -377,7 +361,6 @@ define(["framework/core", "framework/ui"], function(core, ui) {
             this.invoke("to_change");
             this.invoke("from_change");
         },
-
         subFrom: function(days) {
             var dateFrom = new Date();
             dateFrom.setTime(this.from);
@@ -385,7 +368,6 @@ define(["framework/core", "framework/ui"], function(core, ui) {
             this.from = dateFrom.getTime();
             this.check();
         },
-
         addFrom: function(days) {
             var dateFrom = new Date();
             dateFrom.setTime(this.from);
@@ -393,7 +375,6 @@ define(["framework/core", "framework/ui"], function(core, ui) {
             this.from = dateFrom.getTime();
             this.check();
         },
-
         subTo: function(days) {
             var dateTo = new Date();
             dateTo.setTime(this.to);
@@ -401,7 +382,6 @@ define(["framework/core", "framework/ui"], function(core, ui) {
             this.to = dateTo.getTime();
             this.check();
         },
-
         addTo: function(days) {
             var dateTo = new Date();
             dateTo.setTime(this.to);
@@ -409,17 +389,17 @@ define(["framework/core", "framework/ui"], function(core, ui) {
             this.to = dateTo.getTime();
             this.check();
         },
-
         check: function() {
-            if(!this.from || !this.to) { return; }
+            if (!this.from || !this.to) {
+                return;
+            }
 
-            if(this.from > this.to) {
+            if (this.from > this.to) {
                 throw "Error normalizing dates: from is greater than to";
             }
         },
-
         normalize: function() {
-            if(this.from) {
+            if (this.from) {
                 var dateFrom = new Date();
                 dateFrom.setTime(this.from);
                 dateFrom.setHours(0);
@@ -429,7 +409,7 @@ define(["framework/core", "framework/ui"], function(core, ui) {
                 this.set("from", dateFrom.getTime());
             }
 
-            if(this.to) {
+            if (this.to) {
                 var dateTo = new Date();
                 dateTo.setTime(this.to);
                 dateTo.setHours(23);
