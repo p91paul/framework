@@ -87,7 +87,7 @@ public class PropertyPathUtils {
     }
 
     private static Iterator<String> getIterator(String property) {
-        return IteratorUtils.arrayIterator(property.split("."));
+        return IteratorUtils.arrayIterator(property.split("\\."));
     }
 
     private static <T, R, I> R navigatePath(T obj, Iterator<String> propertyPath, BiFunction<T, String, I> navigate,

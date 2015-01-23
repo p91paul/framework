@@ -127,7 +127,7 @@ public class SimplePropertyMapper implements PropertyMapper {
 
                     finalValue = list;
                 } else
-                    finalValue = requestValueArray;
+                    finalValue = requestValueArray[0];
 
                 setProperty(entity, formField, finalValue);
 

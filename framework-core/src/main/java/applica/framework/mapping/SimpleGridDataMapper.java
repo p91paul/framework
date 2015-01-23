@@ -2,11 +2,11 @@ package applica.framework.mapping;
 
 import applica.framework.GridDescriptor;
 import applica.framework.data.Entity;
+import applica.framework.utils.PropertyPathUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.apache.commons.beanutils.PropertyUtils;
 
 public class SimpleGridDataMapper implements GridDataMapper {
 
@@ -29,7 +29,7 @@ public class SimpleGridDataMapper implements GridDataMapper {
 
     protected <T extends Entity> Object mapColumn(T entity, String property) {
         try {
-            return PropertyUtils.getSimpleProperty(entity, property);
+            return PropertyPathUtils.getPropertyFromPath(entity, property);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
