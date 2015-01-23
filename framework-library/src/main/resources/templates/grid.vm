@@ -42,12 +42,7 @@
 
         <tbody>
             #foreach($row in $rows)
-            <tr data-component="row" data-entity-id="$row.get('id')">
-                <td class="check"><input type="checkbox" class="grid-checkbox" data-component="select_checkbox" data-entity-id="$row.get('id')"/></td>
-                #foreach($column in $descriptor.columns)
-                    <td class="dbClickSensitive">$column.writeToString($row.get($column.property))</td>
-                #end
-            </tr>
+                #parse("/templates/gridRow.vm")
             #end
         </tbody>
     </table>

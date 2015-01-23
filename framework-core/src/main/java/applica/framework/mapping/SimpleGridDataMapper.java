@@ -16,7 +16,7 @@ public class SimpleGridDataMapper implements GridDataMapper {
         return entities.stream().map(e -> mapRow(gridDescriptor, e)).collect(Collectors.toList());
     }
 
-    protected <T extends Entity> Map<String, Object> mapRow(GridDescriptor gridDescriptor, T entity) {
+    public <T extends Entity> Map<String, Object> mapRow(GridDescriptor gridDescriptor, T entity) {
         Map<String, Object> row = new HashMap<>();
         row.put("id", entity.getId());
         gridDescriptor.getColumns().stream()

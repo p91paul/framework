@@ -17,8 +17,8 @@ public class SimpleGridProcessor implements GridProcessor {
     public List<Map<String, Object>> toMap(Grid grid, List<? extends Entity> entities) throws GridProcessException {
         return getDataMapper().mapGridDataFromEntities(grid.getDescriptor(), entities);
     }
- 
-    protected static SimpleGridDataMapper getDataMapper() {
+
+    public SimpleGridDataMapper getDataMapper() {
         return new SimpleGridDataMapper();
     }
 
