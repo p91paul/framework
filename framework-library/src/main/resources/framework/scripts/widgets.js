@@ -334,8 +334,11 @@ define(["framework/core"], function(core) {
         },
 
         initializeComponents: function() {
+            this.callInitializers(__crud_getComponents(this.element));
+        },
+        
+        callInitializers: function(components){
             var self = this;
-            var components = __crud_getComponents(this.element);
             $(components).each(function(i, component) {
                 var handler = Grid.__componentInitializers[component.type] || self.componentInitializers[component.type];
                 if(handler) {
