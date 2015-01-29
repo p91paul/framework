@@ -561,7 +561,7 @@ define(["framework/core", "framework/widgets", "framework/ui", "framework/plugin
                 render: function() {
                     self.finishAppView();
 
-                    $('#toolbar').toolbar('showGroups', 'default');
+                    self.toolbar.toolbar('showGroups', 'default');
 
                     self.invoke("complete");
                 },
@@ -755,9 +755,9 @@ define(["framework/core", "framework/widgets", "framework/ui", "framework/plugin
                         var somethingSelected = self.grid.getSelection().length > 0;
                         if(somethingSelected !== self.lastTimeSelected) {
                             if(somethingSelected) {
-                                $('#toolbar').toolbar('showGroups', 'selected');
+                                self.toolbar.toolbar('showGroups', 'selected');
                             } else {
-                                $('#toolbar').toolbar('hideGroups', 'selected');
+                                self.toolbar.toolbar('hideGroups', 'selected');
                             }
                         }
                         self.lastTimeSelected = somethingSelected;
