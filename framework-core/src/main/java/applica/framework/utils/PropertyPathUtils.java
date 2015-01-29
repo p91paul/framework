@@ -26,11 +26,11 @@ public class PropertyPathUtils {
     }
 
     public static void setPropertyFromPath(Object obj, String property, Object value) {
-        navigatePath(obj, getIterator(property), CREATE_PROPERTY, GET_PROPERTY, SET_PROPERTY(value));
+        navigatePath(obj, getIterator(property), DO_NOTHING, CREATE_GET_PROPERTY, SET_PROPERTY(value));
     }
 
     public static <T> T getParentPropertyFromPath(Object obj, String property) {
-        return (T) navigatePath(obj, getIterator(property), CREATE_PROPERTY, GET_PROPERTY, DO_NOTHING);
+        return (T) navigatePath(obj, getIterator(property), DO_NOTHING, CREATE_GET_PROPERTY, DO_NOTHING);
     }
 
     public static <T, R, I> R navigatePath(T obj, String property, BiFunction<T, String, I> navigate,
@@ -52,13 +52,13 @@ public class PropertyPathUtils {
 
     public static final BiFunction<Field, String, Class> GET_TYPE = (f, s) -> f.getType();
 
-    public static final BiFunction<Object, String, Object> CREATE_PROPERTY = (o, p) -> {
+    public static final BiFunction<Object, String, Object> CREATE_GET_PROPERTY = (o, p) -> {
         try {
             if (PropertyUtils.getProperty(o, p) == null) {
                 Object child = PropertyUtils.getPropertyType(o, p).newInstance();
                 PropertyUtils.setProperty(o, p, child);
             }
-            return o;
+            return PropertyUtils.getProperty(o, p);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -67,7 +67,7 @@ public class PropertyPathUtils {
     public static final BiFunction<Object, String, Object> GET_PROPERTY = (obj, property) -> {
         try {
             return PropertyUtils.getProperty(obj, property);
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) { //obj is null
             return null;
         } catch (Exception e) {
             throw new RuntimeException(e);
