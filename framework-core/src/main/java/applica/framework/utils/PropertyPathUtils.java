@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.Iterator;
 import java.util.function.BiFunction;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.IteratorUtils;
 
@@ -77,7 +78,7 @@ public class PropertyPathUtils {
     public static BiFunction<Object, String, Void> SET_PROPERTY(final Object value) {
         BiFunction<Object, String, Void> setProperty = (o, p) -> {
             try {
-                PropertyUtils.setProperty(o, p, value);
+                BeanUtils.setProperty(o, p, value);
                 return null;
             } catch (Exception e) {
                 throw new RuntimeException(e);
