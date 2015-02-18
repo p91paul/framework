@@ -1,15 +1,15 @@
 package applica.framework.library.i18n;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.util.StringUtils;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.util.StringUtils;
 
 public class Localization {
+
     private Locale locale;
     private ApplicationContext context;
     private Object[] tmp = new Object[0];
@@ -36,18 +36,16 @@ public class Localization {
 
         String message = null;
 
-        if (StringUtils.hasLength(key)) {
+        if (StringUtils.hasLength(key))
 
-            if (key.startsWith("raw:")) {
+            if (key.startsWith("raw:"))
                 message = key.substring(4);
-            } else {
+            else
                 try {
                     message = context.getMessage(key, tmp, locale);
                 } catch (Exception ex) {
                     message = key;
                 }
-            }
-        }
 
         return message;
     }
@@ -57,29 +55,27 @@ public class Localization {
     }
 
     public String formatDate(Date date) {
-        String formatted = null;
-        if(date == null) {
-            formatted = "";
-        } else {
-            try {
-                DateFormat format = new SimpleDateFormat(getMessage("format.date"));
-                formatted = format.format(date);
-            } catch (Throwable e) {}
-        }
+        return formatDate(date, "format.date");
+    }
 
-        return formatted;
+    public String formatDateTime(Date date) {
+        return formatDate(date, "format.datetime");
     }
 
     public String formatTime(Date date) {
+        return formatDate(date, "format.time");
+    }
+
+    public String formatDate(Date date, String localizedFormat) {
         String formatted = null;
-        if(date == null) {
+        if (date == null)
             formatted = "";
-        } else {
+        else
             try {
-                DateFormat format = new SimpleDateFormat(getMessage("format.time"));
+                DateFormat format = new SimpleDateFormat(getMessage(localizedFormat));
                 formatted = format.format(date);
-            } catch (Throwable e) {}
-        }
+            } catch (Throwable e) {
+            }
 
         return formatted;
     }
