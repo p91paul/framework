@@ -3,6 +3,7 @@ package applica.framework.builders;
 import applica.framework.CrudConfiguration;
 import applica.framework.data.Entity;
 import applica.framework.data.Repository;
+import applica.framework.processors.GridProcessor;
 import applica.framework.render.CellRenderer;
 import applica.framework.render.GridRenderer;
 import applica.framework.utils.PropertyPathUtils;
@@ -70,6 +71,11 @@ public class GridConfigurator {
 
     public GridConfigurator formIdentifier(String formIdentifier) {
         CrudConfiguration.instance().registerGridFormIdentifier(identifier, formIdentifier);
+        return this;
+    }
+
+    public GridConfigurator processor(Class<? extends GridProcessor> gridProcessor) {
+        CrudConfiguration.instance().registerGridProcessor(entityType, gridProcessor);
         return this;
     }
 
