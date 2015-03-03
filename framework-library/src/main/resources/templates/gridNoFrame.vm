@@ -8,7 +8,7 @@
             <thead>
             <tr>
                 <th style="width: 1%;"><!--input type="checkbox" data-component="select_all_checkbox" /--></th>
-                #foreach($column in $descriptor.columns)
+                #foreach($column in $columns)
                     <th>
                         #if ($grid.sortable)
                             <a href="javascript:;" data-property="$column.property" data-component="sort_button"
@@ -27,7 +27,7 @@
                 #foreach($row in $rows)
                 <tr data-component="row" data-entity-id="$row.get('id')">
                     <td class="check"><input type="checkbox" class="grid-checkbox"  data-component="select_checkbox" data-entity-id="$row.get('id')"/></td>
-                    #foreach($column in $descriptor.columns)
+                    #foreach($column in $columns)
                         <td class="dbClickSensitive">$column.writeToString($row.get($column.property))</td>
                     #end
                 </tr>

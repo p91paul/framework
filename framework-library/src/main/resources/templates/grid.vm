@@ -17,7 +17,7 @@
         <thead>
         <tr>
             <th style="width: 1%;"><!--input type="checkbox" data-component="select_all_checkbox" /--></th>
-            #foreach($column in $descriptor.columns)
+            #foreach($column in $columns)
                 <th>
                     #if ($grid.sortable)
                         <a href="javascript:;" class="grid-sort-button" data-property="$column.property" data-component="sort_button" data-sort-descending="true">

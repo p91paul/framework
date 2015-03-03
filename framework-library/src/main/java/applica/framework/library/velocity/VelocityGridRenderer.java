@@ -1,14 +1,14 @@
 package applica.framework.library.velocity;
 
 import applica.framework.Grid;
+import applica.framework.GridColumn;
 import applica.framework.render.GridRenderer;
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
-import org.springframework.util.StringUtils;
-
 import java.io.Writer;
 import java.util.List;
 import java.util.Map;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.springframework.util.StringUtils;
 
 public class VelocityGridRenderer extends VelocityRenderer implements GridRenderer {
 
@@ -23,13 +23,14 @@ public class VelocityGridRenderer extends VelocityRenderer implements GridRender
 
     @Override
     public void render(Writer writer, Grid grid, List<Map<String, Object>> rows) {
-        if (!StringUtils.hasLength(getTemplatePath())) return;
+        if (!StringUtils.hasLength(getTemplatePath()))
+            return;
 
         Template template = VelocityBuilderProvider.provide().engine().getTemplate(getTemplatePath(), "UTF-8");
         VelocityContext context = new VelocityContext();
         context.put("grid", grid);
         context.put("identifier", grid.getIdentifier());
-        context.put("descriptor", grid.getDescriptor());
+        context.put("columns", getColumns(grid));
         context.put("rows", rows);
         context.put("totalRows", rows.size());
 
@@ -48,6 +49,10 @@ public class VelocityGridRenderer extends VelocityRenderer implements GridRender
         setupContext(context);
 
         template.merge(context, writer);
+    }
+
+    protected List<GridColumn> getColumns(Grid grid) {
+        return grid.getDescriptor().getColumns();
     }
 
 }
