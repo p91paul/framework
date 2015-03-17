@@ -61,7 +61,7 @@ public class PropertyPathUtils {
      */
     public static boolean hasProperty(Object obj, String property) {
         Optional<Boolean> result = Optional.ofNullable(
-                navigatePath(obj, property, GET_PROPERTY, (o, p) -> PropertyUtils.isReadable(o, (String) p)));
+                navigatePath(obj, property, GET_PROPERTY, (o, p) -> PropertyUtils.isReadable(o, p)));
         return result.orElse(false);
     }
 
