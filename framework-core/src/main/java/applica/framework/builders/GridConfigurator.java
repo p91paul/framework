@@ -80,7 +80,12 @@ public class GridConfigurator {
     }
 
     public GridConfigurator searchForm(Class<? extends Entity> formType) {
-        CrudConfiguration.instance().registerSearchable(entityType, formType);
+        CrudConfiguration.instance().registerSearchable(identifier, formType);
+        return this;
+    }
+
+    public GridConfigurator searchForm(String formIdentifier) {
+        CrudConfiguration.instance().registerSearchable(identifier, formIdentifier);
         return this;
     }
 

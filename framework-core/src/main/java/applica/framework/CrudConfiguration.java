@@ -309,7 +309,7 @@ public class CrudConfiguration implements CrudConstants {
             if (searchable != null) {
                 logger.info("Grid has searchable: " + searchable.value().getName());
 
-                registerSearchable(gridAlias.type, searchable.value());
+                registerSearchable(gridAlias.identifier, searchable.value());
             }
 
             if (sortBy != null) {
@@ -488,21 +488,30 @@ public class CrudConfiguration implements CrudConstants {
         info.renderer = renderer;
     }
 
-    public void registerSearchable(final Class<? extends Entity> type, Class<? extends Entity> searchableType) {
-        SearchableInfo info = (SearchableInfo) CollectionUtils.find(searchableInfos, new Predicate() {
-            @Override
-            public boolean evaluate(Object item) {
-                return ((SearchableInfo) item).type.equals(type);
-            }
-        });
+    public void registerSearchable(String gridIdentifier, Class<? extends Entity> searchableType) {
+        SearchableInfo info = getSearchableInfo(gridIdentifier);
+        info.searchableType = searchableType;
+    }
 
+    public void registerSearchable(String gridIdentifier, String searchableIdentifier) {
+        SearchableInfo info = getSearchableInfo(gridIdentifier);
+        info.searchableIdentifier = searchableIdentifier;
+    }
+
+    private SearchableInfo getSearchableInfo(String gridIdentifier) {
+        SearchableInfo info = findSearchable(gridIdentifier);
         if (info == null) {
             info = new SearchableInfo();
-            info.type = type;
+            info.gridIdentifier = gridIdentifier;
             searchableInfos.add(info);
         }
+        return info;
+    }
 
-        info.searchableType = searchableType;
+    private SearchableInfo findSearchable(String gridIdentifier) {
+        SearchableInfo info = (SearchableInfo) CollectionUtils.find(searchableInfos, (Object item) ->
+                ((SearchableInfo) item).gridIdentifier.equals(gridIdentifier));
+        return info;
     }
 
     public void registerSortBy(final Class<? extends Entity> type, String property, boolean descending) {
@@ -801,18 +810,13 @@ public class CrudConfiguration implements CrudConstants {
         return info.descriptor;
     }
 
-    public Class<? extends Entity> getSearchable(final Class<? extends Entity> type) {
-        SearchableInfo info = (SearchableInfo) CollectionUtils.find(searchableInfos, new Predicate() {
-            @Override
-            public boolean evaluate(Object item) {
-                return ((SearchableInfo) item).type.equals(type);
-            }
-        });
-
-        if (info != null)
-            return info.searchableType;
-
-        return null;
+    public String getSearchable(String gridIdentifier) {
+        SearchableInfo info = findSearchable(gridIdentifier);
+        if (info == null)
+            return null;
+        return info.searchableIdentifier != null
+                ? info.searchableIdentifier
+                : getFormIdentifierFromType(info.searchableType);
     }
 
     public Sort getSortBy(final Class<? extends Entity> type) {
@@ -1262,7 +1266,8 @@ public class CrudConfiguration implements CrudConstants {
 
     class SearchableInfo {
 
-        private Class<? extends Entity> type;
+        private String gridIdentifier;
+        private String searchableIdentifier;
         private Class<? extends Entity> searchableType;
     }
 

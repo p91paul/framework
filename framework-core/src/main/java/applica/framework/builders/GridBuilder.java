@@ -1,6 +1,13 @@
 package applica.framework.builders;
 
-import applica.framework.*;
+import applica.framework.CrudConfiguration;
+import applica.framework.CrudConfigurationException;
+import applica.framework.Form;
+import applica.framework.FormCreationException;
+import applica.framework.Grid;
+import applica.framework.GridColumn;
+import applica.framework.GridCreationException;
+import applica.framework.GridDescriptor;
 import applica.framework.data.Entity;
 import applica.framework.render.GridRenderer;
 import org.apache.commons.logging.Log;
@@ -9,7 +16,7 @@ import org.springframework.util.StringUtils;
 
 public class GridBuilder {
 
-    private Log logger = LogFactory.getLog(getClass());
+    private final Log logger = LogFactory.getLog(getClass());
 
     private GridBuilder() {
     }
@@ -51,10 +58,12 @@ public class GridBuilder {
             grid.setFormIdentifier(CrudConfiguration.instance().getGridFormIdentifier(identifier));
 
             GridRenderer renderer = CrudConfiguration.instance().getGridRenderer(type);
-            if (renderer == null) throw new GridCreationException("Cannot create renderer");
+            if (renderer == null)
+                throw new GridCreationException("Cannot create renderer");
 
             GridDescriptor descriptor = CrudConfiguration.instance().getGridDescriptor(type);
-            if (descriptor == null) throw new GridCreationException("Cannot create descriptor");
+            if (descriptor == null)
+                throw new GridCreationException("Cannot create descriptor");
 
             grid.setRenderer(renderer);
             grid.setDescriptor(descriptor);
@@ -62,15 +71,15 @@ public class GridBuilder {
 
             logger.info(String.format("%s renderer class: %s", identifier, renderer.getClass().getName()));
 
-            Class<? extends Entity> searchableType = CrudConfiguration.instance().getSearchable(type);
-            if (searchableType != null) {
-                logger.info(String.format("%s has searchable: %s", identifier, searchableType.getName()));
+            String searchableIdentifier = CrudConfiguration.instance().getSearchable(identifier);
+            if (searchableIdentifier != null) {
+                logger.info(String.format("%s has searchable: %s", identifier, searchableIdentifier));
 
                 try {
-                    Form searchableForm = FormBuilder.instance().build(CrudConfiguration.instance().getFormIdentifierFromType(searchableType));
+                    Form searchableForm = FormBuilder.instance().build(searchableIdentifier);
                     grid.setSearchForm(searchableForm);
                 } catch (FormCreationException e) {
-                    logger.error("Error creating searchable form " + searchableType.getName());
+                    logger.error("Error creating searchable form " + searchableIdentifier);
                     e.printStackTrace();
                 }
             }
