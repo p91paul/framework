@@ -3,15 +3,13 @@ package applica.framework.library.forms.processors;
 import applica.framework.CrudConfiguration;
 import applica.framework.Form;
 import applica.framework.FormProcessException;
+import applica.framework.ValidationResult;
 import applica.framework.data.Entity;
 import applica.framework.library.i18n.Localization;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Component;
 import org.springframework.validation.Validator;
-
-import java.util.Map;
 
 public class BaseFormProcessor extends ValidateableFormProcessor {
 
@@ -19,19 +17,20 @@ public class BaseFormProcessor extends ValidateableFormProcessor {
     private ApplicationContext applicationContext;
 
     @Override
-    public Map<String, Object> toMap(Form form, Entity entity) throws FormProcessException {
-        Class<? extends Entity> entityType = CrudConfiguration.instance().getFormTypeFromIdentifier(form.getIdentifier());
+    public Entity toEntity(Form form,
+            Class<? extends Entity> type, Map<String, String[]> requestValues, ValidationResult validationResult) throws
+            FormProcessException {
+        Class<? extends Entity> entityType = CrudConfiguration.instance()
+                .getFormTypeFromIdentifier(form.getIdentifier());
 
-        applicationContext.getBeansOfType(Validator.class).values().stream()
+        Validator validator = applicationContext.getBeansOfType(Validator.class).values().stream()
                 .filter(r -> r.supports(entityType))
-                .findFirst()
-                .ifPresent(v -> setValidator(v));
+                .findFirst().orElse(null);
+        setValidator(validator);
 
         Localization localization = new Localization(applicationContext);
         setLocalization(localization);
-
-        return super.toMap(form, entity);
+        return super.toEntity(form, type, requestValues, validationResult);
     }
-
 
 }
