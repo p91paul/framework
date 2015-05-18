@@ -582,6 +582,7 @@ define(["framework/core"], function(core) {
 
                 return false;
             });
+            new Form(null, element).initializeComponents();
         },
 
         search_form_container: function(element) {
