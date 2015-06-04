@@ -1,13 +1,15 @@
 <div class="col-md-12" style="min-width: 500px;">
 
-    <div class="header">
-        #if($form.editMode)
-            <h1 data-component="form_title">$localization.m("crud.form.edit.$form.identifier")</h1>
-        #else
-            <h1 data-component="form_title">$localization.m("crud.form.create.$form.identifier")</h1>
-        #end
-        <ul id="breadcrumbs"></ul>
-    </div>
+    #if(!$noFrame)
+        <div class="header">
+            #if($form.editMode)
+                <h1 data-component="form_title">$localization.m("crud.form.edit.$form.identifier")</h1>
+            #else
+                <h1 data-component="form_title">$localization.m("crud.form.create.$form.identifier")</h1>
+            #end
+            <ul id="breadcrumbs"></ul>
+        </div>
+    #end
 
     <form action="javascript:;" method="$form.method" data-component="form" role="form" class="form-horizontal">
         #if($form.editMode)
