@@ -4,10 +4,10 @@ import applica.framework.CrudConfigurationException;
 import applica.framework.Form;
 import applica.framework.FormProcessException;
 import applica.framework.processors.FormProcessor;
-
 import java.util.Map;
 
 public class FormDataProvider {
+
     private Repository repository;
     private FormProcessor formProcessor;
 
@@ -28,8 +28,10 @@ public class FormDataProvider {
     }
 
     public void load(Form form, Object entityId) throws CrudConfigurationException, FormProcessException {
-        if (formProcessor == null) throw new CrudConfigurationException("Missing form processor");
-        if (repository == null) throw new CrudConfigurationException("Missing repository");
+        if (formProcessor == null)
+            throw new CrudConfigurationException("Missing form processor");
+        if (repository == null)
+            throw new CrudConfigurationException("Missing repository");
 
         form.setEditMode(entityId != null);
 
@@ -41,5 +43,6 @@ public class FormDataProvider {
         Map<String, Object> data = formProcessor.toMap(form, entity);
 
         form.setData(data);
+        form.setEntity(entity);
     }
 }

@@ -1,14 +1,14 @@
 package applica.framework;
 
+import applica.framework.data.Entity;
 import applica.framework.render.FormFieldRenderer;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class FormField {
 
@@ -23,7 +23,8 @@ public class FormField {
 
     Log logger = LogFactory.getLog(getClass());
 
-    public FormField(Form form, String property, Type dataType, String description, String tooltip, FormFieldRenderer renderer) {
+    public FormField(Form form, String property, Type dataType, String description, String tooltip,
+            FormFieldRenderer renderer) {
         super();
         this.form = form;
         this.property = property;
@@ -94,8 +95,12 @@ public class FormField {
     }
 
     public String writeToString(Map<String, Object> data) {
+        return writeToString(data, null);
+    }
+
+    public String writeToString(Map<String, Object> data, Entity entity) {
         StringWriter writer = new StringWriter();
-        write(writer, data);
+        write(writer, data, entity);
 
         return writer.toString();
     }
@@ -109,9 +114,14 @@ public class FormField {
     }
 
     public void write(Writer writer, Map<String, Object> data) {
+        write(writer, data, null);
+    }
+
+    public void write(Writer writer, Map<String, Object> data, Entity entity) {
         Object value = null;
-        if(data != null) {
-            if (data.containsKey(property)) value = data.get(property);
+        if (data != null) {
+            if (data.containsKey(property))
+                value = data.get(property);
         }
 
         try {
@@ -121,10 +131,9 @@ public class FormField {
                 return;
             }
 
-            renderer.render(writer, this, value);
+            renderer.render(writer, this, value, entity);
         } catch (Exception ex) {
-            ex.printStackTrace();
-            logger.error("Error rendering field " + property + ": " + ex.getMessage());
+            logger.error("Error rendering field " + property + ": " + ex.getMessage(), ex);
         }
     }
 }

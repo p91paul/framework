@@ -9,7 +9,7 @@
         #end
 
         #foreach ($field in $fields)
-            $field.writeToString($data)
+            $field.writeToString($data, $form.entity)
         #end
 
         #if($form.descriptor.buttons && $form.descriptor.buttons.size() > 0)

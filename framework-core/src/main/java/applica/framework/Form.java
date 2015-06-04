@@ -15,6 +15,7 @@ public class Form {
     boolean editMode = false;
     private String method = "POST";
     private Map<String, Object> data;
+    private Entity entity;
 
     public String getMethod() {
         return method;
@@ -30,6 +31,14 @@ public class Form {
 
     public void setData(Map<String, Object> data) {
         this.data = data;
+    }
+
+    public Entity getEntity() {
+        return entity;
+    }
+
+    public void setEntity(Entity entity) {
+        this.entity = entity;
     }
 
     public String getIdentifier() {
