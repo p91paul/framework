@@ -12,7 +12,7 @@
     #end
 
     <form action="javascript:;" method="$form.method" data-component="form" role="form" class="form-horizontal">
-        #if($form.editMode)
+        #if($form.editMode && $data.get('id'))
             <input type="hidden" name="id" value="$data.get('id')" data-component="entity_id"/>
             <input type="hidden" name="mode" value="edit"/>
         #else
