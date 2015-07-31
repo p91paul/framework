@@ -32,6 +32,7 @@ import applica.framework.library.responses.GridResponse;
 import applica.framework.library.responses.SimpleResponse;
 import java.io.StringWriter;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -145,12 +146,15 @@ public class CrudController extends LocalizedController {
 
             response.setError(false);
         } catch (FormProcessException e) {
+            LogFactory.getLog(getClass()).warn("Error processing form", e);
             response.setError(true);
             response.setMessage("Error processing form: " + e.getMessage());
         } catch (CrudConfigurationException e) {
+            LogFactory.getLog(getClass()).warn("Crud configuration error", e);
             response.setError(true);
             response.setMessage("Crud configuration error: " + e.getMessage());
         } catch (FormCreationException e) {
+            LogFactory.getLog(getClass()).warn("Error creating form", e);
             response.setError(true);
             response.setMessage("Error creating form: " + e.getMessage());
         }
