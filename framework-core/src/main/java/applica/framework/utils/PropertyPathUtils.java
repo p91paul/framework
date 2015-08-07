@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.BeanUtilsBean;
+import org.apache.commons.beanutils.ConvertUtilsBean;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.IteratorUtils;
 
@@ -14,6 +16,24 @@ import org.apache.commons.collections.IteratorUtils;
  * @author Paolo Inaudi
  */
 public class PropertyPathUtils {
+
+    static {
+        BeanUtilsBean.setInstance(new BeanUtilsBean(new ConvertUtilsBean() {
+
+            @Override
+            public Object convert(String value, Class clazz) {
+                if (clazz.isEnum()) {
+                    try {
+                        return Enum.valueOf(clazz, value);
+                    } catch (Exception e) {
+                        //default converter if enum conversion fails
+                    }
+                }
+                return super.convert(value, clazz);
+            }
+
+        }));
+    }
 
     /**
      * Returns data type of the specified field.
