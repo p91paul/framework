@@ -75,12 +75,15 @@ public class CrudController extends LocalizedController {
             response.setPages(grid.getPages());
             response.setError(false);
         } catch (CrudConfigurationException e) {
+            LogFactory.getLog(getClass()).warn("Crud configuration error", e);
             response.setError(true);
             response.setMessage("Crud configuration error: " + e.getMessage());
         } catch (GridCreationException e) {
+            LogFactory.getLog(getClass()).warn("Error creating grid", e);
             response.setError(true);
             response.setMessage("Error creating grid: " + e.getMessage());
         } catch (GridProcessException e) {
+            LogFactory.getLog(getClass()).warn("Error processing grid", e);
             response.setError(true);
             response.setMessage("Error processing grid: " + e.getMessage());
         }
@@ -108,6 +111,7 @@ public class CrudController extends LocalizedController {
             deleteOperation.delete(ids.split(","));
             response.setError(false);
         } catch (CrudConfigurationException e) {
+            LogFactory.getLog(getClass()).warn("Crud configuration error", e);
             response.setError(true);
             response.setMessage("Crud configuration error: " + e.getMessage());
         }
@@ -183,17 +187,19 @@ public class CrudController extends LocalizedController {
             saveOperation.save(form, request.getParameterMap());
             response.setValid(true);
         } catch (ValidationException e) {
+            LogFactory.getLog(getClass()).warn("Validation error", e);
             response.setError(false);
             response.setValid(false);
             response.setMessage("Validation error");
             response.setValidationResult(e.getValidationResult());
         } catch (FormProcessException e) {
+            LogFactory.getLog(getClass()).warn("Error processing form", e);
             response.setError(true);
             response.setMessage("Error processing form");
         } catch (Exception e) {
+            LogFactory.getLog(getClass()).warn("Error saving entity", e);
             response.setError(true);
             response.setMessage("Error saving entity: " + e.getMessage());
-            e.printStackTrace();
         }
 
         return response;
