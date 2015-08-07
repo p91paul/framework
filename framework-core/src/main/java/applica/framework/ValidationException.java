@@ -21,4 +21,14 @@ public class ValidationException extends Exception {
         this.validationResult = validationResult;
     }
 
+    @Override
+    public synchronized Throwable getCause() {
+        if (validationResult == null || validationResult.getErrors() == null)
+            return super.getCause();
+        return validationResult.getErrors().stream()
+                .filter(e -> e.getException() != null)
+                .map(ValidationResult.Error::getException)
+                .findAny().orElse(super.getCause());
+    }
+
 }

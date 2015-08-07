@@ -11,8 +11,12 @@ public class ValidationResult {
         errors.add(new Error(property, message));
     }
 
+    public void rejectValue(String property, Throwable message) {
+        errors.add(new Error(property, message));
+    }
+
     public boolean isValid() {
-        return errors != null && errors.size() == 0;
+        return errors != null && errors.isEmpty();
     }
 
     public List<Error> getErrors() {
@@ -20,8 +24,8 @@ public class ValidationResult {
     }
 
     public boolean isValid(String property) {
-        for(Error error : errors) {
-            if(error.getProperty().equals(property)) {
+        for (Error error : errors) {
+            if (error.getProperty().equals(property)) {
                 return false;
             }
         }
@@ -30,8 +34,8 @@ public class ValidationResult {
     }
 
     public String getErrorMessage(String property) {
-        for(Error error : errors) {
-            if(error.getProperty().equals(property)) {
+        for (Error error : errors) {
+            if (error.getProperty().equals(property)) {
                 return error.getMessage();
             }
         }
@@ -42,11 +46,17 @@ public class ValidationResult {
     public class Error {
         private String property;
         private String message;
+        private Throwable exception;
 
         public Error(String property, String message) {
             super();
             this.property = property;
             this.message = message;
+        }
+
+        public Error(String property, Throwable exception) {
+            this(property, exception.getMessage());
+            this.exception = exception;
         }
 
         public String getProperty() {
@@ -65,5 +75,12 @@ public class ValidationResult {
             this.message = message;
         }
 
+        public Throwable getException() {
+            return exception;
+        }
+
+        public void setException(Throwable exception) {
+            this.exception = exception;
+        }
     }
 }

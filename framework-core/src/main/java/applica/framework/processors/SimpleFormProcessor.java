@@ -7,17 +7,17 @@ import applica.framework.data.Entity;
 import applica.framework.mapping.FormDataMapper;
 import applica.framework.mapping.MappingException;
 import applica.framework.mapping.SimpleFormDataMapper;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class SimpleFormProcessor implements FormProcessor {
 
     protected Log logger = LogFactory.getLog(getClass());
 
-    protected Entity instantiateEntity(Form form, Class<? extends Entity> type, Map<String, String[]> requestValues, ValidationResult validationResult) throws FormProcessException {
+    protected Entity instantiateEntity(Form form, Class<? extends Entity> type, Map<String, String[]> requestValues,
+            ValidationResult validationResult) throws FormProcessException {
         Entity entity = null;
 
         try {
@@ -31,17 +31,18 @@ public class SimpleFormProcessor implements FormProcessor {
     }
 
     @Override
-    public Entity toEntity(Form form, Class<? extends Entity> type, Map<String, String[]> requestValues, ValidationResult validationResult) throws FormProcessException {
+    public Entity toEntity(Form form, Class<? extends Entity> type, Map<String, String[]> requestValues,
+            ValidationResult validationResult) throws FormProcessException {
         Entity entity = instantiateEntity(form, type, requestValues, validationResult);
 
         FormDataMapper mapper = getFormDataMapper();
         try {
             mapper.mapEntityFromRequestValues(form.getDescriptor(), entity, requestValues);
         } catch (MappingException e) {
-            validationResult.rejectValue(e.getProperty(), e.getCause().getMessage());
+            validationResult.rejectValue(e.getProperty(), e.getCause());
         }
 
-        if(validationResult != null) {
+        if (validationResult != null) {
             validate(entity, validationResult);
         }
 
