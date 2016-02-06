@@ -5,10 +5,9 @@ build enterprise level web applications.
 
 Documentation and contacts
 ==============
-For more information and documentation please visit http://www.applicaframework.com.
+Official _Applicaframework_ repository seems to be closed now. So this is currently the only mirror. The website (http://www.applicaframework.com) is still online with some documentation at the time of writing.
 
-_Applicaframework_ is developed and maintained from Applica (http://www.applicadoit.com).
-Write us on framework@applicadoit.com
+_Applicaframework_ was originally developed by Applica (http://www.applicadoit.com).
 
 License
 ============
