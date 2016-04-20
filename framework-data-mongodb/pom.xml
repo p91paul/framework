@@ -3,7 +3,7 @@
     <parent>
         <artifactId>framework</artifactId>
         <groupId>applica.framework</groupId>
-        <version>1.4-RELEASE</version>
+        <version>1.4-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -16,7 +16,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <applica.framework.version>1.4-RELEASE</applica.framework.version>
+        <applica.framework.version>1.4-SNAPSHOT</applica.framework.version>
         <spring.version>4.0.3.RELEASE</spring.version>
     </properties>
 
@@ -24,13 +24,13 @@
         <dependency>
             <groupId>applica.framework</groupId>
             <artifactId>framework-core</artifactId>
-            <version>1.4-RELEASE</version>
+            <version>1.4-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>applica.framework</groupId>
             <artifactId>framework-library</artifactId>
-            <version>1.4-RELEASE</version>
+            <version>1.4-SNAPSHOT</version>
         </dependency>
 
         <dependency>

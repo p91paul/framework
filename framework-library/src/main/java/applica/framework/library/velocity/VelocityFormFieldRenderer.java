@@ -33,4 +33,8 @@ public class VelocityFormFieldRenderer<V, T extends Entity> extends VelocityRend
         template.merge(context, writer);
     }
 
+    @Override
+    public void render(Writer writer, FormField field, V value, T rendered) {
+        render(writer, field, value);
+    }
 }

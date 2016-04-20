@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FRAMEWORK_VERSION="1.4-RELEASE"
+FRAMEWORK_VERSION="1.4-SNAPSHOT"
 
 if [ -z "$JAVA_HOME" ]; then
     echo "Please set JAVA_HOME"
